@@ -64,23 +64,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\arvid\\.nuget\\packages\\": {},
+    "C:\\Users\\IdaBorén-NET22GBG\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_converter_console\\nccsv_converter_console.csproj",
+      "projectUniqueName": "C:\\SND\\Project\\nccsv_converter\\nccsv_converter_console\\nccsv_converter_console.csproj",
       "projectName": "nccsv_converter_console",
-      "projectPath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_converter_console\\nccsv_converter_console.csproj",
-      "packagesPath": "C:\\Users\\arvid\\.nuget\\packages\\",
-      "outputPath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_converter_console\\obj\\",
+      "projectPath": "C:\\SND\\Project\\nccsv_converter\\nccsv_converter_console\\nccsv_converter_console.csproj",
+      "packagesPath": "C:\\Users\\IdaBorén-NET22GBG\\.nuget\\packages\\",
+      "outputPath": "C:\\SND\\Project\\nccsv_converter\\nccsv_converter_console\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\arvid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\IdaBorén-NET22GBG\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -96,8 +96,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj": {
-              "projectPath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj"
+            "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj": {
+              "projectPath": "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj"
             }
           }
         }
@@ -127,7 +127,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

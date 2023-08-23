@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj": {}
+    "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj": {}
   },
   "projects": {
-    "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj": {
+    "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj",
+        "projectUniqueName": "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj",
         "projectName": "nccsv_verifier",
-        "projectPath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj",
-        "packagesPath": "C:\\Users\\arvid\\.nuget\\packages\\",
-        "outputPath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\obj\\",
+        "projectPath": "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj",
+        "packagesPath": "C:\\Users\\IdaBorén-NET22GBG\\.nuget\\packages\\",
+        "outputPath": "C:\\SND\\Project\\nccsv_converter\\nccsv_verifier\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\arvid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\IdaBorén-NET22GBG\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
