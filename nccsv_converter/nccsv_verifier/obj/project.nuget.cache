@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "23rFCtYFHTEqCHRyu7TtlCPSzJ8YOoO+f1FuVaes0UavcTwbKvUG/WlXcm/Q/qWN5RS07l9mvQFFR94ScsLg4g==",
+  "dgSpecHash": "mW9EN3nyKg+1VCTXUy1+blS2rSFRKOVAszr5VdaUunmf8yRs30Rxt4et4Wo5SD1zMwtH0EzX+upJ3A3A8x71Mg==",
   "success": true,
   "projectFilePath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier\\nccsv_verifier.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\arvid\\.nuget\\packages\\utf.unknown\\2.5.1\\utf.unknown.2.5.1.nupkg.sha512"
+  ],
   "logs": []
 }

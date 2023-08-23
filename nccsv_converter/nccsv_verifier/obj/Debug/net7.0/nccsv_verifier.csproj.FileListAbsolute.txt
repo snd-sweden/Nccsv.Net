@@ -1,0 +1,12 @@
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\bin\Debug\net7.0\nccsv_verifier.deps.json
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\bin\Debug\net7.0\nccsv_verifier.dll
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\bin\Debug\net7.0\nccsv_verifier.pdb
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.csproj.AssemblyReference.cache
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.GeneratedMSBuildEditorConfig.editorconfig
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.AssemblyInfoInputs.cache
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.AssemblyInfo.cs
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.csproj.CoreCompileInputs.cache
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.dll
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\refint\nccsv_verifier.dll
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\nccsv_verifier.pdb
+C:\SND_repos\nccsv_netcdf\nccsv_converter\nccsv_verifier\obj\Debug\net7.0\ref\nccsv_verifier.dll

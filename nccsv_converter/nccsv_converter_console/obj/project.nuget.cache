@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "afPaJ3xTyEFr8nAVnkjd5SF4EmXGY1NRmWDIS+waL/vUwNPfOApERgb9yc/8ZWwHC9oKITLjKfHaPTH/TsPbGw==",
+  "success": true,
+  "projectFilePath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_converter_console\\nccsv_converter_console.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\arvid\\.nuget\\packages\\utf.unknown\\2.5.1\\utf.unknown.2.5.1.nupkg.sha512"
+  ],
+  "logs": []
+}

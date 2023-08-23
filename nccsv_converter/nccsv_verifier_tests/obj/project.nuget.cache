@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cHphOMH8kmCLO8v2eJ+GjRoyBXvWUmfp0pj+Z/kNuinOfMa5XIk2SPTLUqru9dUgsjDrRGtKYE/eDV030zoJ8A==",
+  "dgSpecHash": "N4h5h9NpX4SszxP9yk26AS6qCTqvObTm/ANTtU2vFncTJztMgPikFW5CIhkzZXdquUZA3oYPpjGdFaMDSH6yyw==",
   "success": true,
-  "projectFilePath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier_tests\\nccsv_verifier_tests.csproj",
+  "projectFilePath": "C:\\SND_repos\\nccsv_netcdf\\nccsv_converter\\nccsv_verifier_tests\\nccsv_verifier.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\arvid\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\arvid\\.nuget\\packages\\microsoft.codecoverage\\17.3.2\\microsoft.codecoverage.17.3.2.nupkg.sha512",
@@ -88,6 +88,7 @@
     "C:\\Users\\arvid\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\arvid\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\arvid\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
+    "C:\\Users\\arvid\\.nuget\\packages\\utf.unknown\\2.5.1\\utf.unknown.2.5.1.nupkg.sha512",
     "C:\\Users\\arvid\\.nuget\\packages\\xunit\\2.4.2\\xunit.2.4.2.nupkg.sha512",
     "C:\\Users\\arvid\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",
     "C:\\Users\\arvid\\.nuget\\packages\\xunit.analyzers\\1.0.0\\xunit.analyzers.1.0.0.nupkg.sha512",

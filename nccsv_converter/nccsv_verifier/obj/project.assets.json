@@ -1,11 +1,49 @@
 {
   "version": 3,
   "targets": {
-    "net7.0": {}
+    "net7.0": {
+      "UTF.Unknown/2.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/UtfUnknown.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/UtfUnknown.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "UTF.Unknown/2.5.1": {
+      "sha512": "KhZuBaO55PIu6m4bkij3ZQL8qwVyofwFpNnyguXFjwxJlbfYX+dRn8tGy/PjTK6I4UJm8ujkJFvBLaV7MKltTA==",
+      "type": "package",
+      "path": "utf.unknown/2.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/UtfUnknown.dll",
+        "lib/net40/UtfUnknown.xml",
+        "lib/netcoreapp3.0/UtfUnknown.dll",
+        "lib/netcoreapp3.0/UtfUnknown.xml",
+        "lib/netstandard1.0/UtfUnknown.dll",
+        "lib/netstandard1.0/UtfUnknown.xml",
+        "lib/netstandard1.3/UtfUnknown.dll",
+        "lib/netstandard1.3/UtfUnknown.xml",
+        "lib/netstandard2.0/UtfUnknown.dll",
+        "lib/netstandard2.0/UtfUnknown.xml",
+        "utf.unknown.2.5.1.nupkg.sha512",
+        "utf.unknown.nuspec"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net7.0": []
+    "net7.0": [
+      "UTF.Unknown >= 2.5.1"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\arvid\\.nuget\\packages\\": {},
@@ -51,6 +89,12 @@
     "frameworks": {
       "net7.0": {
         "targetAlias": "net7.0",
+        "dependencies": {
+          "UTF.Unknown": {
+            "target": "Package",
+            "version": "[2.5.1, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
