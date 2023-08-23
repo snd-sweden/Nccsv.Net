@@ -1,0 +1,6 @@
+C:\SND\Project\NccsvConverter\NccsvConverter.TestProject\bin\Debug\net7.0\CoverletSourceRootsMapping
+C:\SND\Project\NccsvConverter\NccsvConverter.TestProject\obj\Debug\net7.0\NccsvConverter.TestProject.csproj.AssemblyReference.cache
+C:\SND\Project\NccsvConverter\NccsvConverter.TestProject\obj\Debug\net7.0\NccsvConverter.TestProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\SND\Project\NccsvConverter\NccsvConverter.TestProject\obj\Debug\net7.0\NccsvConverter.TestProject.AssemblyInfoInputs.cache
+C:\SND\Project\NccsvConverter\NccsvConverter.TestProject\obj\Debug\net7.0\NccsvConverter.TestProject.AssemblyInfo.cs
+C:\SND\Project\NccsvConverter\NccsvConverter.TestProject\obj\Debug\net7.0\NccsvConverter.TestProject.csproj.CoreCompileInputs.cache

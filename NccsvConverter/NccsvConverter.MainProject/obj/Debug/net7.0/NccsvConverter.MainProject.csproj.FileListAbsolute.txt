@@ -1,0 +1,12 @@
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\bin\Debug\net7.0\NccsvConverter.MainProject.deps.json
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\bin\Debug\net7.0\NccsvConverter.MainProject.dll
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\bin\Debug\net7.0\NccsvConverter.MainProject.pdb
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.csproj.AssemblyReference.cache
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.AssemblyInfoInputs.cache
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.AssemblyInfo.cs
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.csproj.CoreCompileInputs.cache
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.dll
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\refint\NccsvConverter.MainProject.dll
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\NccsvConverter.MainProject.pdb
+C:\SND\Project\NccsvConverter\NccsvConverter.MainProject\obj\Debug\net7.0\ref\NccsvConverter.MainProject.dll
