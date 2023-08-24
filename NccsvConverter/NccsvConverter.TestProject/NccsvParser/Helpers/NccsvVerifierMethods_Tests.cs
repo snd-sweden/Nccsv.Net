@@ -31,5 +31,18 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Assert
             Assert.False(result);
         }
+
+        [Fact]
+        public void VerifyNccsv_ReturnsTrueIfFileIsNccsv()
+        {
+            //Arrange
+            var sut = new NccsvVerifierMethods();
+            string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
+
+            //Act
+            var result = sut.VerifyNccsv(filePath);
+
+            //Assert
+        }
     }
 }
