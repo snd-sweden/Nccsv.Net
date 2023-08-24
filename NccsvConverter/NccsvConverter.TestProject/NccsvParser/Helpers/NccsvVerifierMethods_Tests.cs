@@ -9,7 +9,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         {
             //Arrange
             var sut = new NccsvVerifierMethods();
-            string filePath = "";
+            string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
             //Act 
             var result = sut.Utf8Checker(filePath);
@@ -23,7 +23,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         {
             //Arrange
             var sut = new NccsvVerifierMethods();
-            string filePath = "";
+            string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
             //Act 
             var result = sut.Utf8Checker(filePath);

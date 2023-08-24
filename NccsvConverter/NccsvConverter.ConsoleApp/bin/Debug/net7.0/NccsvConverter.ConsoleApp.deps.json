@@ -7,14 +7,45 @@
   "targets": {
     ".NETCoreApp,Version=v7.0": {
       "NccsvConverter.ConsoleApp/1.0.0": {
+        "dependencies": {
+          "NccsvConverter.MainProject": "1.0.0"
+        },
         "runtime": {
           "NccsvConverter.ConsoleApp.dll": {}
+        }
+      },
+      "UTF.Unknown/2.5.1": {
+        "runtime": {
+          "lib/netcoreapp3.0/UtfUnknown.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.664.0"
+          }
+        }
+      },
+      "NccsvConverter.MainProject/1.0.0": {
+        "dependencies": {
+          "UTF.Unknown": "2.5.1"
+        },
+        "runtime": {
+          "NccsvConverter.MainProject.dll": {}
         }
       }
     }
   },
   "libraries": {
     "NccsvConverter.ConsoleApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UTF.Unknown/2.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KhZuBaO55PIu6m4bkij3ZQL8qwVyofwFpNnyguXFjwxJlbfYX+dRn8tGy/PjTK6I4UJm8ujkJFvBLaV7MKltTA==",
+      "path": "utf.unknown/2.5.1",
+      "hashPath": "utf.unknown.2.5.1.nupkg.sha512"
+    },
+    "NccsvConverter.MainProject/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

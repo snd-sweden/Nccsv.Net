@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ePvk4O2nKfsp8HTHZrw//lrURDZFnqXh4rufhauFRyzIDIwLW1DqqRLW2KjmIzMT9bzAaSf2vbl5JK/I9CbqGA==",
+  "dgSpecHash": "KmCpsraL/2We4qZ3EmifK3jlDUVWJdyOAdeRSn6iG9OKwIQrIW9j4rxMrM04PFvVa1yzrkbbb8l/iJHFPxGZwQ==",
   "success": true,
-  "projectFilePath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj",
+  "projectFilePath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\IdaBorén-NET22GBG\\.nuget\\packages\\utf.unknown\\2.5.1\\utf.unknown.2.5.1.nupkg.sha512"
+    "C:\\Users\\arvid\\.nuget\\packages\\utf.unknown\\2.5.1\\utf.unknown.2.5.1.nupkg.sha512"
   ],
   "logs": []
 }

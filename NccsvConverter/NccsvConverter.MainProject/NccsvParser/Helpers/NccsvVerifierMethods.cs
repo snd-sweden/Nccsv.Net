@@ -10,7 +10,7 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
             DetectionResult result = CharsetDetector.DetectFromFile(filePath);
             DetectionDetail resultDetected = result.Detected;
             string encodingName = resultDetected.EncodingName;
-
+            var encoding = resultDetected.Encoding;
             if (encodingName == "utf-8")
             {
                 return true;

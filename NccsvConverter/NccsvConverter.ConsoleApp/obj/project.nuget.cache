@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "AVdNVM4spW+v5jgg6GJqmYPsa2Rgpjcf4ru68+uqhI2pXCqIgvQpkc7eb3BnZG72yMAuUnfB//3xvr6gTB7P5g==",
+  "dgSpecHash": "PWwPVNC2OESRMBSc+amlcPKEyVS4Xa4w4yTomtVwyCPKpOF3v5Xy7aEPmu5tQDpwGLSqm/evnXTJUrfVHdri+w==",
   "success": true,
-  "projectFilePath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\NccsvConverter.ConsoleApp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.ConsoleApp\\NccsvConverter.ConsoleApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\arvid\\.nuget\\packages\\utf.unknown\\2.5.1\\utf.unknown.2.5.1.nupkg.sha512"
+  ],
   "logs": []
 }

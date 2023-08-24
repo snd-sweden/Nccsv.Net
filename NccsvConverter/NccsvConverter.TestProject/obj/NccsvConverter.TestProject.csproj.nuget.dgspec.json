@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj": {}
+    "C:\\SND_repos\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj": {}
   },
   "projects": {
-    "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj": {
+    "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj",
+        "projectUniqueName": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj",
         "projectName": "NccsvConverter.MainProject",
-        "projectPath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj",
-        "packagesPath": "C:\\Users\\IdaBorén-NET22GBG\\.nuget\\packages\\",
-        "outputPath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\obj\\",
+        "projectPath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj",
+        "packagesPath": "C:\\Users\\arvid\\.nuget\\packages\\",
+        "outputPath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\IdaBorén-NET22GBG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\arvid\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -66,24 +66,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj": {
+    "C:\\SND_repos\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj",
+        "projectUniqueName": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj",
         "projectName": "NccsvConverter.TestProject",
-        "projectPath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj",
-        "packagesPath": "C:\\Users\\IdaBorén-NET22GBG\\.nuget\\packages\\",
-        "outputPath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.TestProject\\obj\\",
+        "projectPath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.TestProject\\NccsvConverter.TestProject.csproj",
+        "packagesPath": "C:\\Users\\arvid\\.nuget\\packages\\",
+        "outputPath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.TestProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\IdaBorén-NET22GBG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\arvid\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -99,8 +99,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj": {
-                "projectPath": "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj"
+              "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj": {
+                "projectPath": "C:\\SND_repos\\NccsvConverter\\NccsvConverter.MainProject\\NccsvConverter.MainProject.csproj"
               }
             }
           }
@@ -152,7 +152,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

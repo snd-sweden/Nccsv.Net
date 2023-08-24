@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="TestData\" />
+    <ProjectReference Include="..\NccsvConverter.MainProject\NccsvConverter.MainProject.csproj" />
   </ItemGroup>
 
 </Project>
