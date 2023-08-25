@@ -9,7 +9,7 @@
             //Arrange
             var sut = new MainProject.NccsvParser.FileHandling.NccsvParser();
 
-            var testFile = "C:\\SND_repos\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
+            var testFile = "C:\\SND_repos\\Nccsv Converter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
             //Act
             var result = sut.FromText(testFile);
