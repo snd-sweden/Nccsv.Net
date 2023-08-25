@@ -18,7 +18,7 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
             return false;
         }
 
-        public bool VerifyNccsv(string filePath)
+        public bool VerifyNccsv(List<string[]> potentialNccsv)
         {
 
         }
