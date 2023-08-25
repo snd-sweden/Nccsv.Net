@@ -17,5 +17,14 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
             }
             return false;
         }
+
+        public bool NccsvExtensionChecker(string filePath)
+        {
+            if (filePath.EndsWith(".nccsv"))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
