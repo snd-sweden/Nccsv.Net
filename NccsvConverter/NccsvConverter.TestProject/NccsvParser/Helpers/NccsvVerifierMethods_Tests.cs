@@ -33,7 +33,39 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Assert
             Assert.False(result);
         }
+        [Fact]
+        public void VerifyNccsv_ReturnsTrueIfFileIsNccsv()
+        {
+            //Arrange
+            var sut = new NccsvVerifierMethods();
+            var parser = new MainProject.NccsvParser.FileHandling.NccsvParser();
+            string filePath = "C:\\SND_repos\\Nccsv Converter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
+            var csv = parser.FromText(filePath);
 
+
+            //Act
+            var result = sut.VerifyNccsv(csv);
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void VerifyNccsv_ReturnsFalseIfFileIsNotNccsv()
+        {
+            //Arrange
+            var sut = new NccsvVerifierMethods();
+            var csv = new List<string[]>
+            {
+                new string[6] { "asd", "argh", "", "", "", "" }
+            };
+
+            //Act
+            var result = sut.VerifyNccsv(csv);
+
+            //Assert
+            Assert.False(result);
+        }
 
     }
 }
