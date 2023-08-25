@@ -37,12 +37,15 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         {
             //Arrange
             var sut = new NccsvVerifierMethods();
+            var parser = new MainProject.NccsvParser.FileHandling.NccsvParser();
             string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
             //Act
-            var result = sut.VerifyNccsv(filePath);
+            var csv = parser.FromText(filePath);
+            var result = sut.VerifyNccsv(csv);
 
             //Assert
+            Assert.True(result);
         }
     }
 }
