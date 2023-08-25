@@ -6,7 +6,7 @@ public class NccsvParser
     {
         var csv = new List<string[]>();
 
-        var lines = System.IO.File.ReadAllLines(fileName);
+        var lines = File.ReadAllLines(fileName);
 
         foreach (var line in lines)
             csv.Add(line.Split(','));
