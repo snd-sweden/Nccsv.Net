@@ -13,7 +13,7 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
             return false;
         }
 
-        public bool NccsvVerifier(List<string[]> potentialNccsv)
+        public bool VerifyNccsv(List<string[]> potentialNccsv)
         {
             foreach (var s in potentialNccsv[0])
             {
