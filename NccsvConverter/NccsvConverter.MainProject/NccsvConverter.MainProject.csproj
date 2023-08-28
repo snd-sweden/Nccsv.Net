@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="NccsvParser\Common\" />
     <Folder Include="NccsvParser\FileHandling\" />
-    <Folder Include="NccsvParser\Models\" />
     <Folder Include="NccsvSerializer\CodeBookGenerator\" />
     <Folder Include="NccsvSerializer\DdiXmlSerializer\" />
     <Folder Include="NccsvSerializer\NetCdfSerializer\" />
