@@ -8,6 +8,7 @@ namespace NccsvConverter.MainProject.NccsvParser.Models
 {
     public class Variable
     {
-
+        public string DataType { get; set; }
+        public Dictionary <string, List<string>> Properties { get;set; }
     }
 }
