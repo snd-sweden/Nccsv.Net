@@ -44,7 +44,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
 
 
             //Act
-            var result = sut.VerifyNccsv(csv);
+            var result = sut.NccsvVerifier(csv);
 
             //Assert
             Assert.True(result);
@@ -61,7 +61,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             };
 
             //Act
-            var result = sut.VerifyNccsv(csv);
+            var result = sut.NccsvVerifier(csv);
 
             //Assert
             Assert.False(result);
