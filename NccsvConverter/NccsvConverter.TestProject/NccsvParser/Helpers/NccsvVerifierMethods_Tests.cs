@@ -7,13 +7,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         [Theory]
         [InlineData("test.nccsv")]
         [InlineData(".nccsv")]
-        public void NccsvExtensionChecker_ReturnsTrueIfExtensionIsNccsv(string filePath)
+        public void CheckNccsvExtension_ReturnsTrueIfExtensionIsNccsv(string filePath)
         {
             //Arrange
             var sut = new NccsvVerifierMethods();
 
             //Act 
-            var result = sut.NccsvExtensionChecker(filePath);
+            var result = sut.CheckNccsvExtension(filePath);
 
             //Assert
             Assert.True(result);
@@ -22,13 +22,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         [Theory]
         [InlineData("test.csv")]
         [InlineData("")]
-        public void NccsvExtensionChecker_ReturnsFalseIfExtensionIsNotNccsv(string filePath)
+        public void CheckNccsvExtension_ReturnsFalseIfExtensionIsNotNccsv(string filePath)
         {
             //Arrange
             var sut = new NccsvVerifierMethods();
 
             //Act 
-            var result = sut.NccsvExtensionChecker(filePath);
+            var result = sut.CheckNccsvExtension(filePath);
 
             //Assert
             Assert.False(result);

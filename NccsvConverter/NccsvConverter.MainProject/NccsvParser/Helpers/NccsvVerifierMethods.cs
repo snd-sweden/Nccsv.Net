@@ -3,7 +3,7 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
 {
     public class NccsvVerifierMethods
     {
-        public bool NccsvExtensionChecker(string filePath)
+        public bool CheckNccsvExtension(string filePath)
         {
             if (filePath.EndsWith(".nccsv"))
             {
@@ -25,7 +25,5 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
 
             return false;
         }
-
-
     }
 }
