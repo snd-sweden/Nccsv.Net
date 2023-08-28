@@ -22,8 +22,5 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
 
             return false;
         }
-
-        public bool 
-
     }
 }
