@@ -15,9 +15,12 @@ namespace NccsvConverter.MainProject.NccsvParser.Helpers
 
         public bool VerifyNccsv(List<string[]> potentialNccsv)
         {
-            if (potentialNccsv[0][5].Contains("NCCSV-1.2") || potentialNccsv[0][5].Contains("NCCSV-1.1"))
+            foreach (var s in potentialNccsv[0])
             {
-                return true;
+                if (s.Contains("NCCSV"))
+                {
+                    return true;
+                }
             }
 
             return false;
