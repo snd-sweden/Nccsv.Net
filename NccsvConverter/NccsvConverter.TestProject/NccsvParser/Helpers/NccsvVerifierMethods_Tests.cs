@@ -1,5 +1,3 @@
-using NccsvConverter.MainProject.NccsvParser.Helpers;
-
 namespace NccsvConverter.TestProject.NccsvParser.Helpers
 {
     public class NccsvVerifierMethods_Tests

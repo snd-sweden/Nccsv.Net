@@ -1,14 +1,39 @@
 ﻿
+using System.Text.Json.Serialization.Metadata;
+
 namespace NccsvConverter.MainProject.NccsvParser.Helpers
 {
     public class NccsvParserMethods
     {
         // read file = new dataset
 
-        public List<string[]> FindGlobalProperties (string file) 
+        public List<string[]> FindGlobalProperties (List<string[]> csv) 
         {
+            var globalProps = new List<string[]>();
             // check for *global*, disregard others
-            return new List<string[]>();
+            foreach (var stringArray in csv)
+            {
+                if (stringArray[0] == "*GLOBAL*")
+                {
+                    if (stringArray.Length < 3) 
+                    {
+                        string propValue = "";
+                        for (int i = 1; i < stringArray.Length; i++)
+                        {
+                            propValue += stringArray[i + 1];
+                        }
+
+                        globalProps.Add(new[] { stringArray[1], propValue });
+                    }
+
+                    else
+                    {
+                        globalProps.Add(new[] { stringArray[1], stringArray[2] });
+                    }
+                }
+            }
+
+            return globalProps;
 
         }
 
