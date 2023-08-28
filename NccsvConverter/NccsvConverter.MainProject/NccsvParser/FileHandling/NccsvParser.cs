@@ -1,4 +1,7 @@
-﻿namespace NccsvConverter.MainProject.NccsvParser.FileHandling;
+﻿using NccsvConverter.MainProject.NccsvParser.Helpers;
+using NccsvConverter.MainProject.NccsvParser.Models;
+
+namespace NccsvConverter.MainProject.NccsvParser.FileHandling;
 
 public class NccsvParser
 {
@@ -13,4 +16,39 @@ public class NccsvParser
 
         return csv;
     }
+
+    public DataSet FromList(List<string[]> csv)
+    {
+        NccsvVerifierMethods verifier = new NccsvVerifierMethods();
+        NccsvParserMethods parser = new NccsvParserMethods();
+        DataSet ds = new DataSet();
+
+        // Verify
+        // check for extension
+        // check for tag
+
+
+        // Parse
+        // FindGlobalProperties
+
+        // AddGlobalProperties
+
+        // FindProperties
+
+        // CheckIfVariableExists
+
+        // if not -> create new variable
+
+        // CreateVariable
+       
+
+        // SetVariableDataType
+
+        // AddProperties
+
+        // FindData
+
+        return new DataSet();
+    }
+
 }

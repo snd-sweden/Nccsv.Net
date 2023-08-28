@@ -9,9 +9,9 @@ namespace NccsvConverter.MainProject.NccsvParser.Models
 {
     public class DataSet
     {
-        public string Title;
-        public string Summary;
-        public Dictionary<string, List<string>> GlobalProperties;
-        public List<Variable> Variables;
+        public string? Title;
+        public string? Summary;
+        public Dictionary<string, string> GlobalProperties = new();
+        public List<Variable> Variables = new();
     }
 }
