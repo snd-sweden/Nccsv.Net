@@ -1,4 +1,4 @@
 global using Xunit;
-global using NccsvConverter.MainProject.NccsvParser.FileHandling;
-global using NccsvConverter.MainProject.NccsvParser.Helpers;
+global using NccsvConverter.NccsvParser.FileHandling;
+global using NccsvConverter.NccsvParser.Helpers;
 

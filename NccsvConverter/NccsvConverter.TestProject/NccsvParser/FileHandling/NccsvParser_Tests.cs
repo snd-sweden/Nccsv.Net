@@ -7,7 +7,7 @@
         public void FromText_ReturnsStringArrayList()
         {
             //Arrange
-            var sut = new MainProject.NccsvParser.FileHandling.NccsvParser();
+            var sut = new Parser();
 
             var testFile = "C:\\SND_repos\\Nccsv Converter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 

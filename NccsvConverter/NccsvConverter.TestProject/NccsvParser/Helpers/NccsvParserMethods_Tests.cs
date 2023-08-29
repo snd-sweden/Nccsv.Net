@@ -8,7 +8,7 @@ public class NccsvParserMethods_Tests
     public void FindGlobalProperties_ReturnsCorrectList()
     {
         //Arrange
-        var parser = new MainProject.NccsvParser.FileHandling.NccsvParser();
+        var parser = new Parser();
         var parserMethods = new NccsvParserMethods();
         var csv = parser.FromText(
             "C:\\SND_repos\\Nccsv Converter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
