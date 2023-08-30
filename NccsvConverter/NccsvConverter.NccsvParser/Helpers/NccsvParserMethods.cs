@@ -43,13 +43,34 @@ namespace NccsvConverter.NccsvParser.Helpers
 
         }
 
-        public List<string[]> FindProperties(string file)
+        public List<string[]> FindProperties (List<string[]> file) 
         {
-            // exclude *global*
-            // until *end_metadata* tag
+            var properties = new List<string[]>();
+            
+            foreach (var line in file)
+            {
+                if (line.Contains("*GLOBAL*"))
+                {
+                    continue;
+                }
 
-            // set datatype
-            return new List<string[]>();
+                if (line.Contains("*END_METADATA*"))
+                {
+                    break;
+                }
+
+                //if (CheckIfVariableExists(line[0]) == false)
+                //{
+                //    CreateVariable(line);
+                //}
+
+                //// set variable name
+                //SetVariableDataType(line);
+
+                properties.Add(line);
+            }
+            
+            return properties;
         }
 
         public bool CheckIfVariableExists(string file)
