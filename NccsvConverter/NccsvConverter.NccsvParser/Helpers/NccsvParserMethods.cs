@@ -7,10 +7,10 @@ namespace NccsvConverter.NccsvParser.Helpers
     {
         // read file = new dataset
 
+        //finds global properties and stores them without *GLOBAL*-tag in a string array
         public List<string[]> FindGlobalProperties(List<string[]> csv)
         {
             var globalProps = new List<string[]>();
-            // check for *global*, disregard others
             foreach (var stringArray in csv)
             {
                 if (stringArray[0] == "*GLOBAL*")
