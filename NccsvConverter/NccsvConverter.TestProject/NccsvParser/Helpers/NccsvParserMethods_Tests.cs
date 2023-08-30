@@ -29,4 +29,18 @@ public class NccsvParserMethods_Tests
 
         Assert.True(result);
     }
+
+    [Fact]
+    public void FindProperties_ReturnsListOfStringArrays()
+    {
+        //Arrange
+        var sut = new Parser();
+
+        //Act 
+        var result = sut.FindProperties(new List<string[]>());
+
+        //Assert
+        Assert.IsType<List<string[]>>(result);
+    }
+
 }
