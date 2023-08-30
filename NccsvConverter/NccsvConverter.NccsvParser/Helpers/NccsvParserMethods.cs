@@ -37,20 +37,43 @@ namespace NccsvConverter.NccsvParser.Helpers
 
         }
 
+
         public void AddGlobalProperties(string file)
         {
             // add to globalprops for dataset, in dictionary<[1],[2]>
 
         }
 
-        public List<string[]> FindProperties(string file)
-        {
-            // exclude *global*
-            // until *end_metadata* tag
 
-            // set datatype
-            return new List<string[]>();
+        // Constructs a list of properties where each property is represented as a string array where [0]
+        // is the variable name, [1] is the attribute name and [2] to [n] is the values. Does not include
+        // global properties as they are collected in FindGlobalProperties.
+        public List<string[]> FindProperties (List<string[]> file) 
+        {
+            var properties = new List<string[]>();
+            
+            foreach (var line in file)
+            {
+                // disgregard global properties as they are collected in FindGlobalProperties
+                if (line.Contains("*GLOBAL*"))
+                {
+                    continue;
+                }
+
+                // end collection of properties at metadata end tag (needs to exist)
+                if (line.Contains("*END_METADATA*"))
+                {
+                    break;
+                }
+
+                properties.Add(line);
+
+            }
+
+            return properties;
+
         }
+
 
         public bool CheckIfVariableExists(string file)
         {

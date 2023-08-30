@@ -37,7 +37,9 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Arrange
             var sut = new NccsvVerifierMethods();
             var parser = new Parser();
-            string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
+            string filePath = 
+                Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName 
+                + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
             var csv = parser.FromText(filePath);
 
 
