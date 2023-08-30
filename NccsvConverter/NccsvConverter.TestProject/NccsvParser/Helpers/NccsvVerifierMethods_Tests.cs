@@ -40,7 +40,6 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
             var csv = parser.FromText(filePath);
 
-
             //Act
             var result = sut.VerifyNccsv(csv);
 

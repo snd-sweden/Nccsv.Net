@@ -4,9 +4,9 @@ using NccsvConverter.NccsvParser.FileHandling;
 using NccsvConverter.NccsvParser.Helpers;
 
 Console.WriteLine("Hello, World!");
-var verifier = new NccsvVerifierMethods();
 var parser = new Parser();
-var csv = parser.FromText("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+var csv = parser.FromText(
+    Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\TestData\\ryder.nccsv");
 
     foreach (var s in csv[0])
     {

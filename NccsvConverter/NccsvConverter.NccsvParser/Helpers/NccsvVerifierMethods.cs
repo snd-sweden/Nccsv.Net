@@ -12,6 +12,7 @@
             return false;
         }
 
+        // Verifies that the files Conventions include a reference to NCCSV
         public bool VerifyNccsv(List<string[]> potentialNccsv)
         {
             foreach (var s in potentialNccsv[0])
