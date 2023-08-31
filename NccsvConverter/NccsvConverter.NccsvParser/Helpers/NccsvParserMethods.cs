@@ -78,11 +78,16 @@ namespace NccsvConverter.NccsvParser.Helpers
 
         }
 
-
-        public static bool CheckIfVariableExists(string file)
+        //returns true if variable name exists, otherwise false.
+        public static bool CheckIfVariableExists(List<Variable> varList, string varName)
         {
-            // take variable name
-            // check if variable exists
+            foreach (var v in varList)
+            {
+                if (v.VariableName == varName)
+                {
+                    return true;
+                }
+            }
             return false;
         }
 

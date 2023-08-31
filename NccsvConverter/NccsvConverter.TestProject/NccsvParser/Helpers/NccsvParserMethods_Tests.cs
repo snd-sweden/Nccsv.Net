@@ -89,4 +89,24 @@ public class NccsvParserMethods_Tests
         Assert.NotEqual(expected, result[0][0]);
     }
 
+    [Theory]
+    [InlineData("rainfall_avg")]
+    [InlineData("ship_name")]
+    [InlineData("")]
+    public void CheckIfVariableExists_FindsVariable(string variableName)
+    {
+        //Arrange
+        var variableList = new List<Variable>
+        {
+            new Variable() { DataType = "int", VariableName = "rainfall_avg" },
+            new Variable() { DataType = "string",VariableName = "ship_name"}
+        };
+
+        //Act
+        var result = NccsvParserMethods.CheckIfVariableExists(variableList, variableName);
+
+        //Assert
+        Assert.True(result);
+    }
+
 }
