@@ -7,59 +7,55 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         [InlineData(".nccsv")]
         public void CheckNccsvExtension_ReturnsTrueIfExtensionIsNccsv(string filePath)
         {
-            //Arrange
-            var sut = new NccsvVerifierMethods();
-
             //Act 
-            var result = sut.CheckNccsvExtension(filePath);
+            var result = NccsvVerifierMethods.CheckNccsvExtension(filePath);
 
             //Assert
             Assert.True(result);
         }
+
 
         [Theory]
         [InlineData("test.csv")]
         [InlineData("")]
         public void CheckNccsvExtension_ReturnsFalseIfExtensionIsNotNccsv(string filePath)
         {
-            //Arrange
-            var sut = new NccsvVerifierMethods();
-
             //Act 
-            var result = sut.CheckNccsvExtension(filePath);
+            var result = NccsvVerifierMethods.CheckNccsvExtension(filePath);
 
             //Assert
             Assert.False(result);
         }
+
+
         [Fact]
         public void VerifyNccsv_ReturnsTrueIfFileIsNccsv()
         {
             //Arrange
-            var sut = new NccsvVerifierMethods();
-            var parser = new Parser();
-            string filePath = "C:\\SND_repos\\NccsvConverter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
-            var csv = parser.FromText(filePath);
-
+            string filePath = 
+                Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName 
+                + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
+            var csv = Parser.FromText(filePath);
 
             //Act
-            var result = sut.VerifyNccsv(csv);
+            var result = NccsvVerifierMethods.VerifyNccsv(csv);
 
             //Assert
             Assert.True(result);
         }
 
+
         [Fact]
         public void VerifyNccsv_ReturnsFalseIfFileIsNotNccsv()
         {
             //Arrange
-            var sut = new NccsvVerifierMethods();
             var csv = new List<string[]>
             {
                 new string[6] { "asd", "argh", "", "", "", "" }
             };
 
             //Act
-            var result = sut.VerifyNccsv(csv);
+            var result = NccsvVerifierMethods.VerifyNccsv(csv);
 
             //Assert
             Assert.False(result);

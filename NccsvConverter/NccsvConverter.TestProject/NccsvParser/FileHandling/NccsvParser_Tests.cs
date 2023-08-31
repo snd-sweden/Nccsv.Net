@@ -3,21 +3,20 @@
     public class NccsvParser_Tests
     {
         [Fact]
-
         public void FromText_ReturnsStringArrayList()
         {
             //Arrange
-            var sut = new Parser();
-
-            var testFile = "C:\\SND_repos\\Nccsv Converter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
+            var testFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+                           + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
             //Act
-            var result = sut.FromText(testFile);
+            var result = Parser.FromText(testFile);
 
             //Assert
             Assert.IsType<List<string[]>>(result);
         }
 
-
     }
+
+
 }

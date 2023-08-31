@@ -5,7 +5,8 @@ namespace NccsvConverter.NccsvParser.FileHandling;
 
 public class Parser
 {
-    public List<string[]> FromText(string fileName)
+    // FromText gets a .csv file and converts it into a array of strings for further handling.
+    public static List<string[]> FromText(string fileName)
     {
         var csv = new List<string[]>();
 
