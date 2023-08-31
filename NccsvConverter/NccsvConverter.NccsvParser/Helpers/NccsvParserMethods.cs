@@ -1,5 +1,6 @@
 ﻿
 using System.Text.Json.Serialization.Metadata;
+using NccsvConverter.NccsvParser.Models;
 
 namespace NccsvConverter.NccsvParser.Helpers
 {
@@ -34,13 +35,13 @@ namespace NccsvConverter.NccsvParser.Helpers
             }
 
             return globalProps;
-
+            
         }
 
 
-        public static void AddGlobalProperties(string file)
+        public static void AddGlobalProperties(DataSet dataSet, List<string[]> globalProps)
         {
-            // add to globalprops for dataset, in dictionary<[1],[2]>
+            
 
         }
 
