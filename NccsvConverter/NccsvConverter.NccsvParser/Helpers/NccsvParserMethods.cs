@@ -11,7 +11,7 @@ namespace NccsvConverter.NccsvParser.Helpers
         //finds global properties and stores them without *GLOBAL*-tag in a string array
         public static List<string[]> FindGlobalProperties(List<string[]> csv)
         {
-            var globalProps = new List<string[]>();
+            var globalProperties = new List<string[]>();
             foreach (var stringArray in csv)
             {
                 if (stringArray[0] == "*GLOBAL*")
@@ -24,24 +24,27 @@ namespace NccsvConverter.NccsvParser.Helpers
                             propValue += stringArray[i + 1];
                         }
 
-                        globalProps.Add(new[] { stringArray[1], propValue });
+                        globalProperties.Add(new[] { stringArray[1], propValue });
                     }
 
                     else
                     {
-                        globalProps.Add(new[] { stringArray[1], stringArray[2] });
+                        globalProperties.Add(new[] { stringArray[1], stringArray[2] });
                     }
                 }
             }
 
-            return globalProps;
+            return globalProperties;
             
         }
 
 
-        public static void AddGlobalProperties(DataSet dataSet, List<string[]> globalProps)
+        public static void AddGlobalProperties(DataSet dataSet, List<string[]> globalProperties)
         {
-            
+            foreach (var keyValuePair in globalProperties)
+            {
+                dataSet.GlobalProperties.Add(keyValuePair[0], keyValuePair[1]);
+            }
 
         }
 

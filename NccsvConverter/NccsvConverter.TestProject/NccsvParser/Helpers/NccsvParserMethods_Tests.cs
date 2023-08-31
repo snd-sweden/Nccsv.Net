@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using NccsvConverter.NccsvParser.Models;
+using Xunit.Sdk;
 
 namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
@@ -31,6 +33,28 @@ public class NccsvParserMethods_Tests
         }
 
         Assert.True(result);
+    }
+
+    [Fact]
+    public void AddGlobalProperties_AddsPropertiesProperly()
+    {
+        //Arrange
+        var globalProperties = new List<string[]>
+        {
+            new string[2] { "hej", "då" },
+            new string[2] { "ses", "sen" }
+        };
+
+        var dataSet = new DataSet();
+
+        //Act
+        
+        NccsvParserMethods.AddGlobalProperties(dataSet, globalProperties);
+
+        //Assert
+        Assert.Equal("då", dataSet.GlobalProperties["hej"]);
+        Assert.Equal("sen", dataSet.GlobalProperties["ses"]);
+
     }
 
 
