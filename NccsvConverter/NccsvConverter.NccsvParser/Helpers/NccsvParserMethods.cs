@@ -1,4 +1,5 @@
 ﻿
+using System.Linq.Expressions;
 using System.Text.Json.Serialization.Metadata;
 using NccsvConverter.NccsvParser.Models;
 
@@ -79,9 +80,9 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
         //returns true if variable name exists, otherwise false.
-        public static bool CheckIfVariableExists(List<Variable> varList, string varName)
+        public static bool CheckIfVariableExists(List<Variable> variablesFromDataSet, string varName)
         {
-            foreach (var v in varList)
+            foreach (var v in variablesFromDataSet)
             {
                 if (v.VariableName == varName)
                 {
@@ -93,16 +94,47 @@ namespace NccsvConverter.NccsvParser.Helpers
 
         // if not->create new variable
 
-        public static void CreateVariable(string file)
+        public static List<string[]> IsolateProperty(List<string[]> properties, string varName)
         {
-            // create new variable object
-            // add to dataset
+            var isolatedProperty = new List<string[]>();
+            foreach (var line in properties)
+            {
+                if (line[0] == varName)
+                {
+                    isolatedProperty.Add(line);
+                }
+            }
+            return isolatedProperty;
+        }
+        
+
+        public static Variable CreateVariable(List<string[]> variableProperties)
+        {
+            var newVar = new Variable();
+
+            newVar.VariableName = variableProperties[0][0];
+            SetVariableDataType(newVar, variableProperties);
+            AddProperties("");
+
+            return new Variable();
         }
 
-        public static void SetVariableDataType(string file)
+        public static Variable SetVariableDataType(
+            Variable newVar, List<string[]> variableProperties)
         {
-            // find *DATA_TYPE* tag
-            // set DataType prop to *data_type* value
+            string varDataType = "";
+            
+            foreach (var line in variableProperties)
+            {
+                if (line[1] == "*DATA_TYPE*" )
+                {
+                    varDataType = line[2];
+                }
+            }
+
+            newVar.DataType = varDataType;
+
+            return newVar;
         }
 
         public static void AddProperties(string file)

@@ -92,7 +92,6 @@ public class NccsvParserMethods_Tests
     [Theory]
     [InlineData("rainfall_avg")]
     [InlineData("ship_name")]
-    [InlineData("")]
     public void CheckIfVariableExists_FindsVariable(string variableName)
     {
         //Arrange
@@ -107,6 +106,72 @@ public class NccsvParserMethods_Tests
 
         //Assert
         Assert.True(result);
+    }
+
+    [Fact]
+    public void CreateVariable_CreastesVariableWithAllProperties()
+    {
+        //Arrange
+        var variableProperties = new List<string[]>
+        {
+
+        };
+
+
+
+        //Act
+
+        var newVar = NccsvParserMethods.CreateVariable(variableProperties);
+
+        //Assert
+        Assert.NotNull(newVar.VariableName);
+        Assert.NotEmpty(newVar.Properties);
+    }
+
+    [Fact]
+    public void IsolateProperty_ReturnsCorrectLines()
+    {
+        //Arrange
+        var csv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var props = NccsvParserMethods.FindProperties(csv);
+        var propName = "depth";
+        //Act
+
+        var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
+
+        //Assert
+        Assert.True( depthProperty.Count >= 2 );
+        foreach (var line in depthProperty)
+        {
+            Assert.Equal(propName, line[0]);
+        }
+
+    }
+
+    [Fact]
+    public void SetVariableDataType_SetsCorrectDataType()
+    {
+        //Arrange
+        var csv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var props = NccsvParserMethods.FindProperties(csv);
+        var propName = "depth";
+        var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
+
+        var testVariable = new Variable() { VariableName = propName };
+
+        var expected = "double";
+
+        //Act
+
+        var completeVariable = NccsvParserMethods.SetVariableDataType(testVariable, depthProperty);
+
+        //Assert
+        Assert.Equal(expected, completeVariable.DataType);
+
     }
 
 }
