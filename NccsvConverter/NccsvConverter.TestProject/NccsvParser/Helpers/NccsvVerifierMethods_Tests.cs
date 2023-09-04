@@ -32,8 +32,8 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void VerifyNccsv_ReturnsTrueIfFileIsNccsv()
         {
             //Arrange
-            string filePath = 
-                Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName 
+            string filePath =
+                Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
                 + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
             var csv = Parser.FromText(filePath);
 
