@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NccsvConverter.NccsvParser.Models;
+using System;
 
 namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
@@ -149,4 +150,25 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, result);
     }
 
-}
+    [Fact]
+    public void AddProperties_AddsPropertiesAsExpected()
+    {
+        //Arrange
+        var variable = new Variable();
+        var varProperties = new List<string[]> 
+        { 
+            new [] {"abc", "def", "ghi", "j\",k\"l" }
+        };
+        var expected = new Dictionary<string, List<string>>()
+        {
+            { "def", new List<string> { "ghi", "j\",k\"l" }}
+        };
+
+        //Act 
+        NccsvParserMethods.AddProperties(varProperties, variable);
+
+        //Assert
+        Assert.Equal(expected, variable.Properties);
+    }
+
+};

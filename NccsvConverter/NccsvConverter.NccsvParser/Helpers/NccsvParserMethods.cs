@@ -1,4 +1,5 @@
 ﻿
+using NccsvConverter.NccsvParser.Models;
 using System.Text.Json.Serialization.Metadata;
 
 namespace NccsvConverter.NccsvParser.Helpers
@@ -91,17 +92,48 @@ namespace NccsvConverter.NccsvParser.Helpers
             // add to dataset
         }
 
-        public static void SetVariableDataType(string file)
+
+        // 
+        public static void SetVariableDataType(string[] properties, Variable variable)
         {
+            // ta in string[] eller List<string[]> ?
+
             // find *DATA_TYPE* tag
-            // set DataType prop to *data_type* value
+            if (properties[1] == "*DATA_TYPE*")
+            {
+                // set DataType prop to *data_type* value
+                variable.DataType = properties[2];
+            }
         }
 
-        public static void AddProperties(string file)
+
+        // Adds string array of properties to variable as a dictionary where
+        // [1] is the attribute name and [2] to [n] is the attribute values
+        public static void AddProperties(List<string[]> variableProperties, Variable variable)
         {
-            // if variableName without *DATA_TYPE* tag
-            // add to Properties as <[1], List<[2]-[n]>>
+            foreach (var properties in variableProperties)
+            {
+                // if *DATA_TYPE* tag
+                if (properties[1] == "*DATA_TYPE*")
+                {
+                    return;
+                }
+
+                var attributeName = properties[1];
+                List<string> values = new List<string>();
+
+                for (int i = 2; i < properties.Length; i++)
+                {
+                    values.Add(properties[i]);
+                }
+
+                // add to Properties as <[1], List<[2]-[n]>>
+                variable.Properties.Add(attributeName, values);
+
+            }
         }
+
+
 
         public static void FindData(string file)
         {
