@@ -48,7 +48,7 @@ public class NccsvParserMethods_Tests
         var dataSet = new DataSet();
 
         //Act
-        
+
         NccsvParserMethods.AddGlobalProperties(dataSet, globalProperties);
 
         //Assert
@@ -62,9 +62,9 @@ public class NccsvParserMethods_Tests
     public void FindProperties_ReturnsListOfStringArrays()
     {
         //Arrange
-         var csv = Parser.FromText(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var csv = Parser.FromText(
+           Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+           + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act 
         var result = NccsvParserMethods.FindProperties(csv);
@@ -142,7 +142,7 @@ public class NccsvParserMethods_Tests
         var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
 
         //Assert
-        Assert.True( depthProperty.Count >= 2 );
+        Assert.True(depthProperty.Count >= 2);
         foreach (var line in depthProperty)
         {
             Assert.Equal(propName, line[0]);
@@ -172,6 +172,124 @@ public class NccsvParserMethods_Tests
         //Assert
         Assert.Equal(expected, completeVariable.DataType);
 
+    }
+
+
+
+    [Fact]
+    public void FindProperties_ReturnsListOfStringArrays()
+    {
+        //Arrange
+        var csv = Parser.FromText(
+           Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+           + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+
+        //Act 
+        var result = NccsvParserMethods.FindProperties(csv);
+
+        //Assert
+        Assert.IsType<List<string[]>>(result);
+    }
+
+    [Fact]
+    public void FindProperties_DoesNotReturnGlobalProperties()
+    {
+        //Arrange
+        var csv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var expected = "*GLOBAL*";
+
+        //Act 
+        var result = NccsvParserMethods.FindProperties(csv);
+
+        //Assert
+        Assert.NotEqual(expected, result[0][0]);
+    }
+
+    [Fact]
+    public void FindProperties_ReturnsExpectedList()
+    {
+        //Arrange
+        var csv = new List<string[]>
+        {
+            new string[] { "*GLOBAL*", "abc", "def" },
+            new string[] { "abc", "def", "ghi", "j\",k\"l" },
+            new string[] { "mno", "pqr", "stu", "vxy" },
+            new string[] { "*END_METADATA*"}
+        };
+
+        var expected = new List<string[]>
+        {
+            new string[] { "abc", "def", "ghi", "j\",k\"l" },
+            new string[] { "mno", "pqr", "stu", "vxy" }
+        };
+
+        //Act 
+        var result = NccsvParserMethods.FindProperties(csv);
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void Separate_ReturnsSeparatedValuesAsList()
+    {
+        //Arrange
+        var line = "abc,def,ghi,jkl";
+        List<string> expected = new List<string>
+        {
+            "abc",
+            "def",
+            "ghi",
+            "jkl"
+        };
+
+        //Act 
+        var result = NccsvParserMethods.Separate(line);
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void Separate_ReturnsSeparatedValues_WhenQuotes()
+    {
+        //Arrange
+        var line = "abc,def,ghi,\"jkl,mno\"";
+        List<string> expected = new List<string>
+        {
+            "abc",
+            "def",
+            "ghi",
+            "\"jkl,mno\""
+        };
+
+        //Act 
+        var result = NccsvParserMethods.Separate(line);
+
+        //Assert
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void Separate_ReturnsSeparatedValues_WhenQuotesInQuotes()
+    {
+        //Arrange
+        var line = "abc,def,ghi,\"jkl,\"\"m,\"\"no\"";
+        List<string> expected = new List<string>
+        {
+            "abc",
+            "def",
+            "ghi",
+            "\"jkl,\"\"m,\"\"no\""
+        };
+
+        //Act 
+        var result = NccsvParserMethods.Separate(line);
+
+        //Assert
+        Assert.Equal(expected, result);
     }
 
 }

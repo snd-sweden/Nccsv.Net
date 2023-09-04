@@ -36,7 +36,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             }
 
             return globalProperties;
-            
+
         }
 
 
@@ -53,30 +53,30 @@ namespace NccsvConverter.NccsvParser.Helpers
         // Constructs a list of properties where each property is represented as a string array where [0]
         // is the variable name, [1] is the attribute name and [2] to [n] is the values. Does not include
         // global properties as they are collected in FindGlobalProperties.
-        public static List<string[]> FindProperties (List<string[]> file) 
+        public static List<string[]> FindProperties(List<string[]> csv)
         {
             var properties = new List<string[]>();
-            
-            foreach (var line in file)
+
+            foreach (var line in csv)
             {
                 // disgregard global properties as they are collected in FindGlobalProperties
-                if (line.Contains("*GLOBAL*"))
+                if (line[0].Contains("*GLOBAL*"))
                 {
                     continue;
                 }
 
                 // end collection of properties at metadata end tag (needs to exist)
-                if (line.Contains("*END_METADATA*"))
+                if (line[0].Contains("*END_METADATA*"))
                 {
                     break;
                 }
 
+                // add to properties
                 properties.Add(line);
 
             }
 
             return properties;
-
         }
 
         //returns true if variable name exists, otherwise false.
@@ -106,7 +106,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             }
             return isolatedProperty;
         }
-        
+
 
         public static Variable CreateVariable(List<string[]> variableProperties)
         {
@@ -123,10 +123,10 @@ namespace NccsvConverter.NccsvParser.Helpers
             Variable newVar, List<string[]> variableProperties)
         {
             string varDataType = "";
-            
+
             foreach (var line in variableProperties)
             {
-                if (line[1] == "*DATA_TYPE*" )
+                if (line[1] == "*DATA_TYPE*")
                 {
                     varDataType = line[2];
                 }
@@ -148,5 +148,42 @@ namespace NccsvConverter.NccsvParser.Helpers
             // until *end_data* tag
             // csvhelper?
         }
+
+
+        // Splits line at "," but not if it's within a string
+        public static List<string> Separate(string line)
+        {
+            List<string> separatedLine = new List<string>();
+            string tempString = string.Empty;
+            bool inQuotes = false;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] == '\"')
+                {
+                    inQuotes = !inQuotes;
+                }
+
+                else if (line[i] == ',')
+                {
+                    // Only regards commas outside of quotes
+                    if (!inQuotes)
+                    {
+                        separatedLine.Add(tempString);
+                        tempString = string.Empty;
+                        continue;
+                    }
+                }
+
+                tempString += line[i];
+            }
+
+            separatedLine.Add(tempString);
+
+            return separatedLine;
+        }
+
+
+
     }
 }

@@ -12,8 +12,16 @@ public class Parser
 
         var lines = File.ReadAllLines(fileName);
 
-        foreach (var line in lines)
-            csv.Add(line.Split(','));
+        string[] separatedLine;
+
+        foreach (var line in lines) 
+        {
+            if (line != string.Empty)
+            {
+                separatedLine = NccsvParserMethods.Separate(line).ToArray();
+                csv.Add(separatedLine);
+            }
+        }
 
         return csv;
     }
