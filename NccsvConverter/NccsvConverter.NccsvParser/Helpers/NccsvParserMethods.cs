@@ -144,10 +144,10 @@ namespace NccsvConverter.NccsvParser.Helpers
         {
             foreach (var properties in variableProperties)
             {
-                // if *DATA_TYPE* tag
+                // disregard data type row as datatype is set in SetVariableDataType
                 if (properties[1] == "*DATA_TYPE*")
                 {
-                    return;
+                    continue;
                 }
 
                 var attributeName = properties[1];
