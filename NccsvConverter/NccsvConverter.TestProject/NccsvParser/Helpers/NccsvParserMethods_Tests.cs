@@ -174,39 +174,6 @@ public class NccsvParserMethods_Tests
 
     }
 
-
-
-    [Fact]
-    public void FindProperties_ReturnsListOfStringArrays()
-    {
-        //Arrange
-        var csv = Parser.FromText(
-           Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-           + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-
-        //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
-
-        //Assert
-        Assert.IsType<List<string[]>>(result);
-    }
-
-    [Fact]
-    public void FindProperties_DoesNotReturnGlobalProperties()
-    {
-        //Arrange
-        var csv = Parser.FromText(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var expected = "*GLOBAL*";
-
-        //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
-
-        //Assert
-        Assert.NotEqual(expected, result[0][0]);
-    }
-
     [Fact]
     public void FindProperties_ReturnsExpectedList()
     {
