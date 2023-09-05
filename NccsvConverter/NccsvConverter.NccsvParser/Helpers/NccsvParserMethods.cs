@@ -137,11 +137,34 @@ namespace NccsvConverter.NccsvParser.Helpers
             return newVar;
         }
 
-        public static void AddProperties(string file)
+
+        // Adds string array of properties to variable as a dictionary where
+        // [1] is the attribute name and [2] to [n] is the attribute values
+        public static void AddProperties(List<string[]> variableProperties, Variable variable)
         {
-            // if variableName without *DATA_TYPE* tag
-            // add to Properties as <[1], List<[2]-[n]>>
+            foreach (var properties in variableProperties)
+            {
+                // disregard data type row as datatype is set in SetVariableDataType
+                if (properties[1] == "*DATA_TYPE*")
+                {
+                    continue;
+                }
+
+                var attributeName = properties[1];
+                List<string> values = new List<string>();
+
+                for (int i = 2; i < properties.Length; i++)
+                {
+                    values.Add(properties[i]);
+                }
+
+                // add to Properties as <[1], List<[2]-[n]>>
+                variable.Properties.Add(attributeName, values);
+
+            }
         }
+
+
 
         public static void FindData(string file)
         {
