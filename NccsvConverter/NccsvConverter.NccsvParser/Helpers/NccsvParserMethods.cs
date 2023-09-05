@@ -112,12 +112,18 @@ namespace NccsvConverter.NccsvParser.Helpers
         {
             var newVar = new Variable();
 
-            newVar.VariableName = variableProperties[0][0];
+            foreach (var line in variableProperties)
+            {
+                if (line[0].Length > 0)
+                {
+                    newVar.VariableName = line[0];
+                    break;
+                }
+            }
             SetVariableDataType(newVar, variableProperties);
-            //TODO: Do this properly and complete test
-            //AddProperties("");
+            AddProperties(variableProperties, newVar);
 
-            return new Variable();
+            return newVar;
         }
 
         public static Variable SetVariableDataType(

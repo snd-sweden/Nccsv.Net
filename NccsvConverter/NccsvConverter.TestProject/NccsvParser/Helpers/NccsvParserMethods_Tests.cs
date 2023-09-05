@@ -116,9 +116,12 @@ public class NccsvParserMethods_Tests
         //Arrange
         var variableProperties = new List<string[]>
         {
-
+            new []{"depth","*DATA_TYPE*","double"},
+            new []{"depth","positive","down"},
+            new []{"depth","standard_name","sea_floor_depth_below_sea_surface"},
+            new []{"depth","units","m"},
+            new []{"depth","_OrigionalName","Oden.MB.SeaDepth%Avg"}
         };
-
 
 
         //Act
@@ -127,6 +130,7 @@ public class NccsvParserMethods_Tests
 
         //Assert
         Assert.NotNull(newVar.VariableName);
+        Assert.NotNull(newVar.DataType);
         Assert.NotEmpty(newVar.Properties);
     }
 
