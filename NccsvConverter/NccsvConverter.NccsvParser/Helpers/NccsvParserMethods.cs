@@ -9,6 +9,32 @@ namespace NccsvConverter.NccsvParser.Helpers
     {
         // read file = new dataset
 
+        public static string FindTitle(List<string[]> csv)
+        {
+            foreach (var line in csv)   
+            {
+                if (line[0] == "title")
+                {
+                    return line[1];
+                }
+            }
+
+            return null;
+        }
+
+        public static string FindSummary(List<string[]> csv)
+        {
+            foreach (var line in csv)
+            {
+                if (line[0] == "summary")
+                {
+                    return line[1];
+                }
+            }
+
+            return null;
+        }
+
         //finds global properties and stores them without *GLOBAL*-tag in a string array
         public static List<string[]> FindGlobalProperties(List<string[]> csv)
         {
@@ -54,7 +80,7 @@ namespace NccsvConverter.NccsvParser.Helpers
         /*Constructs a list of properties where each property is represented as a string array where [0]
         is the variable name, [1] is the attribute name and [2] to [n] is the values. Does not include
         global properties as they are collected in FindGlobalProperties.*/
-        public static List<string[]> FindProperties(List<string[]> csv)
+        public static List<string[]> FindVariables(List<string[]> csv)
         {
             var properties = new List<string[]>();
 
@@ -93,7 +119,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             return false;
         }
 
-        //extracts a named property and all it's associated metadata from a FindProperties list
+        //extracts a named property and all it's associated metadata from a FindVariables list
         public static List<string[]> IsolateProperty(List<string[]> globalProperties, string varName)
         {
             var isolatedProperty = new List<string[]>();

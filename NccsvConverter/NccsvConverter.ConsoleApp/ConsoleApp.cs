@@ -11,7 +11,7 @@ var csv = Parser.FromText(Directory.GetParent(Directory.GetCurrentDirectory()).P
 //    Console.WriteLine(s);
 //}
 
-Console.WriteLine(NccsvParserMethods.FindProperties(csv)[0][0]);
+Console.WriteLine(NccsvParserMethods.FindVariables(csv)[0][0]);
 
 
 

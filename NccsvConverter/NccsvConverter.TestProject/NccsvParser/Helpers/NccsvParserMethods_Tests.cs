@@ -1,13 +1,59 @@
 using NccsvConverter.NccsvParser.Models;
 using System;
 using System.IO;
-using NccsvConverter.NccsvParser.Models;
 using Xunit.Sdk;
 
 namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
 public class NccsvParserMethods_Tests
 {
+
+    [Theory]
+    [InlineData("title")]
+    public void FindTitle_FindsTitle(string title)
+    {
+        //Arrange
+        var testList = new List<string[]>()
+        {
+            new []{"hi","row1"},
+            new []{title, "row2"},
+            new []{"bye", "row3"}
+
+        };
+
+        string isTitle = "";
+        //Act
+
+        isTitle = NccsvParserMethods.FindTitle(testList);
+
+        //Assert
+
+        Assert.Equal("row2", isTitle);
+    }
+
+    [Theory]
+    [InlineData("summary")]
+    public void FindSummary_FindsSummary(string summary)
+    {
+        //Arrange
+        var testList = new List<string[]>()
+        {
+            new []{"hi","row1"},
+            new []{summary, "row2"},
+            new []{"bye", "row3"}
+
+        };
+
+        string isSummary = "";
+        //Act
+
+        isSummary = NccsvParserMethods.FindSummary(testList);
+
+        //Assert
+
+        Assert.Equal("row2", isSummary);
+    }
+
     [Fact]
     public void FindGlobalProperties_ReturnsCorrectList()
     {
@@ -68,7 +114,7 @@ public class NccsvParserMethods_Tests
            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
+        var result = NccsvParserMethods.FindVariables(csv);
 
         //Assert
         Assert.IsType<List<string[]>>(result);
@@ -84,7 +130,7 @@ public class NccsvParserMethods_Tests
         var expected = "*GLOBAL*";
 
         //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
+        var result = NccsvParserMethods.FindVariables(csv);
 
         //Assert
         Assert.NotEqual(expected, result[0][0]);
@@ -141,7 +187,7 @@ public class NccsvParserMethods_Tests
         var csv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var props = NccsvParserMethods.FindProperties(csv);
+        var props = NccsvParserMethods.FindVariables(csv);
         var propName = "depth";
         //Act
 
@@ -163,7 +209,7 @@ public class NccsvParserMethods_Tests
         var csv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var props = NccsvParserMethods.FindProperties(csv);
+        var props = NccsvParserMethods.FindVariables(csv);
         var propName = "depth";
         var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
 
@@ -199,7 +245,7 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
+        var result = NccsvParserMethods.FindVariables(csv);
 
         //Assert
         Assert.Equal(expected, result);

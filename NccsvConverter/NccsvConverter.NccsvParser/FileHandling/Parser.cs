@@ -10,6 +10,8 @@ public class Parser
     {
         var csv = new List<string[]>();
 
+        // check for extension
+
         var lines = File.ReadAllLines(fileName);
 
         string[] separatedLine;
@@ -26,38 +28,59 @@ public class Parser
         return csv;
     }
 
-    public DataSet FromList(List<string[]> csv)
+    public static DataSet FromList(List<string[]> csv)
     {
-        NccsvVerifierMethods verifier = new NccsvVerifierMethods();
-        NccsvParserMethods parser = new NccsvParserMethods();
+        
         DataSet ds = new DataSet();
 
         // Verify
-        // check for extension
         // check for tag
-
+        if (!NccsvVerifierMethods.VerifyNccsv(csv))
+        {
+            throw new Exception();
+        }
 
         // Parse
+
         // FindGlobalProperties
+        var globalProps = NccsvParserMethods.FindGlobalProperties(csv);
+
+        //Add title and summary
+
+        ds.Title = NccsvParserMethods.FindTitle(globalProps);
+        ds.Summary = NccsvParserMethods.FindSummary(globalProps);
 
         // AddGlobalProperties
+        NccsvParserMethods.AddGlobalProperties(ds, globalProps);
 
-        // FindProperties
+        // FindVariables
+        var variables = NccsvParserMethods.FindVariables(csv);
 
-        // CheckIfVariableExists
+        // AddVariables
 
-        // if not -> create new variable
+        foreach (var v in variables)
+        {
+            // CheckIfVariableExists
+            if (!NccsvParserMethods.CheckIfVariableExists(ds.Variables, v[0]))
+            {
+                var varToCreate = NccsvParserMethods.IsolateProperty(variables, v[0]);
+                // CreateVariable
+                var newVariable = NccsvParserMethods.CreateVariable(varToCreate);
 
-        // CreateVariable
+                // SetVariableDataType
+                NccsvParserMethods.SetVariableDataType(newVariable, varToCreate);
 
+                // Add to variable list of DataSet
+                ds.Variables.Add(newVariable);
+            }
 
-        // SetVariableDataType
-
-        // AddProperties
-
+        }
+        
         // FindData
+        var dataSection = NccsvParserMethods.FindData(csv);
+        NccsvParserMethods.AddData(dataSection, ds);
 
-        return new DataSet();
+        return ds;
     }
 
 }
