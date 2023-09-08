@@ -371,7 +371,7 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        NccsvParserMethods.AddProperties(varProperties, variable);
+        NccsvParserMethods.AddProperties(variable, varProperties);
 
         //Assert
         Assert.Equal(expected, variable.Properties);
