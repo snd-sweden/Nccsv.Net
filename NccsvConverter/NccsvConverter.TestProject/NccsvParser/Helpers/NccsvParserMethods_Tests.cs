@@ -1,8 +1,4 @@
 using NccsvConverter.NccsvParser.Models;
-using System;
-using System.IO;
-using NccsvConverter.NccsvParser.Models;
-using Xunit.Sdk;
 
 namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
@@ -21,10 +17,8 @@ public class NccsvParserMethods_Tests
         var globalProperties = NccsvParserMethods.FindGlobalProperties(csv);
 
         //Assert
-
         /*if the nccvs was handled properly, it should consist of a list of arrays of length 2:
         each a key/value pair excellent for putting in a Dictionary.*/
-
         foreach (var sArr in globalProperties)
         {
             if (sArr.Length != 2)
@@ -35,6 +29,7 @@ public class NccsvParserMethods_Tests
 
         Assert.True(result);
     }
+
 
     [Fact]
     public void AddGlobalProperties_AddsPropertiesProperly()
@@ -49,7 +44,6 @@ public class NccsvParserMethods_Tests
         var dataSet = new DataSet();
 
         //Act
-
         NccsvParserMethods.AddGlobalProperties(dataSet, globalProperties);
 
         //Assert
@@ -74,6 +68,7 @@ public class NccsvParserMethods_Tests
         Assert.IsType<List<string[]>>(result);
     }
 
+
     [Fact]
     public void FindProperties_DoesNotReturnGlobalProperties()
     {
@@ -89,6 +84,7 @@ public class NccsvParserMethods_Tests
         //Assert
         Assert.NotEqual(expected, result[0][0]);
     }
+
 
     [Theory]
     [InlineData("rainfall_avg")]
@@ -109,6 +105,7 @@ public class NccsvParserMethods_Tests
         Assert.True(result);
     }
 
+
     [Fact]
     public void CreateVariable_CreastesVariableWithAllProperties()
     {
@@ -125,7 +122,6 @@ public class NccsvParserMethods_Tests
 
 
         //Act
-
         var newVar = NccsvParserMethods.CreateVariable(variableProperties);
 
         //Assert
@@ -133,6 +129,7 @@ public class NccsvParserMethods_Tests
         Assert.NotNull(newVar.DataType);
         Assert.NotEmpty(newVar.Properties);
     }
+
 
     [Fact]
     public void IsolateProperty_ReturnsCorrectLines()
@@ -143,8 +140,8 @@ public class NccsvParserMethods_Tests
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
         var props = NccsvParserMethods.FindProperties(csv);
         var propName = "depth";
-        //Act
 
+        //Act
         var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
 
         //Assert
@@ -153,8 +150,8 @@ public class NccsvParserMethods_Tests
         {
             Assert.Equal(propName, line[0]);
         }
-
     }
+
 
     [Fact]
     public void SetVariableDataType_SetsCorrectDataType()
@@ -166,19 +163,20 @@ public class NccsvParserMethods_Tests
         var props = NccsvParserMethods.FindProperties(csv);
         var propName = "depth";
         var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
-
-        var testVariable = new Variable() { VariableName = propName };
+        var testVariable = new Variable() 
+        { 
+            VariableName = propName 
+        };
 
         var expected = "double";
 
         //Act
-
         var completeVariable = NccsvParserMethods.SetVariableDataType(testVariable, depthProperty);
 
         //Assert
         Assert.Equal(expected, completeVariable.DataType);
-
     }
+
 
     [Fact]
     public void FindProperties_ReturnsExpectedList()
@@ -205,6 +203,7 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, result);
     }
 
+
     [Fact]
     public void FindData_ReturnsDataAsListOfStringArrays()
     {
@@ -219,6 +218,7 @@ public class NccsvParserMethods_Tests
         //Assert
         Assert.IsType<List<string[]>>(data);
     }
+
 
     [Fact]
     public void FindData_FindsExpectedData()
@@ -271,6 +271,7 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, data);
     }
 
+
     [Fact]
     public void AddData_AddsExpectedDataToDataSet()
     {
@@ -296,11 +297,13 @@ public class NccsvParserMethods_Tests
         Assert.Equal(dataSet.Data, data);
     }
 
+
     [Fact]
     public void Separate_ReturnsSeparatedValuesAsList()
     {
         //Arrange
         var line = "abc,def,ghi,jkl";
+
         List<string> expected = new List<string>
         {
             "abc",
@@ -316,11 +319,13 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, result);
     }
 
+
     [Fact]
     public void Separate_ReturnsSeparatedValues_WhenQuotes()
     {
         //Arrange
         var line = "abc,def,ghi,\"jkl,mno\"";
+
         List<string> expected = new List<string>
         {
             "abc",
@@ -336,11 +341,13 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, result);
     }
 
+
     [Fact]
     public void Separate_ReturnsSeparatedValues_WhenQuotesInQuotes()
     {
         //Arrange
         var line = "abc,def,ghi,\"jkl,\"\"m,\"\"no\"";
+
         List<string> expected = new List<string>
         {
             "abc",
@@ -356,6 +363,7 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, result);
     }
 
+
     [Fact]
     public void AddProperties_AddsPropertiesAsExpected()
     {
@@ -365,6 +373,7 @@ public class NccsvParserMethods_Tests
         {
             new [] {"abc", "def", "ghi", "j\",k\"l" }
         };
+
         var expected = new Dictionary<string, List<string>>()
         {
             { "def", new List<string> { "ghi", "j\",k\"l" }}
@@ -376,6 +385,7 @@ public class NccsvParserMethods_Tests
         //Assert
         Assert.Equal(expected, variable.Properties);
     }
+
 
     [Fact]
     public void FindData_FindsDataAsList()

@@ -2,6 +2,7 @@
 {
     public class NccsvVerifierMethods
     {
+        // Verifies that file has .nccsv extension
         public static bool CheckNccsvExtension(string filePath)
         {
             if (filePath.EndsWith(".nccsv"))
@@ -11,6 +12,7 @@
 
             return false;
         }
+
 
         // Verifies that the files Conventions include a reference to NCCSV
         public static bool VerifyNccsv(List<string[]> potentialNccsv)

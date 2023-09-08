@@ -1,7 +1,4 @@
-﻿
-using System.Linq.Expressions;
-using System.Text.Json.Serialization.Metadata;
-using NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.Models;
 
 namespace NccsvConverter.NccsvParser.Helpers
 {
@@ -198,7 +195,7 @@ namespace NccsvConverter.NccsvParser.Helpers
                     data.Add(line);
                 }
                 
-                if (line[0] =="*END_METADATA*")
+                if (line[0] == "*END_METADATA*")
                 {
                     dataSectionReached = true;
                 }
