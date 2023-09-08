@@ -112,12 +112,16 @@ public class NccsvParserMethods_Tests
     [Fact]
     public void CreateVariable_CreastesVariableWithAllProperties()
     {
+        //TODO: complete this test
         //Arrange
         var variableProperties = new List<string[]>
         {
-
+            new []{"depth","*DATA_TYPE*","double"},
+            new []{"depth","positive","down"},
+            new []{"depth","standard_name","sea_floor_depth_below_sea_surface"},
+            new []{"depth","units","m"},
+            new []{"depth","_OrigionalName","Oden.MB.SeaDepth%Avg"}
         };
-
 
 
         //Act
@@ -126,6 +130,7 @@ public class NccsvParserMethods_Tests
 
         //Assert
         Assert.NotNull(newVar.VariableName);
+        Assert.NotNull(newVar.DataType);
         Assert.NotEmpty(newVar.Properties);
     }
 
@@ -372,4 +377,18 @@ public class NccsvParserMethods_Tests
         Assert.Equal(expected, variable.Properties);
     }
 
+    [Fact]
+    public void FindData_FindsDataAsList()
+    {
+        //Arrange
+        var csv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+
+        //Act
+        var data = NccsvParserMethods.FindData(csv);
+
+        //Assert
+        Assert.True(data.Count >= 2);
+    }
 };
