@@ -201,6 +201,97 @@ public class NccsvParserMethods_Tests
     }
 
     [Fact]
+    public void FindData_ReturnsDataAsListOfStringArrays()
+    {
+        //Arrange
+        var csv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+
+        //Act
+        var data = NccsvParserMethods.FindData(csv);
+
+        //Assert
+        Assert.IsType<List<string[]>>(data);
+    }
+
+    [Fact]
+    public void FindData_FindsExpectedData()
+    {
+        //Arrange
+        var csv = new List<string[]>
+        {
+            new string[]
+            {
+                "*GLOBAL*", "Properties", "Here"
+            },
+            new string []
+            {
+                "Properties", "Are", "Here", "To", "Stay"
+            },
+            new string[]
+            {
+                "*END_METADATA*"
+            },
+            new string[]
+            {
+                "header1", "header2", "header3"
+            },
+            new string[]
+            {
+                "value1", "value2", "value3"
+            },
+            new string[]
+            {
+                "*END_DATA*"
+            }
+        };
+
+        var expected = new List<string[]>
+        {
+            new string[]
+            {
+                "header1", "header2", "header3"
+            },
+            new string[]
+            {
+                "value1", "value2", "value3"
+            },
+        };
+
+        //Act
+        var data = NccsvParserMethods.FindData(csv);
+
+        //Assert
+        Assert.Equal(expected, data);
+    }
+
+    [Fact]
+    public void AddData_AddsExpectedDataToDataSet()
+    {
+        //Arrange
+        var dataSet = new DataSet();
+
+        var data = new List<string[]>
+        {
+            new string[]
+            {
+                "header1", "header2", "header3"
+            },
+            new string[]
+            {
+                "value1", "value2", "value3"
+            },
+        };
+
+        //Act
+        NccsvParserMethods.AddData(data, dataSet);
+
+        //Assert
+        Assert.Equal(dataSet.Data, data);
+    }
+
+    [Fact]
     public void Separate_ReturnsSeparatedValuesAsList()
     {
         //Arrange

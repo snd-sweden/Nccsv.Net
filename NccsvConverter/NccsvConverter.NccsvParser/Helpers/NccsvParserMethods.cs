@@ -114,7 +114,7 @@ namespace NccsvConverter.NccsvParser.Helpers
 
             newVar.VariableName = variableProperties[0][0];
             SetVariableDataType(newVar, variableProperties);
-            AddProperties("");
+            AddProperties(variableProperties, newVar);
 
             return new Variable();
         }
@@ -165,11 +165,37 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-
-        public static void FindData(string file)
+        public static List<string[]> FindData(List<string[]> csv)
         {
-            // until *end_data* tag
-            // csvhelper?
+            var data = new List<string[]>();
+            var dataSectionReached = false;
+
+            foreach (var line in csv)
+            {
+                if (line[0] == "*END_DATA*")
+                {
+                    break;
+                }
+
+                if (dataSectionReached)
+                {
+                    data.Add(line);
+                }
+                
+                if (line[0] =="*END_METADATA*")
+                {
+                    dataSectionReached = true;
+                }
+
+            }
+
+            return data;
+        }
+
+
+        public static void AddData(List<string[]> data, DataSet dataSet)
+        {
+            dataSet.Data = data;
         }
 
 
