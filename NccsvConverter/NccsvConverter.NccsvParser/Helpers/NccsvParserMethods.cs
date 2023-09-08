@@ -177,31 +177,6 @@ namespace NccsvConverter.NccsvParser.Helpers
             }
         }
 
-
-        public static List<string[]> FindData(List<string[]> csv)
-        {
-            var data = new List<string[]>();
-            var dataSectionReached = false;
-
-            foreach (var line in csv)
-            {
-                if (line[0] == "*END_DATA*")
-                {
-                    break;
-                }
-
-                if (dataSectionReached)
-                {
-                    data.Add(line);
-                }
-                
-                if (line[0] =="*END_METADATA*")
-                {
-                    dataSectionReached = true;
-                }
-
-            }
-
         //Extracts the data section of the nccsv-file.
         public static List<string[]> FindData(List<string[]> csv)
         {
@@ -223,6 +198,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             }
 
             return data;
+        }
 
         public static void AddData(List<string[]> data, DataSet dataSet)
         {
