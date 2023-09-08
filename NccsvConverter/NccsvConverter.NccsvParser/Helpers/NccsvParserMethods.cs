@@ -72,6 +72,7 @@ namespace NccsvConverter.NccsvParser.Helpers
 
             }
 
+
             return properties;
         }
 
