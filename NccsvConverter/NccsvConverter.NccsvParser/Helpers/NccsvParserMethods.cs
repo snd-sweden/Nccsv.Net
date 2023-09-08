@@ -184,6 +184,8 @@ namespace NccsvConverter.NccsvParser.Helpers
         public static List<string[]> FindData(List<string[]> csv)
         {
             var data = new List<string[]>();
+            var dataSectionReached = false;
+
             foreach (var line in csv)
             {
                 if (line[0] == "*END_DATA*")
@@ -191,12 +193,15 @@ namespace NccsvConverter.NccsvParser.Helpers
                     break;
                 }
 
-                if (line[0] == "*GLOBAL*" || line[0] =="*END_METADATA*")
+                if (dataSectionReached)
                 {
-                    continue;
+                    data.Add(line);
                 }
-
-                data.Add(line);
+                
+                if (line[0] =="*END_METADATA*")
+                {
+                    dataSectionReached = true;
+                }
 
             }
 
