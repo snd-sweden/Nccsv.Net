@@ -4,7 +4,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
 public class NccsvParserMethods_Tests
 {
-    
+
     [Fact]
     public void FindGlobalAttributes_ReturnsCorrectList()
     {
@@ -174,6 +174,24 @@ public class NccsvParserMethods_Tests
 
 
     [Fact]
+    public void CreateVariable_CreatesScalarVariableWithCorrectType()
+    {
+        //Arrange
+        var variableMetaData = new List<string[]>
+        {
+            new []{"project","*SCALAR*","Ryder 2019"}
+        };
+
+        //Act
+        var variable = NccsvParserMethods.CreateVariable(variableMetaData);
+
+        //Assert
+        Assert.True(variable.Scalar);
+        Assert.Equal("string", variable.DataType);
+    }
+
+
+    [Fact]
     public void IsolateVariableMetaData_ReturnsCorrectLines()
     {
         //Arrange
@@ -195,6 +213,7 @@ public class NccsvParserMethods_Tests
     }
 
 
+
     [Fact]
     public void SetVariableDataType_SetsCorrectDataType()
     {
@@ -211,10 +230,10 @@ public class NccsvParserMethods_Tests
         var expected = "double";
 
         //Act
-        var completeVariable = NccsvParserMethods.SetVariableDataType(testVariable, isolatedVariableAttributes);
+        NccsvParserMethods.SetVariableDataType(testVariable, isolatedVariableAttributes);
 
         //Assert
-        Assert.Equal(expected, completeVariable.DataType);
+        Assert.Equal(expected, testVariable.DataType);
     }
 
 
@@ -452,5 +471,38 @@ public class NccsvParserMethods_Tests
 
         //Assert
         Assert.Equal(expected, variable.Attributes);
+    }
+
+    [Theory]
+    [InlineData("100b", "byte")]
+    [InlineData("-100b", "byte")]
+    [InlineData("230ub", "ubyte")]
+    [InlineData("-30000s", "short")]
+    [InlineData("60000us", "ushort")]
+    [InlineData("-100000i", "int")]
+    [InlineData("4123456789ui", "uint")]
+    [InlineData("12345678987654321L", "long")]
+    [InlineData("9007199254740992uL", "ulong")]
+    [InlineData("1,23f", "float")]
+    [InlineData("1.23f", "float")]
+    [InlineData("1,23e2f", "float")]
+    [InlineData("1,23e-2f", "float")]
+    [InlineData("1,23E-2f", "float")]
+    [InlineData("1,87d", "double")]
+    [InlineData("1.87d", "double")]
+    [InlineData("1,87e-12d", "double")]
+    [InlineData("1.87e-12d", "double")]
+    [InlineData("1,87E12d", "double")]
+    [InlineData("1,87e12d", "double")]
+    [InlineData("'h'", "char")]
+    [InlineData("hello!", "string")]
+    public void GetTypeOf_GetsCorrectType(string value, string expected)
+    {
+        //Arrange 
+
+        //Act
+        var result = NccsvParserMethods.GetTypeOf(value);
+        //Assert
+        Assert.Equal(result, expected);
     }
 };

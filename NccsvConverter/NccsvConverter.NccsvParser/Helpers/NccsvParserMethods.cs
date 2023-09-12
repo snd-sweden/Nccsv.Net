@@ -4,10 +4,11 @@ namespace NccsvConverter.NccsvParser.Helpers
 {
     public class NccsvParserMethods
     {
-        // Finds global attributes and stores them without *GLOBAL*-tag in a string array.
+        // Finds global attributes snd stores them without *GLOBAL*-tag in a string array.
         public static List<string[]> FindGlobalAttributes(List<string[]> separatedNccsv)
         {
             var globalAttributes = new List<string[]>();
+
             foreach (var stringArray in separatedNccsv)
             {
                 if (stringArray[0] == "*GLOBAL*")
@@ -38,7 +39,7 @@ namespace NccsvConverter.NccsvParser.Helpers
         // otherwise returns null.
         public static string FindTitle(List<string[]> globalAttributes)
         {
-            foreach (var line in globalAttributes)   
+            foreach (var line in globalAttributes)
             {
                 if (line[0] == "title")
                 {
@@ -77,16 +78,19 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
+
         // Returns a list of variable metadata points where each metadata point is represented
         // as a string array where [0] is the variable name, [1] is the attribute name and
         // [2] to [n] is the values.
         // Note: Does not include global metadata.
+
         public static List<string[]> FindVariableMetaData(List<string[]> separatedNccsv)
         {
             var variableMetaData = new List<string[]>();
 
             foreach (var line in separatedNccsv)
             {
+
                 // Disgregard global attributes as they are collected in FindGlobalAttributes
                 if (line[0].Contains("*GLOBAL*"))
                 {
@@ -101,6 +105,7 @@ namespace NccsvConverter.NccsvParser.Helpers
 
                 variableMetaData.Add(line);
             }
+
 
             return variableMetaData;
         }
@@ -152,6 +157,13 @@ namespace NccsvConverter.NccsvParser.Helpers
                 if (line[0].Length > 0)
                 {
                     newVariable.VariableName = line[0];
+
+                    //Also, adding a Scalar property to the Variable model, also inserts the value of the scalar.
+                    if (line[1] == "*SCALAR*")
+                    {
+                        newVariable.Scalar = true;
+                        newVariable.ScalarValue = line[2];
+                    }
                     break;
                 }
             }
@@ -162,12 +174,10 @@ namespace NccsvConverter.NccsvParser.Helpers
             return newVariable;
         }
 
-
         // Takes a variable metadata list, extracts the name of the data type
         // and sets a given variable data type to that name.
-        // TODO: Does this method need to return the variable?
         // Used by: CreateVariable
-        public static Variable SetVariableDataType(
+        public static void SetVariableDataType(
             Variable variable, List<string[]> variableMetaData)
         {
             string variableDataType = "";
@@ -178,12 +188,120 @@ namespace NccsvConverter.NccsvParser.Helpers
                 {
                     variableDataType = line[2];
                 }
+
+                if (line[1] == "*SCALAR*")
+                {
+                    variableDataType = GetTypeOf(line[2]);
+                }
             }
 
             variable.DataType = variableDataType;
 
-            return variable;
         }
+
+        //when testing is done, this should maybe be made private?
+        public static string GetTypeOf(string value)
+        {
+            switch (value[^1])
+            {
+                case 'b':
+                    if (value[^2] == 'u')
+                    {
+                        if (Int32.TryParse(value[..^3], out var ub))
+                        {
+                            return "ubyte";
+                        }
+
+                    }
+                    else if (Int32.TryParse(value[..^2], out var b))
+                    {
+                        return "byte";
+                    }
+
+                    return "string";
+
+                case 's':
+                    if (value[^2] == 'u')
+                    {
+                        if (Int32.TryParse(value[..^3], out var us))
+                        {
+                            return "ushort";
+                        }
+                    }
+
+                    else if (Int32.TryParse(value[..^2], out var s))
+                    {
+                        return "short";
+                    }
+
+                    return "string";
+
+                case 'i':
+                    if (value[^2] == 'u')
+                    {
+                        if (uint.TryParse(value[..^3], out var ui))
+                        {
+                            return "uint";
+                        }
+                    }
+
+                    else if (Int32.TryParse(value[..^2], out var i))
+                    {
+                        return "int";
+                    }
+
+                    return "string";
+
+                case 'L':
+                    if (value[^2] == 'u')
+                    {
+                        if (ulong.TryParse(value[..^3], out var ul))
+                        {
+                            return "ulong";
+                        }
+                    }
+
+                    else if (long.TryParse(value[..^2], out var l))
+                    {
+                        return "long";
+                    }
+
+                    return "string";
+
+
+                case 'f':
+                    value = value.Replace('.', ',').ToLower();
+                    if (float.TryParse(value[..^1], out var f))
+                    {
+                        return "float";
+                    }
+
+                    return "string";
+
+
+                case 'd':
+                    value = value.Replace('.', ',').ToLower();
+                    if (double.TryParse(value[..^2], out var d))
+                    {
+                        return "double";
+                    }
+
+                    return "string";
+
+                case '\'':
+                    if (value[0] == '\'')
+                    {
+                        return "char";
+                    }
+
+                    return "string";
+
+                default:
+                    return "string";
+            }
+
+        }
+
 
 
         // Adds attributes to a given Variable as a dictionary where
@@ -213,7 +331,7 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-       // Extracts and returns the data section from the nccsv-file.
+        // Extracts and returns the data section from the nccsv-file.
         public static List<string[]> FindData(List<string[]> separatedNccsv)
         {
             var data = new List<string[]>();
@@ -230,7 +348,7 @@ namespace NccsvConverter.NccsvParser.Helpers
                 {
                     data.Add(line);
                 }
-                
+
                 if (line[0] == "*END_METADATA*")
                 {
                     dataSectionReached = true;
@@ -241,7 +359,7 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-        // Adds data from FindData to a given DataSet.
+        // Adds data to a given DataSet
         public static void AddData(List<string[]> data, DataSet dataSet)
         {
             dataSet.Data = data;
