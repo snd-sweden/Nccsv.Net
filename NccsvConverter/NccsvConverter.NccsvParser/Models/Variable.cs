@@ -10,6 +10,6 @@ namespace NccsvConverter.NccsvParser.Models
     {
         public string VariableName { get; set; }
         public string DataType { get; set; }
-        public Dictionary<string, List<string>> Properties { get; set; } = new();
+        public Dictionary<string, List<string>> Attributes { get; set; } = new();
     }
 }
