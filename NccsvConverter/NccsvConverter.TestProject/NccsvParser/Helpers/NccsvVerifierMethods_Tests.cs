@@ -35,11 +35,10 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             string filePath =
                 Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
                 + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
-            var csv = Parser.FromText(filePath);
-
+            var potentialNccsv = Parser.FromText(filePath);
 
             //Act
-            var result = NccsvVerifierMethods.VerifyNccsv(csv);
+            var result = NccsvVerifierMethods.VerifyNccsv(potentialNccsv);
 
             //Assert
             Assert.True(result);
@@ -50,13 +49,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void VerifyNccsv_ReturnsFalseIfFileIsNotNccsv()
         {
             //Arrange
-            var csv = new List<string[]>
+            var potentialNccsv = new List<string[]>
             {
                 new string[6] { "asd", "argh", "", "", "", "" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.VerifyNccsv(csv);
+            var result = NccsvVerifierMethods.VerifyNccsv(potentialNccsv);
 
             //Assert
             Assert.False(result);

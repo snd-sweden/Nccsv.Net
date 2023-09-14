@@ -4,6 +4,33 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
 public class NccsvParserMethods_Tests
 {
+    
+    [Fact]
+    public void FindGlobalAttributes_ReturnsCorrectList()
+    {
+        //Arrange
+        var separatedNccsv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        bool result = true;
+
+        //Act
+        var globalAttributes = NccsvParserMethods.FindGlobalAttributes(separatedNccsv);
+
+        //Assert
+        // If the nccvs was handled properly, it should consist of a list of arrays of length 2:
+        // each a key/value pair excellent for putting in a Dictionary.
+        foreach (var sArr in globalAttributes)
+        {
+            if (sArr.Length != 2)
+            {
+                result = false;
+            }
+        }
+
+        Assert.True(result);
+    }
+
 
     [Theory]
     [InlineData("title")]
@@ -18,15 +45,13 @@ public class NccsvParserMethods_Tests
 
         };
 
-        string isTitle = "";
         //Act
-
-        isTitle = NccsvParserMethods.FindTitle(testList);
+        string foundTitle = NccsvParserMethods.FindTitle(testList);
 
         //Assert
-
-        Assert.Equal("row2", isTitle);
+        Assert.Equal("row2", foundTitle);
     }
+
 
     [Theory]
     [InlineData("summary")]
@@ -41,48 +66,19 @@ public class NccsvParserMethods_Tests
 
         };
 
-        string isSummary = "";
         //Act
-
-        isSummary = NccsvParserMethods.FindSummary(testList);
+        string foundSummary = NccsvParserMethods.FindSummary(testList);
 
         //Assert
-
-        Assert.Equal("row2", isSummary);
-    }
-
-    [Fact]
-    public void FindGlobalProperties_ReturnsCorrectList()
-    {
-        //Arrange
-        var csv = Parser.FromText(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        bool result = true;
-
-        //Act
-        var globalProperties = NccsvParserMethods.FindGlobalAttributes(csv);
-
-        //Assert
-        /*if the nccvs was handled properly, it should consist of a list of arrays of length 2:
-        each a key/value pair excellent for putting in a Dictionary.*/
-        foreach (var sArr in globalProperties)
-        {
-            if (sArr.Length != 2)
-            {
-                result = false;
-            }
-        }
-
-        Assert.True(result);
+        Assert.Equal("row2", foundSummary);
     }
 
 
     [Fact]
-    public void AddGlobalProperties_AddsPropertiesProperly()
+    public void AddGlobalAttributes_AddsAttributesProperly()
     {
         //Arrange
-        var globalProperties = new List<string[]>
+        var globalAttributes = new List<string[]>
         {
             new string[2] { "hej", "då" },
             new string[2] { "ses", "sen" }
@@ -91,46 +87,45 @@ public class NccsvParserMethods_Tests
         var dataSet = new DataSet();
 
         //Act
-
-        NccsvParserMethods.AddGlobalAttributes(dataSet, globalProperties);
+        NccsvParserMethods.AddGlobalAttributes(dataSet, globalAttributes);
 
         //Assert
         Assert.Equal("då", dataSet.GlobalAttributes["hej"]);
         Assert.Equal("sen", dataSet.GlobalAttributes["ses"]);
-
     }
 
 
     [Fact]
-    public void FindProperties_ReturnsListOfStringArrays()
+    public void FindVariableMetaData_ReturnsListOfStringArrays()
     {
         //Arrange
-        var csv = Parser.FromText(
+        var separatedNccsv = Parser.FromText(
            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act 
-        var result = NccsvParserMethods.FindVariableMetaData(csv);
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
 
         //Assert
-        Assert.IsType<List<string[]>>(result);
+        Assert.IsType<List<string[]>>(variableMetaData);
     }
 
 
     [Fact]
-    public void FindProperties_DoesNotReturnGlobalProperties()
+    public void FindVariableMetaData_DoesNotReturnGlobalAttributes()
     {
         //Arrange
-        var csv = Parser.FromText(
+        var separatedNccsv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+
         var expected = "*GLOBAL*";
 
         //Act 
-        var result = NccsvParserMethods.FindVariableMetaData(csv);
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
 
         //Assert
-        Assert.NotEqual(expected, result[0][0]);
+        Assert.NotEqual(expected, variableMetaData[0][0]);
     }
 
 
@@ -155,11 +150,11 @@ public class NccsvParserMethods_Tests
 
 
     [Fact]
-    public void CreateVariable_CreastesVariableWithAllProperties()
+    public void CreateVariable_CreatesVariableWithExpectedAttributes()
     {
         //TODO: complete this test
         //Arrange
-        var variableProperties = new List<string[]>
+        var variableMetaData = new List<string[]>
         {
             new []{"depth","*DATA_TYPE*","double"},
             new []{"depth","positive","down"},
@@ -168,35 +163,34 @@ public class NccsvParserMethods_Tests
             new []{"depth","_OrigionalName","Oden.MB.SeaDepth%Avg"}
         };
 
-
         //Act
-        var newVar = NccsvParserMethods.CreateVariable(variableProperties);
+        var variable = NccsvParserMethods.CreateVariable(variableMetaData);
 
         //Assert
-        Assert.NotNull(newVar.VariableName);
-        Assert.NotNull(newVar.DataType);
-        Assert.NotEmpty(newVar.Attributes);
+        Assert.NotNull(variable.VariableName);
+        Assert.NotNull(variable.DataType);
+        Assert.NotEmpty(variable.Attributes);
     }
 
 
     [Fact]
-    public void IsolateProperty_ReturnsCorrectLines()
+    public void IsolateVariableMetaData_ReturnsCorrectLines()
     {
         //Arrange
-        var csv = Parser.FromText(
+        var separatedNccsv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var props = NccsvParserMethods.FindVariableMetaData(csv);
-        var propName = "depth";
-        //Act
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
+        var variableName = "depth";
 
-        var depthProperty = NccsvParserMethods.IsolateVariableAttributes(props, propName);
+        //Act
+        var depthProperty = NccsvParserMethods.IsolateVariableAttributes(variableMetaData, variableName);
 
         //Assert
         Assert.True(depthProperty.Count >= 2);
         foreach (var line in depthProperty)
         {
-            Assert.Equal(propName, line[0]);
+            Assert.Equal(variableName, line[0]);
         }
     }
 
@@ -205,19 +199,19 @@ public class NccsvParserMethods_Tests
     public void SetVariableDataType_SetsCorrectDataType()
     {
         //Arrange
-        var csv = Parser.FromText(
+        var separatedNccsv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var props = NccsvParserMethods.FindVariableMetaData(csv);
-        var propName = "depth";
-        var depthProperty = NccsvParserMethods.IsolateVariableAttributes(props, propName);
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
+        var variableName = "depth";
+        var isolatedVariableAttributes = NccsvParserMethods.IsolateVariableAttributes(variableMetaData, variableName);
 
-        var testVariable = new Variable() { VariableName = propName };
+        var testVariable = new Variable() { VariableName = variableName };
 
         var expected = "double";
 
         //Act
-        var completeVariable = NccsvParserMethods.SetVariableDataType(testVariable, depthProperty);
+        var completeVariable = NccsvParserMethods.SetVariableDataType(testVariable, isolatedVariableAttributes);
 
         //Assert
         Assert.Equal(expected, completeVariable.DataType);
@@ -225,10 +219,10 @@ public class NccsvParserMethods_Tests
 
 
     [Fact]
-    public void FindProperties_ReturnsExpectedList()
+    public void FindVariableMetaData_ReturnsExpectedList()
     {
         //Arrange
-        var csv = new List<string[]>
+        var separatedNccsv = new List<string[]>
         {
             new string[] { "*GLOBAL*", "abc", "def" },
             new string[] { "abc", "def", "ghi", "j\",k\"l" },
@@ -243,10 +237,10 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var result = NccsvParserMethods.FindVariableMetaData(csv);
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
 
         //Assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, variableMetaData);
     }
 
 
@@ -254,12 +248,12 @@ public class NccsvParserMethods_Tests
     public void FindData_ReturnsDataAsListOfStringArrays()
     {
         //Arrange
-        var csv = Parser.FromText(
+        var separatedNccsv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act
-        var data = NccsvParserMethods.FindData(csv);
+        var data = NccsvParserMethods.FindData(separatedNccsv);
 
         //Assert
         Assert.IsType<List<string[]>>(data);
@@ -270,7 +264,7 @@ public class NccsvParserMethods_Tests
     public void FindData_FindsExpectedData()
     {
         //Arrange
-        var csv = new List<string[]>
+        var separatedNccsv = new List<string[]>
         {
             new string[]
             {
@@ -311,10 +305,26 @@ public class NccsvParserMethods_Tests
         };
 
         //Act
-        var data = NccsvParserMethods.FindData(csv);
+        var data = NccsvParserMethods.FindData(separatedNccsv);
 
         //Assert
         Assert.Equal(expected, data);
+    }
+
+
+    [Fact]
+    public void FindData_FindsDataAsList()
+    {
+        //Arrange
+        var separatedNccsv = Parser.FromText(
+            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+
+        //Act
+        var data = NccsvParserMethods.FindData(separatedNccsv);
+
+        //Assert
+        Assert.True(data.Count >= 2);
     }
 
 
@@ -336,11 +346,23 @@ public class NccsvParserMethods_Tests
             },
         };
 
+        var expected = new List<string[]>
+        {
+            new string[]
+            {
+                "header1", "header2", "header3"
+            },
+            new string[]
+            {
+                "value1", "value2", "value3"
+            },
+        };
+
         //Act
         NccsvParserMethods.AddData(data, dataSet);
 
         //Assert
-        Assert.Equal(dataSet.Data, data);
+        Assert.Equal(expected, dataSet.Data);
     }
 
 
@@ -359,10 +381,10 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var result = NccsvParserMethods.Separate(line);
+        var separatedLine = NccsvParserMethods.Separate(line);
 
         //Assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, separatedLine);
     }
 
 
@@ -381,10 +403,10 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var result = NccsvParserMethods.Separate(line);
+        var separatedLine = NccsvParserMethods.Separate(line);
 
         //Assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, separatedLine);
     }
 
 
@@ -403,19 +425,19 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var result = NccsvParserMethods.Separate(line);
+        var separatedLine = NccsvParserMethods.Separate(line);
 
         //Assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, separatedLine);
     }
 
 
     [Fact]
-    public void AddProperties_AddsPropertiesAsExpected()
+    public void AddAttributes_AddsPropertiesAsExpected()
     {
         //Arrange
         var variable = new Variable();
-        var varProperties = new List<string[]>
+        var variableAttributes = new List<string[]>
         {
             new [] {"abc", "def", "ghi", "j\",k\"l" }
         };
@@ -426,25 +448,9 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        NccsvParserMethods.AddAttributes(variable, varProperties);
+        NccsvParserMethods.AddAttributes(variable, variableAttributes);
 
         //Assert
         Assert.Equal(expected, variable.Attributes);
-    }
-
-
-    [Fact]
-    public void FindData_FindsDataAsList()
-    {
-        //Arrange
-        var csv = Parser.FromText(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-
-        //Act
-        var data = NccsvParserMethods.FindData(csv);
-
-        //Assert
-        Assert.True(data.Count >= 2);
     }
 };
