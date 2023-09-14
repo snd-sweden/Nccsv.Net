@@ -11,7 +11,7 @@ namespace NccsvConverter.NccsvParser.Models
     {
         public string? Title;
         public string? Summary;
-        public Dictionary<string, string> GlobalProperties = new();
+        public Dictionary<string, string> GlobalAttributes = new();
         public List<Variable> Variables = new();
         public List<string[]> Data = new();
     }

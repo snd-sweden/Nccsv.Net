@@ -1,13 +1,59 @@
 using NccsvConverter.NccsvParser.Models;
 using System;
 using System.IO;
-using NccsvConverter.NccsvParser.Models;
 using Xunit.Sdk;
 
 namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
 public class NccsvParserMethods_Tests
 {
+
+    [Theory]
+    [InlineData("title")]
+    public void FindTitle_FindsTitle(string title)
+    {
+        //Arrange
+        var testList = new List<string[]>()
+        {
+            new []{"hi","row1"},
+            new []{title, "row2"},
+            new []{"bye", "row3"}
+
+        };
+
+        string isTitle = "";
+        //Act
+
+        isTitle = NccsvParserMethods.FindTitle(testList);
+
+        //Assert
+
+        Assert.Equal("row2", isTitle);
+    }
+
+    [Theory]
+    [InlineData("summary")]
+    public void FindSummary_FindsSummary(string summary)
+    {
+        //Arrange
+        var testList = new List<string[]>()
+        {
+            new []{"hi","row1"},
+            new []{summary, "row2"},
+            new []{"bye", "row3"}
+
+        };
+
+        string isSummary = "";
+        //Act
+
+        isSummary = NccsvParserMethods.FindSummary(testList);
+
+        //Assert
+
+        Assert.Equal("row2", isSummary);
+    }
+
     [Fact]
     public void FindGlobalProperties_ReturnsCorrectList()
     {
@@ -18,7 +64,7 @@ public class NccsvParserMethods_Tests
         bool result = true;
 
         //Act
-        var globalProperties = NccsvParserMethods.FindGlobalProperties(csv);
+        var globalProperties = NccsvParserMethods.FindGlobalAttributes(csv);
 
         //Assert
 
@@ -50,11 +96,11 @@ public class NccsvParserMethods_Tests
 
         //Act
 
-        NccsvParserMethods.AddGlobalProperties(dataSet, globalProperties);
+        NccsvParserMethods.AddGlobalAttributes(dataSet, globalProperties);
 
         //Assert
-        Assert.Equal("då", dataSet.GlobalProperties["hej"]);
-        Assert.Equal("sen", dataSet.GlobalProperties["ses"]);
+        Assert.Equal("då", dataSet.GlobalAttributes["hej"]);
+        Assert.Equal("sen", dataSet.GlobalAttributes["ses"]);
 
     }
 
@@ -68,7 +114,7 @@ public class NccsvParserMethods_Tests
            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
+        var result = NccsvParserMethods.FindVariableMetaData(csv);
 
         //Assert
         Assert.IsType<List<string[]>>(result);
@@ -84,7 +130,7 @@ public class NccsvParserMethods_Tests
         var expected = "*GLOBAL*";
 
         //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
+        var result = NccsvParserMethods.FindVariableMetaData(csv);
 
         //Assert
         Assert.NotEqual(expected, result[0][0]);
@@ -131,7 +177,7 @@ public class NccsvParserMethods_Tests
         //Assert
         Assert.NotNull(newVar.VariableName);
         Assert.NotNull(newVar.DataType);
-        Assert.NotEmpty(newVar.Properties);
+        Assert.NotEmpty(newVar.Attributes);
     }
 
     [Fact]
@@ -141,11 +187,11 @@ public class NccsvParserMethods_Tests
         var csv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var props = NccsvParserMethods.FindProperties(csv);
+        var props = NccsvParserMethods.FindVariableMetaData(csv);
         var propName = "depth";
         //Act
 
-        var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
+        var depthProperty = NccsvParserMethods.IsolateVariableAttributes(props, propName);
 
         //Assert
         Assert.True(depthProperty.Count >= 2);
@@ -163,9 +209,9 @@ public class NccsvParserMethods_Tests
         var csv = Parser.FromText(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
-        var props = NccsvParserMethods.FindProperties(csv);
+        var props = NccsvParserMethods.FindVariableMetaData(csv);
         var propName = "depth";
-        var depthProperty = NccsvParserMethods.IsolateProperty(props, propName);
+        var depthProperty = NccsvParserMethods.IsolateVariableAttributes(props, propName);
 
         var testVariable = new Variable() { VariableName = propName };
 
@@ -199,7 +245,7 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var result = NccsvParserMethods.FindProperties(csv);
+        var result = NccsvParserMethods.FindVariableMetaData(csv);
 
         //Assert
         Assert.Equal(expected, result);
@@ -228,11 +274,11 @@ public class NccsvParserMethods_Tests
         {
             new string[]
             {
-                "*GLOBAL*", "Properties", "Here"
+                "*GLOBAL*", "Attributes", "Here"
             },
             new string []
             {
-                "Properties", "Are", "Here", "To", "Stay"
+                "Attributes", "Are", "Here", "To", "Stay"
             },
             new string[]
             {
@@ -371,10 +417,10 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        NccsvParserMethods.AddProperties(variable, varProperties);
+        NccsvParserMethods.AddAttributes(variable, varProperties);
 
         //Assert
-        Assert.Equal(expected, variable.Properties);
+        Assert.Equal(expected, variable.Attributes);
     }
 
     [Fact]
