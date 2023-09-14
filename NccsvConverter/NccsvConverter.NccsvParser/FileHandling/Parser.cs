@@ -6,13 +6,13 @@ namespace NccsvConverter.NccsvParser.FileHandling;
 public class Parser
 {
     // FromText gets a .csv file and converts it into a array of strings for further handling.
-    public static List<string[]> FromText(string fileName)
+    public static List<string[]> FromText(string filePath)
     {
-        var csv = new List<string[]>();
+        var separatedNccsv = new List<string[]>();
 
         // check for extension
 
-        var lines = File.ReadAllLines(fileName);
+        var lines = File.ReadAllLines(filePath);
 
         string[] separatedLine;
 
@@ -21,49 +21,49 @@ public class Parser
             if (line != string.Empty)
             {
                 separatedLine = NccsvParserMethods.Separate(line).ToArray();
-                csv.Add(separatedLine);
+                separatedNccsv.Add(separatedLine);
             }
         }
 
-        return csv;
+        return separatedNccsv;
     }
 
-    public static DataSet FromList(List<string[]> csv)
+    public static DataSet FromList(List<string[]> separatedNccsv)
     {
         
-        DataSet ds = new DataSet();
+        DataSet dataSet = new DataSet();
 
         // Verify
         // check for tag
-        if (!NccsvVerifierMethods.VerifyNccsv(csv))
+        if (!NccsvVerifierMethods.VerifyNccsv(separatedNccsv))
         {
             throw new Exception();
         }
 
         // Parse
 
-        // FindGlobalProperties
-        var globalProps = NccsvParserMethods.FindGlobalProperties(csv);
+        // FindGlobalAttributes
+        var globalAttributes = NccsvParserMethods.FindGlobalAttributes(separatedNccsv);
 
         //Add title and summary
 
-        ds.Title = NccsvParserMethods.FindTitle(globalProps);
-        ds.Summary = NccsvParserMethods.FindSummary(globalProps);
+        dataSet.Title = NccsvParserMethods.FindTitle(globalAttributes);
+        dataSet.Summary = NccsvParserMethods.FindSummary(globalAttributes);
 
-        // AddGlobalProperties
-        NccsvParserMethods.AddGlobalProperties(ds, globalProps);
+        // AddGlobalAttributes
+        NccsvParserMethods.AddGlobalAttributes(dataSet, globalAttributes);
 
-        // FindVariables
-        var variables = NccsvParserMethods.FindVariables(csv);
+        // FindVariableMetaData
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
 
         // AddVariables
 
-        foreach (var v in variables)
+        foreach (var line in variableMetaData)
         {
             // CheckIfVariableExists
-            if (!NccsvParserMethods.CheckIfVariableExists(ds.Variables, v[0]))
+            if (!NccsvParserMethods.CheckIfVariableExists(dataSet.Variables, line[0]))
             {
-                var varToCreate = NccsvParserMethods.IsolateProperty(variables, v[0]);
+                var varToCreate = NccsvParserMethods.IsolateVariableAttributes(variableMetaData, line[0]);
                 // CreateVariable
                 var newVariable = NccsvParserMethods.CreateVariable(varToCreate);
 
@@ -71,16 +71,16 @@ public class Parser
                 NccsvParserMethods.SetVariableDataType(newVariable, varToCreate);
 
                 // Add to variable list of DataSet
-                ds.Variables.Add(newVariable);
+                dataSet.Variables.Add(newVariable);
             }
 
         }
         
         // FindData
-        var dataSection = NccsvParserMethods.FindData(csv);
-        NccsvParserMethods.AddData(dataSection, ds);
+        var dataSection = NccsvParserMethods.FindData(separatedNccsv);
+        NccsvParserMethods.AddData(dataSection, dataSet);
 
-        return ds;
+        return dataSet;
     }
 
 }

@@ -25,7 +25,7 @@
 
             var testCollection = Parser.FromText(testFile);
 
-            var globalProperties = NccsvParserMethods.FindGlobalProperties(testCollection) ;
+            var globalProperties = NccsvParserMethods.FindGlobalAttributes(testCollection) ;
 
             var expectedGlobalProperties = new Dictionary<string, string>();
 
@@ -38,7 +38,7 @@
 
             var expectedSummary = NccsvParserMethods.FindSummary(globalProperties) ;
 
-            //var expectedVariables = NccsvParserMethods.FindVariables(testCollection) ;
+            //var expectedVariables = NccsvParserMethods.FindVariableMetaData(testCollection) ;
 
             //var expectedData = NccsvParserMethods.FindData(testCollection) ;
 
@@ -50,7 +50,7 @@
 
             Assert.Equal(expectedTitle, dataSet.Title);
             Assert.Equal(expectedSummary, dataSet.Summary);
-            Assert.Equal(expectedGlobalProperties, dataSet.GlobalProperties);
+            Assert.Equal(expectedGlobalProperties, dataSet.GlobalAttributes);
 
         }
 
