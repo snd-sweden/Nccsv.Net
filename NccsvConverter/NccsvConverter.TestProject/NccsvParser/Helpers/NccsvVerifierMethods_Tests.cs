@@ -275,6 +275,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             Assert.False(result);
         }
 
+
         [Fact]
         public void CheckDataValuesForSpace_ReturnsFalseWhenNoSpace()
         {
@@ -291,6 +292,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Assert
             Assert.False(result);
         }
+
 
         [Theory]
         [InlineData("1 ")]
@@ -309,6 +311,89 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
 
             //Assert
             Assert.True(result);
+        }
+
+
+        [Fact]
+        public void CheckNumberOfValuesToVariables_ReturnsTrueIfNumbersMatch()
+        {
+            //Arrange
+            var dataSet = new DataSet()
+            {
+                Data = new List<string[]>
+                {
+                    new string[] { "1", "2" },
+                    new string[] { "3", "4" }
+
+                },
+                Variables = new List<Variable>
+                {
+                    new Variable(),
+                    new Variable()
+                }
+            };
+
+            //Act
+            var result = NccsvVerifierMethods.CheckNumberOfValuesToVariables(dataSet);
+
+            //Assert
+            Assert.True(result);
+        }
+
+
+        [Fact]
+        public void CheckNumberOfValuesToVariables_ReturnsFalseIfNumbersDoNotMatch()
+        {
+            //Arrange
+            var dataSet = new DataSet()
+            {
+                Data = new List<string[]>
+                {
+                    new string[] { "1", "2" },
+                    new string[] { "3", "4" }
+
+                },
+                Variables = new List<Variable>
+                {
+                    new Variable()
+                }
+            };
+
+            //Act
+            var result = NccsvVerifierMethods.CheckNumberOfValuesToVariables(dataSet);
+
+            //Assert
+            Assert.False(result);
+        }
+
+
+        [Theory]
+        [InlineData("12.3d","double")]
+        [InlineData("123s","short")]
+        [InlineData("12,3f","float")]
+
+        public void CheckDataForIllegalSuffix_ReturnsTrueIfIllegalSuffixIsFound(string value, string dataType)
+        {
+            //Act
+            var result = NccsvVerifierMethods.CheckDataForIllegalSuffix(dataType, value);
+
+            //Assert
+            Assert.True(result);
+        }
+
+
+        [Theory]
+        [InlineData("good value","String")]
+        [InlineData("123L","long")]
+        [InlineData("123","int")]
+
+        public void CheckDataForIllegalSuffix_ReturnsFalseIfIllegalSuffixIsNotFound(string value, string dataType)
+        {
+            //Act
+            var result = NccsvVerifierMethods.CheckDataForIllegalSuffix(dataType, value);
+
+            //Assert
+            Assert.False(result);
         }
     }
 }

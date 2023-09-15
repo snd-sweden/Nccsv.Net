@@ -215,9 +215,9 @@ namespace NccsvConverter.NccsvParser.Helpers
                 && dataType != "String" && dataType != "char")
             {
                 if (value.All(char.IsDigit))
-                    return true;
-                else
                     return false;
+                else
+                    return true;
             }
 
             return false;

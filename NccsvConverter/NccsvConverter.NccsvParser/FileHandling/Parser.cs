@@ -40,7 +40,7 @@ public class Parser
 
         // Verify
         // check for tag
-        if (!NccsvVerifierMethods.VerifyNccsv(separatedNccsv))
+        if (!NccsvVerifierMethods.CheckNccsvVerification(separatedNccsv))
         {
             throw new Exception();
         }
