@@ -156,6 +156,18 @@ namespace NccsvConverter.NccsvParser.Helpers
         public static bool CheckDataForDataType(DataSet dataSet)
         {
             // TODO: compare data values to variable data type
+            // Something like: (Note: this solution only works if Variables
+            // is in the same order as data headers)
+            //for (int i = 0; i < dataSet.Data.Length; i++)
+            //{
+            //    for (int j = 0; j < dataSet.Data[i].Length; j++)
+            //    {
+            //        if (dataSet.Data[i][j].DataType == dataSet.Variables[j].DataType)
+            //            return true;
+            //        else
+            //            return false;
+            //    }
+            //}
 
             throw new NotImplementedException();
         }
