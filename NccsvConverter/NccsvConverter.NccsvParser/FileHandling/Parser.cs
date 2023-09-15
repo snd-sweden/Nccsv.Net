@@ -5,12 +5,13 @@ namespace NccsvConverter.NccsvParser.FileHandling;
 
 public class Parser
 {
-    // FromText gets a .csv file and converts it into a array of strings for further handling.
+    // FromText gets a .nccsv file and converts it into a array of strings for further handling.
+    // TODO: Change name? FromFile?
     public static List<string[]> FromText(string filePath)
     {
-        var separatedNccsv = new List<string[]>();
+        // TODO: check if filePath exists, file is not empty, file has correct extension
 
-        // check for extension
+        var separatedNccsv = new List<string[]>();
 
         var lines = File.ReadAllLines(filePath);
 
@@ -28,6 +29,10 @@ public class Parser
         return separatedNccsv;
     }
 
+
+    // FromList takes a separated nccsv as a list of arrays and creates
+    // a data set with given data and metadata from the nccsv file
+    // TODO: Change name and place for method? CreateDataSet?
     public static DataSet FromList(List<string[]> separatedNccsv)
     {
         
