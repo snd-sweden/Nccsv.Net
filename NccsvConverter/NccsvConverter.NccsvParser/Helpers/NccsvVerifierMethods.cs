@@ -25,9 +25,9 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-        // Returns true if *GLOBAL* "Conventions" attribute exist.
+        // Returns true if *GLOBAL* "Conventions" attribute name exist.
         // Note: if Conventions have to be first row, maybe check for that as well.
-        public static bool CheckGlobalConventions(List<string[]> globalProperties)
+        public static bool CheckGlobalConventions(List<string[]> globalAttributes)
         {
             //if (globalProperties
             //    .Exists(r => r[1].Equals("Conventions")))
@@ -35,9 +35,9 @@ namespace NccsvConverter.NccsvParser.Helpers
             //    return true;
             //}
 
-            foreach (var globalProperty in globalProperties)
+            foreach (var globalAttribute in globalAttributes)
             {
-                if (globalProperty[1] == "Conventions")
+                if (globalAttribute[1] == "Conventions")
                     return true;
             }
 
@@ -109,9 +109,9 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-        // Attributes must have value. Returns true if the property list
-        // is longer than 2 columns.
-        public static bool CheckAttributeForValue(List<string[]> properties)
+        // Attributes must have value. Returns true if the variableMetaData list
+        // rows has more than 2 columns.
+        public static bool CheckAttributeForValue(List<string[]> variableMetaData)
         {
             //if (properties
             //    .All(r => r.Length > 2))
@@ -120,7 +120,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             //}
 
             // We check that rows are more than 2 columns because values resides on column [2] to [n]
-            foreach (var row in properties)
+            foreach (var row in variableMetaData)
             {
                 if (row.Length > 2)
                     return true;

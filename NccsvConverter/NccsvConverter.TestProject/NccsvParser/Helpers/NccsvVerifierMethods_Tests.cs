@@ -65,7 +65,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckGlobalConventions_ReturnsFalseIfNoConventions()
         {
             //Arrange
-            var globalProperties = new List<string[]>
+            var globalAttributes = new List<string[]>
             {
                 new string[]
                 {
@@ -78,7 +78,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             }; 
 
             //Act
-            var result = NccsvVerifierMethods.CheckGlobalConventions(globalProperties);
+            var result = NccsvVerifierMethods.CheckGlobalConventions(globalAttributes);
 
             //Assert
             Assert.False(result);
@@ -89,7 +89,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckGlobalConventions_ReturnsTrueIfConventionsExists()
         {
             //Arrange
-            var globalProperties = new List<string[]>
+            var globalAttributes = new List<string[]>
             {
                 new string[]
                 {
@@ -102,7 +102,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             }; 
 
             //Act
-            var result = NccsvVerifierMethods.CheckGlobalConventions(globalProperties);
+            var result = NccsvVerifierMethods.CheckGlobalConventions(globalAttributes);
 
             //Assert
             Assert.True(result);
@@ -119,7 +119,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             var potentialNccsv = Parser.FromText(filePath);
 
             //Act
-            var result = NccsvVerifierMethods.CheckNccsvVerification(csv);
+            var result = NccsvVerifierMethods.CheckNccsvVerification(potentialNccsv);
 
             //Assert
             Assert.True(result);
@@ -136,7 +136,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckNccsvVerification(csv);
+            var result = NccsvVerifierMethods.CheckNccsvVerification(potentialNccsv);
 
             //Assert
             Assert.False(result);
@@ -147,13 +147,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckForMetaDataEndTag_ReturnsFalseIfNoTagExists()
         {
             //Arrange
-            var csv = new List<string[]>
+            var potentialNccsv = new List<string[]>
             {
                 new string[] { "asd", "argh", "", "", "", "" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckForMetaDataEndTag(csv);
+            var result = NccsvVerifierMethods.CheckForMetaDataEndTag(potentialNccsv);
 
             //Assert
             Assert.False(result);
@@ -164,13 +164,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckForMetaDataEndTag_ReturnsTrueIfTagExists()
         {
             //Arrange
-            var csv = new List<string[]>
+            var potentialNccsv = new List<string[]>
             {
                 new string[] { "*END_METADATA*" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckForMetaDataEndTag(csv);
+            var result = NccsvVerifierMethods.CheckForMetaDataEndTag(potentialNccsv);
 
             //Assert
             Assert.True(result);
@@ -181,13 +181,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckForDataEndTag_ReturnsFalseIfNoTagExists()
         {
             //Arrange
-            var csv = new List<string[]>
+            var potentialNccsv = new List<string[]>
             {
                 new string[] { "asd", "argh", "", "", "", "" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckForDataEndTag(csv);
+            var result = NccsvVerifierMethods.CheckForDataEndTag(potentialNccsv);
 
             //Assert
             Assert.False(result);
@@ -198,13 +198,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckForDataEndTag_ReturnsTrueIfTagExists()
         {
             //Arrange
-            var csv = new List<string[]>
+            var potentialNccsv = new List<string[]>
             {
                 new string[] { "*END_DATA*" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckForDataEndTag(csv);
+            var result = NccsvVerifierMethods.CheckForDataEndTag(potentialNccsv);
 
             //Assert
             Assert.True(result);
@@ -215,13 +215,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckAttributeForValue_ReturnsFalseIfNoValue()
         {
             //Arrange
-            var properties = new List<string[]>
+            var variableMetaData = new List<string[]>
             {
                 new string[] { "1", "2" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckAttributeForValue(properties);
+            var result = NccsvVerifierMethods.CheckAttributeForValue(variableMetaData);
 
             //Assert
             Assert.False(result);
@@ -232,13 +232,13 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
         public void CheckAttributeValue_ReturnsTrueIfValueExists()
         {
             //Arrange
-            var properties = new List<string[]>
+            var variableMetaData = new List<string[]>
             {
                 new string[] { "1", "2", "3" }
             };
 
             //Act
-            var result = NccsvVerifierMethods.CheckAttributeForValue(properties);
+            var result = NccsvVerifierMethods.CheckAttributeForValue(variableMetaData);
 
             //Assert
             Assert.True(result);
