@@ -13,6 +13,6 @@ namespace NccsvConverter.NccsvParser.Models
         public string? Summary;
         public Dictionary<string, string> GlobalAttributes = new();
         public List<Variable> Variables = new();
-        public List<string[]> Data = new();
+        public List<DataValue[]> Data = new();
     }
 }

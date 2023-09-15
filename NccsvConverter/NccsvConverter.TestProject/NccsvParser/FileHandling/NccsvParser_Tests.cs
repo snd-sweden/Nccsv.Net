@@ -10,7 +10,7 @@
                            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
             //Act
-            var result = Parser.FromText(testFile);
+            var result = Handler.NccsvFileReader(testFile);
 
             //Assert
             Assert.IsType<List<string[]>>(result);
@@ -24,7 +24,7 @@
             var testFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
                            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
-            var testCollection = Parser.FromText(testFile);
+            var testCollection = Handler.NccsvFileReader(testFile);
 
             var globalAttributes = NccsvParserMethods.FindGlobalAttributes(testCollection) ;
 
@@ -44,7 +44,7 @@
             //var expectedData = NccsvParserMethods.FindData(testCollection) ;
 
             //Act
-            var dataSet = Parser.FromList(testCollection);
+            var dataSet = Handler.NccsvHandler(testCollection);
 
             //Assert
             Assert.Equal(expectedTitle, dataSet.Title);
