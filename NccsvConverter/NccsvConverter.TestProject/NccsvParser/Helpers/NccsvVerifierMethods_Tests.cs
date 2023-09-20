@@ -132,7 +132,7 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Arrange
             var potentialNccsv = new List<string[]>
             {
-                new string[6] { "asd", "argh", "", "", "", "" }
+                new string[] { "asd", "argh", "", "", "", "" }
             };
 
             //Act
@@ -140,6 +140,59 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
 
             //Assert
             Assert.False(result);
+        }
+
+
+        [Fact]
+        public void CheckOrderOfEndTags_ReturnsFalseIfNoEndTags()
+        {
+            //Arrange
+            var potentialNccsv = new List<string[]>
+            {
+                new string[] { "asd", "argh", "", "", "", "" }
+            };
+
+            //Act
+            var result = NccsvVerifierMethods.CheckOrderOfEndTags(potentialNccsv);
+
+            //Assert
+            Assert.False(result);
+        }
+
+
+        [Fact]
+        public void CheckOrderOfEndTags_ReturnsFalseIfIncorrectOrder()
+        {
+            //Arrange
+            var potentialNccsv = new List<string[]>
+            {
+                new string[] { "*END_DATA*"},
+                new string[] { "*END_METADATA*"}
+            };
+
+            //Act
+            var result = NccsvVerifierMethods.CheckOrderOfEndTags(potentialNccsv);
+
+            //Assert
+            Assert.False(result);
+        }
+
+
+        [Fact]
+        public void CheckOrderOfEndTags_ReturnsTrueIfCorrectOrder()
+        {
+            //Arrange
+            var potentialNccsv = new List<string[]>
+            {
+                new string[] { "*END_METADATA*"},
+                new string[] { "*END_DATA*"},
+            };
+
+            //Act
+            var result = NccsvVerifierMethods.CheckOrderOfEndTags(potentialNccsv);
+
+            //Assert
+            Assert.True(result);
         }
 
 
