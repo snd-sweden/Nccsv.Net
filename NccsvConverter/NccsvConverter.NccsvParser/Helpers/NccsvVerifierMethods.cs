@@ -110,6 +110,29 @@ namespace NccsvConverter.NccsvParser.Helpers
             }
         }
 
+        
+        // Returns true if Metadata end tag comes before data end tag.
+        // Note: This only checks the order. If *END_METADATA* does not exist, this will
+        // still return true.
+        public static bool CheckOrderOfEndTags(List<string[]> potentialNccsv)
+        {   
+            int indexMetaData = 0;
+            int indexData = 0;
+
+            foreach (var row in potentialNccsv)
+            {
+                if (row[0] == "*END_METADATA*")
+                    indexMetaData = potentialNccsv.IndexOf(row);
+                else if (row[0] == "*END_DATA*")
+                    indexData = potentialNccsv.IndexOf(row);
+            }
+
+            if (indexData > indexMetaData)
+                return true;
+            else
+                return false;
+        }
+
 
         // Checks for *END_METADATA* that must exist at end of metadata section.
         // Returns true if found.
@@ -340,6 +363,15 @@ namespace NccsvConverter.NccsvParser.Helpers
             if (data[0].Length == nonScalarVariables.Count)
                 return true;
             else
+                return false;
+        }
+
+
+        // Returns true if suffix is found for numeric data type other than L or uL
+        public static bool CheckDataForIllegalSuffix(string dataType, string value)
+        {
+            if(dataType != "ulong" && dataType != "long" 
+                && dataType != "String" && dataType != "char")
             {
                 MessageRepository.Messages.Add(
                     new Message($"Couldn't find variable metadata for all headers in data."));

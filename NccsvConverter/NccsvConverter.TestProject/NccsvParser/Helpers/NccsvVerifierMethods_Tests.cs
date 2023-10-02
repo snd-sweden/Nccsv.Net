@@ -149,6 +149,23 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Arrange
             var potentialNccsv = new List<string[]>
             {
+                new string[] { "asd", "argh", "", "", "", "" }
+            };
+
+            //Act
+            var result = NccsvVerifierMethods.CheckOrderOfEndTags(potentialNccsv);
+
+            //Assert
+            Assert.False(result);
+        }
+
+
+        [Fact]
+        public void CheckOrderOfEndTags_ReturnsFalseIfNoEndTags()
+        {
+            //Arrange
+            var potentialNccsv = new List<string[]>
+            {
                 new string[] { "asd", "argh", "", "", "", "" },
                 new string[] { "asd", "argh", "", "", "", "" }
             };
@@ -700,34 +717,5 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Assert
             Assert.False(result);
         }
-
-
-        //[Theory]
-        //[InlineData("12.3d","double")]
-        //[InlineData("123s","short")]
-        //[InlineData("12.3f","float")]
-        //public void CheckDataForIllegalSuffix_ReturnsTrueIfIllegalSuffixIsFound(string value, string dataType)
-        //{
-        //    //Act
-        //    var result = NccsvVerifierMethods.CheckDataForIllegalSuffix(dataType, value);
-
-        //    //Assert
-        //    Assert.True(result);
-        //}
-
-
-        //[Theory]
-        //[InlineData("good value","String")]
-        //[InlineData("123L","long")]
-        //[InlineData("123","int")]
-        //[InlineData("12.3","double")]
-        //public void CheckDataForIllegalSuffix_ReturnsFalseIfIllegalSuffixIsNotFound(string value, string dataType)
-        //{
-        //    //Act
-        //    var result = NccsvVerifierMethods.CheckDataForIllegalSuffix(dataType, value);
-
-        //    //Assert
-        //    Assert.False(result);
-        //}
     }
 }

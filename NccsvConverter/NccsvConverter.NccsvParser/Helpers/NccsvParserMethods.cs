@@ -195,6 +195,11 @@ namespace NccsvConverter.NccsvParser.Helpers
                 {
                     variableDataType = GetTypeOf(line[2]);
                 }
+
+                if (line[1] == "*SCALAR*")
+                {
+                    variableDataType = GetTypeOf(line[2]);
+                }
             }
 
             variable.DataType = variableDataType;
