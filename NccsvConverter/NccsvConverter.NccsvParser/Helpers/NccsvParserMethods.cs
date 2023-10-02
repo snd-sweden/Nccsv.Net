@@ -186,12 +186,18 @@ namespace NccsvConverter.NccsvParser.Helpers
             {
                 if (line[1] == "*DATA_TYPE*")
                 {
-                    variableDataType = line[2];
+                    foreach (var typeName in Enum.GetNames(typeof(DataType)))
+                    {
+                        if (typeName.ToLower() == line[2].ToLower())
+                        {
+                            variableDataType = typeName.ToLower();
+                        }
+                    }
                 }
 
                 if (line[1] == "*SCALAR*")
                 {
-                    variableDataType = GetTypeOf(line[2]);
+                    variableDataType = GetTypeOf(line[2]).ToString().ToLower();
                 }
             }
 
@@ -200,7 +206,7 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
         //when testing is done, this should maybe be made private?
-        public static string GetTypeOf(string value)
+        public static DataType GetTypeOf(string value)
         {
             switch (value[^1])
             {
@@ -209,95 +215,95 @@ namespace NccsvConverter.NccsvParser.Helpers
                     {
                         if (Int32.TryParse(value[..^3], out var ub))
                         {
-                            return "ubyte";
+                            return DataType.Ubyte;
                         }
 
                     }
                     else if (Int32.TryParse(value[..^2], out var b))
                     {
-                        return "byte";
+                        return DataType.Byte;
                     }
 
-                    return "string";
+                    return DataType.String;
 
                 case 's':
                     if (value[^2] == 'u')
                     {
                         if (Int32.TryParse(value[..^3], out var us))
                         {
-                            return "ushort";
+                            return DataType.Ushort;
                         }
                     }
 
                     else if (Int32.TryParse(value[..^2], out var s))
                     {
-                        return "short";
+                        return DataType.Short;
                     }
 
-                    return "string";
+                    return DataType.String;
 
                 case 'i':
                     if (value[^2] == 'u')
                     {
                         if (uint.TryParse(value[..^3], out var ui))
                         {
-                            return "uint";
+                            return DataType.Uint;
                         }
                     }
 
                     else if (Int32.TryParse(value[..^2], out var i))
                     {
-                        return "int";
+                        return DataType.Int;
                     }
 
-                    return "string";
+                    return DataType.String;
 
                 case 'L':
                     if (value[^2] == 'u')
                     {
                         if (ulong.TryParse(value[..^3], out var ul))
                         {
-                            return "ulong";
+                            return DataType.Ulong;
                         }
                     }
 
                     else if (long.TryParse(value[..^2], out var l))
                     {
-                        return "long";
+                        return DataType.Long;
                     }
 
-                    return "string";
+                    return DataType.String;
 
 
                 case 'f':
                     value = value.Replace('.', ',').ToLower();
                     if (float.TryParse(value[..^1], out var f))
                     {
-                        return "float";
+                        return DataType.Float;
                     }
 
-                    return "string";
+                    return DataType.String;
 
 
                 case 'd':
                     value = value.Replace('.', ',').ToLower();
                     if (double.TryParse(value[..^2], out var d))
                     {
-                        return "double";
+                        return DataType.Double;
                     }
 
-                    return "string";
+                    return DataType.String;
 
                 case '\'':
                     if (value[0] == '\'')
                     {
-                        return "char";
+                        return DataType.Char;
                     }
 
-                    return "string";
+                    return DataType.String;
 
                 default:
-                    return "string";
+                    return DataType.String;
             }
 
         }
