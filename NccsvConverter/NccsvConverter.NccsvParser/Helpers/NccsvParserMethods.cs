@@ -547,10 +547,10 @@ namespace NccsvConverter.NccsvParser.Helpers
                     else
                         return null;
 
-                case "String":
+                case "string":
                     return new DataValueAs<string>
                     {
-                        DataType = "String",
+                        DataType = "string",
                         Value = value,
                         // Variable = variable
                     };
