@@ -3,26 +3,27 @@ using NccsvConverter.NccsvParser.Models;
 
 namespace NccsvConverter.NccsvParser.FileHandling;
 
-public class Parser
+public class Handler
 {
-    // FromText gets a .nccsv file and converts it into a array of strings for further handling.
-    // TODO: Change name? FromFile?
-    public static List<string[]> FromText(string filePath)
+    // Gets a .nccsv file and converts it into a array of strings for further handling.
+    public static List<string[]> NccsvFileReader(string filePath)
     {
-        // TODO: check if filePath exists, file is not empty, file has correct extension
-
         var separatedNccsv = new List<string[]>();
 
-        var lines = File.ReadAllLines(filePath);
+        var lines = File.ReadAllLines(filePath); // TODO: handle exceptions
 
-        string[] separatedLine;
-
-        foreach (var line in lines) 
+        // TODO: move following code into separate method
+        if (Verifier.VerifyLines(lines))
         {
-            if (line != string.Empty)
+            string[] separatedLine;
+
+            foreach (var line in lines) 
             {
-                separatedLine = NccsvParserMethods.Separate(line).ToArray();
-                separatedNccsv.Add(separatedLine);
+                if (line != string.Empty)
+                {
+                    separatedLine = NccsvParserMethods.Separate(line).ToArray();
+                    separatedNccsv.Add(separatedLine);
+                }
             }
         }
 
@@ -30,60 +31,61 @@ public class Parser
     }
 
 
-    // FromList takes a separated nccsv as a list of arrays and creates
+    // Takes a separated nccsv as a list of arrays and creates
     // a data set with given data and metadata from the nccsv file
-    // TODO: Change name and place for method? CreateDataSet?
-    public static DataSet FromList(List<string[]> separatedNccsv)
+    public static DataSet NccsvHandler(List<string[]> separatedNccsv)
     {
-        
         DataSet dataSet = new DataSet();
 
-        // Verify
-        // check for tag
-        if (!NccsvVerifierMethods.VerifyNccsv(separatedNccsv))
-        {
-            throw new Exception();
-        }
 
-        // Parse
-
-        // FindGlobalAttributes
+        // Find and add global attributes to dataset
         var globalAttributes = NccsvParserMethods.FindGlobalAttributes(separatedNccsv);
-
-        //Add title and summary
 
         dataSet.Title = NccsvParserMethods.FindTitle(globalAttributes);
         dataSet.Summary = NccsvParserMethods.FindSummary(globalAttributes);
 
-        // AddGlobalAttributes
         NccsvParserMethods.AddGlobalAttributes(dataSet, globalAttributes);
 
-        // FindVariableMetaData
+
+        // Find variable metadata
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
 
-        // AddVariables
+        //TODO: if
+        Verifier.VerifyVariableMetaData(variableMetaData);
 
+
+        // Find data
+        var dataSection = NccsvParserMethods.FindData(separatedNccsv);
+
+        //TODO: if
+        Verifier.VerifyData(dataSection);
+
+
+        // Create variables from variable metadata and add to dataset
         foreach (var line in variableMetaData)
         {
-            // CheckIfVariableExists
             if (!NccsvParserMethods.CheckIfVariableExists(dataSet.Variables, line[0]))
             {
                 var varToCreate = NccsvParserMethods.IsolateVariableAttributes(variableMetaData, line[0]);
-                // CreateVariable
+
                 var newVariable = NccsvParserMethods.CreateVariable(varToCreate);
 
-                // SetVariableDataType
                 NccsvParserMethods.SetVariableDataType(newVariable, varToCreate);
 
-                // Add to variable list of DataSet
+                //TODO: if
+                Verifier.VerifyVariable(newVariable, dataSection);
+
                 dataSet.Variables.Add(newVariable);
             }
-
         }
         
-        // FindData
-        var dataSection = NccsvParserMethods.FindData(separatedNccsv);
+
+        // Add data to dataSet
         NccsvParserMethods.AddData(dataSection, dataSet);
+
+
+        //TODO: if
+        Verifier.VerifyDataSet(dataSet);
 
         return dataSet;
     }
