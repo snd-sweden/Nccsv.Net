@@ -1,18 +1,30 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using NccsvConverter.NccsvParser.FileHandling;
+using NccsvConverter.NccsvParser.Models;
+using NccsvConverter.NccsvParser.Repositories;
 
-using NccsvConverter.NccsvParser.FileHandling;
-using NccsvConverter.NccsvParser.Helpers;
+Console.WriteLine("File path: ");
+string filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\justenough.nccsv"; // Console.ReadLine();
 
-Console.WriteLine("Hello, World!");
-var csv = Parser.FromText(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + "\\TestData\\ryder.nccsv");
+var separatedLines = new List<string[]>();
 
-//foreach (var s in csv[0])
-//{
-//    Console.WriteLine(s);
-//}
+if (Verifier.VerifyPath(filePath))
+{
+    separatedLines = Handler.NccsvFileReader(filePath);
+}
 
-Console.WriteLine(NccsvParserMethods.FindVariableMetaData(csv)[0][0]);
+var dataSet = new DataSet();
 
+if (Verifier.VerifySeparatedLines(separatedLines))
+{
+    dataSet = Handler.NccsvHandler(separatedLines);
+}
+
+
+foreach (var message in MessageRepository.Messages)
+{
+    Console.WriteLine(message.Text);
+}
 
 
 

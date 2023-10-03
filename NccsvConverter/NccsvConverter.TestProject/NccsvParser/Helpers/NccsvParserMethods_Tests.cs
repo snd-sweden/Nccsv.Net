@@ -9,7 +9,7 @@ public class NccsvParserMethods_Tests
     public void FindGlobalAttributes_ReturnsCorrectList()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
         bool result = true;
@@ -99,7 +99,7 @@ public class NccsvParserMethods_Tests
     public void FindVariableMetaData_ReturnsListOfStringArrays()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
@@ -115,7 +115,7 @@ public class NccsvParserMethods_Tests
     public void FindVariableMetaData_DoesNotReturnGlobalAttributes()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
@@ -195,7 +195,7 @@ public class NccsvParserMethods_Tests
     public void IsolateVariableMetaData_ReturnsCorrectLines()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
@@ -218,7 +218,7 @@ public class NccsvParserMethods_Tests
     public void SetVariableDataType_SetsCorrectDataType()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
@@ -267,7 +267,7 @@ public class NccsvParserMethods_Tests
     public void FindData_ReturnsDataAsListOfStringArrays()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
@@ -335,7 +335,7 @@ public class NccsvParserMethods_Tests
     public void FindData_FindsDataAsList()
     {
         //Arrange
-        var separatedNccsv = Parser.FromText(
+        var separatedNccsv = Handler.NccsvFileReader(
             Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
             + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
@@ -353,6 +353,26 @@ public class NccsvParserMethods_Tests
         //Arrange
         var dataSet = new DataSet();
 
+        dataSet.Variables.AddRange(
+            new List<Variable>
+            {
+                new Variable ()
+                {
+                    VariableName = "header1",
+                    DataType = "String"
+                },
+                new Variable ()
+                {
+                    VariableName = "header2",
+                    DataType = "int"
+                },
+                new Variable ()
+                {
+                    VariableName = "header3",
+                    DataType = "double"
+                }
+            });
+
         var data = new List<string[]>
         {
             new string[]
@@ -361,27 +381,64 @@ public class NccsvParserMethods_Tests
             },
             new string[]
             {
-                "value1", "value2", "value3"
+                "value1", "1", "2"
             },
         };
 
-        var expected = new List<string[]>
+        var expected = new List<DataValue[]>
         {
-            new string[]
+            new DataValue[]
             {
-                "header1", "header2", "header3"
-            },
-            new string[]
-            {
-                "value1", "value2", "value3"
-            },
+                new DataValueAs<string>
+                {
+                    DataType = "String",
+                    Value = "value1"
+                },
+                new DataValueAs<int>
+                {
+                    DataType = "int",
+                    Value = 1
+                },
+                new DataValueAs<double>
+                {
+                    DataType= "double",
+                    Value = 2
+                }
+            }
         };
 
         //Act
         NccsvParserMethods.AddData(data, dataSet);
 
         //Assert
-        Assert.Equal(expected, dataSet.Data);
+        Assert.Equivalent(expected, dataSet.Data);
+    }
+
+
+    [Fact]
+    public void CreateDataValue_ReturnsDataValueWithCorrectDataTypeAndProperties()
+    {
+        //Arrange
+        var value = "1474.5319";
+
+        var variable = new Variable
+        {
+            VariableName = "header",
+            DataType = "double"
+        };
+
+        var expected = new DataValueAs<double>
+        {
+            DataType = "double",
+            Value = 1474.5319
+            // Variable = variable
+        };
+
+        //Act 
+        var result = NccsvParserMethods.CreateDataValueAccordingToDataType(value, variable);
+
+        //Assert
+        Assert.Equivalent(expected, result);
     }
 
 

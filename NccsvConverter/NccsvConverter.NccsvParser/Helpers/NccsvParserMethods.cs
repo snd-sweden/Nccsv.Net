@@ -1,4 +1,6 @@
 ﻿using NccsvConverter.NccsvParser.Models;
+using NccsvConverter.NccsvParser.Repositories;
+using System.Globalization;
 
 namespace NccsvConverter.NccsvParser.Helpers
 {
@@ -37,7 +39,7 @@ namespace NccsvConverter.NccsvParser.Helpers
 
         // If able to find one, FindTitle returns the global attribute known as "title",
         // otherwise returns null.
-        public static string FindTitle(List<string[]> globalAttributes)
+        public static string? FindTitle(List<string[]> globalAttributes)
         {
             foreach (var line in globalAttributes)
             {
@@ -53,7 +55,7 @@ namespace NccsvConverter.NccsvParser.Helpers
 
         // If able to find one, FindSummary returns the global attribute known as "summary",
         // otherwise returns null.
-        public static string FindSummary(List<string[]> globalAttributes)
+        public static string? FindSummary(List<string[]> globalAttributes)
         {
             foreach (var line in globalAttributes)
             {
@@ -186,7 +188,12 @@ namespace NccsvConverter.NccsvParser.Helpers
             {
                 if (line[1] == "*DATA_TYPE*")
                 {
-                    variableDataType = line[2];
+                    variableDataType = line[2]; // TODO: maybe .Trim() but if .Trim() you still need to warn about whitespace
+                }
+
+                if (line[1] == "*SCALAR*")
+                {
+                    variableDataType = GetTypeOf(line[2]);
                 }
 
                 if (line[1] == "*SCALAR*")
@@ -362,7 +369,210 @@ namespace NccsvConverter.NccsvParser.Helpers
         // Adds data to a given DataSet
         public static void AddData(List<string[]> data, DataSet dataSet)
         {
-            dataSet.Data = data;
+            //dataSet.Data = data;
+
+            for (int i = 1; i < data.Count; i++)
+            {
+                List<DataValue> dataRow = new();
+
+                for (int j = 0; j < data[i].Length; j++)
+                {
+                    var variable = dataSet.Variables
+                        .FirstOrDefault(v => v.VariableName
+                            .Equals(data[0][j]));
+
+                    if (variable != null)
+                    {
+                        var dataValue = CreateDataValueAccordingToDataType(data[i][j], variable);
+
+                        if (dataValue != null)
+                            dataRow.Add(dataValue);
+                        else
+                        {
+                            MessageRepository.Messages.Add(
+                                new Message($"Data value: {data[i][j]} could not be parsed to variable datatype: {variable.DataType}."));
+                        }
+                    }
+                    else
+                    {
+                        MessageRepository.Messages.Add(
+                            new Message($"Header: {data[0][j]} did not match any variables."));
+                    }
+                }
+
+                dataSet.Data.Add(dataRow.ToArray());
+            }
+        }
+
+
+        // Creates and returns a DataValueAs<T> from a given value and variable,
+        // where T is the DataType of the variable that acts as column header.
+        // If unsuccessfull, returns a null value.
+        public static DataValue? CreateDataValueAccordingToDataType(string value, Variable variable)
+        {
+            bool result;
+
+            switch (variable.DataType)
+            {
+                case "byte":
+                    // byte -> c# sbyte
+                    result = sbyte.TryParse(value, out sbyte byteValue);
+
+                    if (result)
+                        return new DataValueAs<sbyte>()
+                        {
+                            DataType = "byte",
+                            Value = byteValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "ubyte":
+                    // unsigned byte -> c# byte
+                    result = byte.TryParse(value, out byte ubyteValue);
+
+                    if (result)
+                        return new DataValueAs<byte>()
+                        {
+                            DataType = "ubyte",
+                            Value = ubyteValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+                    
+                case "short":
+                    result = short.TryParse(value, out short shortValue);
+
+                    if (result)
+                        return new DataValueAs<short>()
+                        {
+                            DataType = "short",
+                            Value = shortValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "ushort":
+                    result = ushort.TryParse(value, out ushort ushortValue);
+
+                    if (result)
+                        return new DataValueAs<ushort>()
+                        {
+                            DataType = "ushort",
+                            Value = ushortValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "int":
+                    result = int.TryParse(value, out int intValue);
+
+                    if (result)
+                        return new DataValueAs<int>()
+                        {
+                            DataType = "int",
+                            Value = intValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "uint":
+                    result = uint.TryParse(value, out uint uintValue);
+
+                    if (result)
+                        return new DataValueAs<uint>()
+                        {
+                            DataType = "uint",
+                            Value = uintValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "long":
+                    // TODO: check L
+                    result = long.TryParse(value[..^1], out long longValue);
+
+                    if (result)
+                        return new DataValueAs<long>()
+                        {
+                            DataType = "long",
+                            Value = longValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "ulong":
+                    // TODO: check uL
+                    result = ulong.TryParse(value[..^2], out ulong ulongValue);
+
+                    if (result)
+                        return new DataValueAs<ulong>()
+                        {
+                            DataType = "ulong",
+                            Value = ulongValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "float":
+                    result = float.TryParse(value, CultureInfo.InvariantCulture, out float floatValue);
+
+                    if (result)
+                        return new DataValueAs<float>()
+                        {
+                            DataType = "float",
+                            Value = floatValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "double":
+                    result = double.TryParse(value, CultureInfo.InvariantCulture, out double doubleValue);
+                    
+                    if (result)
+                        return new DataValueAs<double>()
+                        {
+                            DataType = "double",
+                            Value = doubleValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                case "String":
+                    return new DataValueAs<string>
+                    {
+                        DataType = "String",
+                        Value = value,
+                        // Variable = variable
+                    };
+
+                case "char":
+                    // TODO: handle special char cases
+                    result = char.TryParse(value, out char charValue);
+
+                    if (result)
+                        return new DataValueAs<char>()
+                        {
+                            DataType = "char",
+                            Value = charValue
+                            // Variable = variable
+                        };
+                    else
+                        return null;
+
+                default:
+                    return null;
+            }
         }
 
 
@@ -383,10 +593,10 @@ namespace NccsvConverter.NccsvParser.Helpers
 
                 else if (line[i] == ',')
                 {
-                    // Only regards commas outside of quotes
+                    // Ignore commas within a string
                     if (!inQuotes)
                     {
-                        separatedLine.Add(tempString);
+                        separatedLine.Add(tempString); // maybe .Trim('"')/.Trim() but still need to warn about whitespace
                         tempString = string.Empty;
                         continue;
                     }
