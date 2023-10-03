@@ -149,23 +149,6 @@ namespace NccsvConverter.TestProject.NccsvParser.Helpers
             //Arrange
             var potentialNccsv = new List<string[]>
             {
-                new string[] { "asd", "argh", "", "", "", "" }
-            };
-
-            //Act
-            var result = NccsvVerifierMethods.CheckOrderOfEndTags(potentialNccsv);
-
-            //Assert
-            Assert.False(result);
-        }
-
-
-        [Fact]
-        public void CheckOrderOfEndTags_ReturnsFalseIfNoEndTags()
-        {
-            //Arrange
-            var potentialNccsv = new List<string[]>
-            {
                 new string[] { "asd", "argh", "", "", "", "" },
                 new string[] { "asd", "argh", "", "", "", "" }
             };

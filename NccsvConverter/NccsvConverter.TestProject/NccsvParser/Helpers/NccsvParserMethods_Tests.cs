@@ -213,7 +213,6 @@ public class NccsvParserMethods_Tests
     }
 
 
-
     [Fact]
     public void SetVariableDataType_SetsCorrectDataType()
     {

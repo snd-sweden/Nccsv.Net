@@ -80,7 +80,6 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-
         // Returns a list of variable metadata points where each metadata point is represented
         // as a string array where [0] is the variable name, [1] is the attribute name and
         // [2] to [n] is the values.
@@ -176,6 +175,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             return newVariable;
         }
 
+
         // Takes a variable metadata list, extracts the name of the data type
         // and sets a given variable data type to that name.
         // Used by: CreateVariable
@@ -205,6 +205,7 @@ namespace NccsvConverter.NccsvParser.Helpers
             variable.DataType = variableDataType;
 
         }
+
 
         //when testing is done, this should maybe be made private?
         public static string GetTypeOf(string value)
@@ -310,7 +311,6 @@ namespace NccsvConverter.NccsvParser.Helpers
         }
 
 
-
         // Adds attributes to a given Variable as a dictionary where
         // [1] is the attribute name and [2] to [n] is the attribute values
         // Used by: CreateVariable
@@ -369,8 +369,6 @@ namespace NccsvConverter.NccsvParser.Helpers
         // Adds data to a given DataSet
         public static void AddData(List<string[]> data, DataSet dataSet)
         {
-            //dataSet.Data = data;
-
             for (int i = 1; i < data.Count; i++)
             {
                 List<DataValue> dataRow = new();
@@ -609,6 +607,5 @@ namespace NccsvConverter.NccsvParser.Helpers
 
             return separatedLine;
         }
-
     }
 }
