@@ -3,8 +3,10 @@ using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
 
 Console.WriteLine("File path: ");
-string filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\justenough.nccsv"; // Console.ReadLine();
+string filePathFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+            + "\\NccsvConverter.ConsoleApp\\TestData\\";
+string fileName = Console.ReadLine();
+string filePath = Path.Combine(filePathFolder, fileName);
 
 var separatedLines = new List<string[]>();
 
