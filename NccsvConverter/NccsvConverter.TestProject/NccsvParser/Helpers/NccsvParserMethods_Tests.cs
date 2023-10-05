@@ -358,7 +358,7 @@ public class NccsvParserMethods_Tests
                 new Variable ()
                 {
                     VariableName = "header1",
-                    DataType = "String"
+                    DataType = "string"
                 },
                 new Variable ()
                 {
@@ -390,7 +390,7 @@ public class NccsvParserMethods_Tests
             {
                 new DataValueAs<string>
                 {
-                    DataType = "String",
+                    DataType = "string",
                     Value = "value1"
                 },
                 new DataValueAs<int>

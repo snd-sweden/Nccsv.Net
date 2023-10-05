@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NccsvConverter.NccsvParser.Models;
 
-namespace NccsvConverter.NccsvParser.Models
+public class DataValueAs<T> : DataValue
 {
-    public class DataValueAs<T> : DataValue
-    {
-        public T Value;
-    }
+    public T Value { get; set; }
 }

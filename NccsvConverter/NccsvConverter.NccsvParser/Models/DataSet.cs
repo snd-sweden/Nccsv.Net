@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NccsvConverter.NccsvParser.Models;
 
-namespace NccsvConverter.NccsvParser.Models
+public class DataSet
 {
-    public class DataSet
-    {
-        public string? Title;
-        public string? Summary;
-        public Dictionary<string, string> GlobalAttributes = new();
-        public List<Variable> Variables = new();
-        public List<DataValue[]> Data = new();
-    }
+    public string? Title { get; set; }
+    public string? Summary { get; set; }
+    public Dictionary<string, string> GlobalAttributes { get; set; } = new();
+    public List<Variable> Variables { get; set; } = new();
+    public List<DataValue[]> Data { get; set; } = new();
 }
