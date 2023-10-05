@@ -445,6 +445,8 @@ public class NccsvParserMethods_Tests
     public void Separate_ReturnsSeparatedValuesAsList()
     {
         //Arrange
+        var row = 1;
+
         var line = "abc,def,ghi,jkl";
 
         List<string> expected = new List<string>
@@ -456,7 +458,7 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var separatedLine = NccsvParserMethods.Separate(line);
+        var separatedLine = NccsvParserMethods.Separate(line, row);
 
         //Assert
         Assert.Equal(expected, separatedLine);
@@ -467,6 +469,8 @@ public class NccsvParserMethods_Tests
     public void Separate_ReturnsSeparatedValues_WhenQuotes()
     {
         //Arrange
+        var row = 1;
+
         var line = "abc,def,ghi,\"jkl,mno\"";
 
         List<string> expected = new List<string>
@@ -478,7 +482,7 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var separatedLine = NccsvParserMethods.Separate(line);
+        var separatedLine = NccsvParserMethods.Separate(line, row);
 
         //Assert
         Assert.Equal(expected, separatedLine);
@@ -489,6 +493,8 @@ public class NccsvParserMethods_Tests
     public void Separate_ReturnsSeparatedValues_WhenQuotesInQuotes()
     {
         //Arrange
+        var row = 1;
+
         var line = "abc,def,ghi,\"jkl,\"\"m,\"\"no\"";
 
         List<string> expected = new List<string>
@@ -500,7 +506,7 @@ public class NccsvParserMethods_Tests
         };
 
         //Act 
-        var separatedLine = NccsvParserMethods.Separate(line);
+        var separatedLine = NccsvParserMethods.Separate(line, row);
 
         //Assert
         Assert.Equal(expected, separatedLine);

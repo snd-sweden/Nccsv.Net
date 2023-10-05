@@ -12,16 +12,17 @@ var separatedLines = new List<string[]>();
 
 if (Verifier.VerifyPath(filePath))
 {
-    separatedLines = Handler.NccsvFileReader(filePath);
+    
 }
+separatedLines = Handler.NccsvFileReader(filePath);
 
 var dataSet = new DataSet();
 
 if (Verifier.VerifySeparatedLines(separatedLines))
 {
-    dataSet = Handler.NccsvHandler(separatedLines);
+    
 }
-
+dataSet = Handler.NccsvHandler(separatedLines);
 
 foreach (var message in MessageRepository.Messages)
 {

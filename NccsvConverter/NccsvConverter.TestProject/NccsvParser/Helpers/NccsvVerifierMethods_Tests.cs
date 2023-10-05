@@ -590,18 +590,18 @@ public class NccsvVerifierMethods_Tests
     }
 
 
-    [Fact]
-    public void CheckDataValuesForSpace_ReturnsTrueWhenNoSpace()
+    [Theory]
+    [InlineData("1")]
+    [InlineData("1 2")]
+    [InlineData("Hello")]
+    [InlineData("Hello hello")]
+    public void CheckValuesForSpace_ReturnsTrueWhenNoSpace(string value)
     {
         //Arrange
-        var data = new List<string[]>
-            {
-                new string[] { "1", "2" },
-                new string[] { "3 4", "5" }
-            };
+        int row = 3;
 
         //Act
-        var result = NccsvVerifierMethods.CheckDataValuesForSpace(data);
+        var result = NccsvVerifierMethods.CheckValueForSpace(value, row);
 
         //Assert
         Assert.True(result);
@@ -611,17 +611,13 @@ public class NccsvVerifierMethods_Tests
     [Theory]
     [InlineData("1 ")]
     [InlineData(" 2")]
-    public void CheckDataValuesForSpace_ReturnsFalseWhenSpace(string spacedDataValue)
+    public void CheckValuesForSpace_ReturnsFalseWhenSpace(string value)
     {
         //Arrange
-        var data = new List<string[]>
-            {
-                new string[] { "1", "2" },
-                new string[] { spacedDataValue, "4" }
-            };
+        int row = 3;
 
         //Act
-        var result = NccsvVerifierMethods.CheckDataValuesForSpace(data);
+        var result = NccsvVerifierMethods.CheckValueForSpace(value, row);
 
         //Assert
         Assert.False(result);

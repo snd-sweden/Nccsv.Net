@@ -21,7 +21,7 @@ public class Handler
             {
                 if (line != string.Empty)
                 {
-                    separatedLine = NccsvParserMethods.Separate(line).ToArray();
+                    separatedLine = NccsvParserMethods.Separate(line, Array.IndexOf(lines, line) + 1).ToArray();
                     separatedNccsv.Add(separatedLine);
                 }
             }
