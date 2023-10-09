@@ -390,13 +390,13 @@ public class NccsvParserMethods
                     else
                     {
                         MessageRepository.Messages.Add(
-                            new Message($"Data value: {data[i][j]} could not be parsed to variable datatype: {variable.DataType}."));
+                            new Message($"Data value: {data[i][j]} could not be parsed to variable datatype: {variable.DataType}.", Severity.NonCritical));
                     }
                 }
                 else
                 {
                     MessageRepository.Messages.Add(
-                        new Message($"Header: {data[0][j]} did not match any variables."));
+                        new Message($"Header: {data[0][j]} did not match any variables.", Severity.NonCritical));
                 }
             }
 

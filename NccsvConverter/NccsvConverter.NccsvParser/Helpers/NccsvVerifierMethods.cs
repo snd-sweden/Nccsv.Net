@@ -1,6 +1,5 @@
 ﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
-using System.Numerics;
 
 namespace NccsvConverter.NccsvParser.Helpers;
 
@@ -18,7 +17,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find .nccsv extension."));
+                new Message("Couldn't find .nccsv extension.", Severity.NonCritical));
             return false;
         }
     }
@@ -30,7 +29,7 @@ public class NccsvVerifierMethods
         if (lines.Length == 0)
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find any file content."));
+                new Message("Couldn't find any file content.", Severity.Critical));
 
             return false;
         }
@@ -49,7 +48,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find global attributes at first row."));
+                new Message("Couldn't find global attributes at first row.", Severity.NonCritical));
             return false;
         }
     }
@@ -63,7 +62,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find global \"Conventions\" attribute at first row."));
+                new Message("Couldn't find global \"Conventions\" attribute at first row.", Severity.NonCritical));
             return false;
         }
     }
@@ -77,7 +76,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find reference to \"NCCSV\" in global conventions."));
+                new Message("Couldn't find reference to \"NCCSV\" in global conventions.", Severity.NonCritical));
             return false;
         }
     }
@@ -104,7 +103,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("\"*END_METADATA\" and \"*END_DATA*\" isn't in the correct order."));
+                new Message("\"*END_METADATA\" and \"*END_DATA*\" isn't in the correct order.", Severity.NonCritical));
             return false;
         }
     }
@@ -122,7 +121,7 @@ public class NccsvVerifierMethods
         }
 
         MessageRepository.Messages.Add(
-            new Message("Couldn't find \"*END_METADATA\"."));
+            new Message("Couldn't find \"*END_METADATA\".", Severity.Critical));
 
         return false;
     }
@@ -140,7 +139,7 @@ public class NccsvVerifierMethods
         }
 
         MessageRepository.Messages.Add(
-            new Message("Couldn't find \"*END_DATA*\"."));
+            new Message("Couldn't find \"*END_DATA*\".", Severity.NonCritical));
 
         return false;
     }
@@ -160,7 +159,7 @@ public class NccsvVerifierMethods
             else
             {
                 MessageRepository.Messages.Add(
-                new Message("Couldn't find values for attribute."));
+                new Message("Couldn't find values for attribute.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -180,7 +179,7 @@ public class NccsvVerifierMethods
             if (char.IsDigit(row[0][0]))
             {
                 MessageRepository.Messages.Add(
-                    new Message("Variable names can't start with a digit."));
+                    new Message("Variable names can't start with a digit.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -200,7 +199,7 @@ public class NccsvVerifierMethods
             if (char.IsDigit(row[1][0]))
             {
                 MessageRepository.Messages.Add(
-                    new Message("Attribute names can't start with a digit."));
+                    new Message("Attribute names can't start with a digit.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -239,7 +238,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-            new Message("Not all variables have a data type."));
+            new Message("Not all variables have a data type.", Severity.NonCritical));
 
             return false;
         }
@@ -257,7 +256,7 @@ public class NccsvVerifierMethods
             if (scalarVariable.VariableName == header)
             {
                 MessageRepository.Messages.Add(
-                    new Message("Scalar variable can't be described in data section."));
+                    new Message("Scalar variable can't be described in data section.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -274,7 +273,7 @@ public class NccsvVerifierMethods
                     || value.StartsWith(" "))
         {
             MessageRepository.Messages.Add(
-                new Message($"Row {row}, value \"{value}\": Values can't start with or end with whitespace."));
+                new Message($"Row {row}, value \"{value}\": Values can't start with or end with whitespace.", Severity.NonCritical));
 
             return false;
         }
@@ -293,6 +292,11 @@ public class NccsvVerifierMethods
         if (data[0].Length == nonScalarVariables.Count)
             return true;
         else
+        {
+            MessageRepository.Messages.Add(
+                new Message($"Number of headers ({data[0].Length}) does not match number of variables ({nonScalarVariables.Count}).", Severity.NonCritical));
+
             return false;
+        }
     }
 }

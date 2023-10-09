@@ -12,22 +12,24 @@ var separatedLines = new List<string[]>();
 
 if (Verifier.VerifyPath(filePath))
 {
-    
+    separatedLines = Handler.NccsvFileReader(filePath);
 }
-separatedLines = Handler.NccsvFileReader(filePath);
 
-var dataSet = new DataSet();
-
-if (Verifier.VerifySeparatedLines(separatedLines))
+if (separatedLines != null && Verifier.VerifySeparatedLines(separatedLines))
 {
-    
+    Handler.NccsvHandler(separatedLines);
 }
-dataSet = Handler.NccsvHandler(separatedLines);
 
-foreach (var message in MessageRepository.Messages)
+if (MessageRepository.Messages.Count > 0)
 {
-    Console.WriteLine(message.Text);
+    foreach (var message in MessageRepository.Messages)
+    {
+        Console.WriteLine(message.Text);
+    }
 }
+else
+    Console.WriteLine("No problems found.");
+
 
 
 

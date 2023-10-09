@@ -25,9 +25,12 @@ public class Handler
                     separatedNccsv.Add(separatedLine);
                 }
             }
-        }
 
-        return separatedNccsv;
+            return separatedNccsv;
+        }
+        else
+            return null;
+        
     }
 
 
