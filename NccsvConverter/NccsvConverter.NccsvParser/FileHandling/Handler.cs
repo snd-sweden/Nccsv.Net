@@ -12,7 +12,7 @@ public class Handler
 
         var lines = File.ReadAllLines(filePath); // TODO: handle exceptions
 
-        // TODO: move following code into separate method
+        // TODO: move following code into separate method, issue #68
         if (Verifier.VerifyLines(lines))
         {
             string[] separatedLine;

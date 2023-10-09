@@ -66,8 +66,6 @@ public class Verifier
                 return false;
         }
 
-        if (!NccsvVerifierMethods.CheckVariableForDataType(variable))
-            return false;
         else
             return true;
     }

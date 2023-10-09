@@ -8,7 +8,6 @@ public class NccsvVerifierMethods
 {
     // Note: Verifier methods return true if what they check appears to follow the
     // NCCSV documentation.
-    // TODO: Methods should probably return true if they find whatever, false if not, for logic & rea
 
 
     // Returns true if file has .nccsv extension.
@@ -245,24 +244,7 @@ public class NccsvVerifierMethods
             return false;
         }
     }
-
-
-    // Returns true if a given variable have a data type.
-    // TODO: Remove? See CheckVariableMetaDataForDataType
-    public static bool CheckVariableForDataType(Variable variable)
-    {
-        if (variable.DataType != null
-            && variable.DataType != string.Empty)
-            return true;
-        else
-        {
-            MessageRepository.Messages.Add(
-            new Message($"Couldn't find data type for {variable.VariableName}."));
-
-            return false;
-        }
-    }
-
+    
 
     // Returns true if scalar variable is valid by checking that it isn't included in the
     // data section as a header.
@@ -278,39 +260,6 @@ public class NccsvVerifierMethods
                     new Message("Scalar variable can't be described in data section."));
 
                 flag = false;
-            }
-        }
-
-        return flag;
-    }
-
-
-    // Data must be of the data type specified by the metadata.
-    // Note: How we check for this depends on how/if we store data types.for
-    // TODO : Needs work - continue when we know what to do with data types - or remove if unnecessary
-    public static bool CheckDataForDataType(List<string[]> data, List<Variable> variables)
-    {
-        bool flag = true;
-
-        for (int i = 0; i < data.Count; i++)
-        {
-            for (int j = 0; j < data[i].Length; j++)
-            {
-                var variableType = Type.GetType(variables
-                    .Where(v => v.VariableName
-                    .Equals(data[0][j]))
-                    .First().DataType);
-                var dataType = data[i][j].GetType();
-
-                if (variableType == dataType)
-                    continue;
-                else
-                {
-                    MessageRepository.Messages.Add(
-                        new Message("Something went wrong")); // write better error message
-
-                    flag = false;
-                }
             }
         }
 

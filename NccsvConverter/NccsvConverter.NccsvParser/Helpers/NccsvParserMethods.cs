@@ -408,6 +408,7 @@ public class NccsvParserMethods
     // Creates and returns a DataValueAs<T> from a given value and variable,
     // where T is the DataType of the variable that acts as column header.
     // If unsuccessfull, returns a null value.
+    // TODO: Proper test
     public static DataValue? CreateDataValueAccordingToDataType(string value, Variable variable)
     {
         bool result;
