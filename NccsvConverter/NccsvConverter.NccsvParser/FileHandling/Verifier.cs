@@ -22,6 +22,14 @@ public class Verifier
             return true;
     }
 
+    public static bool VerifyValue(string value, int row)
+    {
+        if (!NccsvVerifierMethods.CheckValueForSpace(value, row))
+            return false;
+        else
+            return true;
+    }
+
 
     public static bool VerifySeparatedLines(List<string[]> separatedLines)
     {
@@ -67,9 +75,6 @@ public class Verifier
 
     public static bool VerifyData(List<string[]> data)
     {
-        if (!NccsvVerifierMethods.CheckDataValuesForSpace(data))
-            return false;
-        else
             return true;
     }
 

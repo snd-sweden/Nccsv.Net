@@ -1,5 +1,6 @@
 ﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
+using System.Numerics;
 
 namespace NccsvConverter.NccsvParser.Helpers;
 
@@ -150,6 +151,8 @@ public class NccsvVerifierMethods
     // rows has more than 2 columns.
     public static bool CheckAttributesForValue(List<string[]> variableMetaData)
     {
+        bool flag = true;
+
         // Checks if rows are more than 2 columns because values resides on column [2] to [n]
         foreach (var row in variableMetaData)
         {
@@ -158,19 +161,21 @@ public class NccsvVerifierMethods
             else
             {
                 MessageRepository.Messages.Add(
-                new Message("Couldn't find values for all attributes."));
+                new Message("Couldn't find values for attribute."));
 
-                return false;
+                flag = false;
             }
         }
 
-        return true;
+        return flag;
     }
 
 
     // Variable names must not start with a digit. Returns true if name is acceptable.
     public static bool CheckVariableNames(List<string[]> variableMetaData)
     {
+        bool flag = true;
+
         foreach (var row in variableMetaData)
         {
             if (char.IsDigit(row[0][0]))
@@ -178,17 +183,19 @@ public class NccsvVerifierMethods
                 MessageRepository.Messages.Add(
                     new Message("Variable names can't start with a digit."));
 
-                return false;
+                flag = false;
             }
         }
 
-        return true;
+        return flag;
     }
 
 
     // Attribute names must not start with a digit. Returns true if name is acceptable.
     public static bool CheckAttributeNames(List<string[]> variableMetaData)
     {
+        bool flag = true;
+
         foreach (var row in variableMetaData)
         {
             if (char.IsDigit(row[1][0]))
@@ -196,11 +203,11 @@ public class NccsvVerifierMethods
                 MessageRepository.Messages.Add(
                     new Message("Attribute names can't start with a digit."));
 
-                return false;
+                flag = false;
             }
         }
 
-        return true;
+        return flag;
     }
 
 
@@ -261,6 +268,8 @@ public class NccsvVerifierMethods
     // data section as a header.
     public static bool CheckDataForScalarVariable(Variable scalarVariable, List<string[]> data)
     {
+        bool flag = true;
+
         foreach (var header in data[0])
         {
             if (scalarVariable.VariableName == header)
@@ -268,11 +277,11 @@ public class NccsvVerifierMethods
                 MessageRepository.Messages.Add(
                     new Message("Scalar variable can't be described in data section."));
 
-                return false;
+                flag = false;
             }
         }
 
-        return true;
+        return flag;
     }
 
 
@@ -281,6 +290,8 @@ public class NccsvVerifierMethods
     // TODO : Needs work - continue when we know what to do with data types - or remove if unnecessary
     public static bool CheckDataForDataType(List<string[]> data, List<Variable> variables)
     {
+        bool flag = true;
+
         for (int i = 0; i < data.Count; i++)
         {
             for (int j = 0; j < data[i].Length; j++)
@@ -298,31 +309,25 @@ public class NccsvVerifierMethods
                     MessageRepository.Messages.Add(
                         new Message("Something went wrong")); // write better error message
 
-                    return false;
+                    flag = false;
                 }
             }
         }
 
-        return true;
+        return flag;
     }
 
 
-    // Returns false if there is whitespace before or after values.
-    public static bool CheckDataValuesForSpace(List<string[]> data)
+    // Returns false if there is whitespace before or after a given value.
+    public static bool CheckValueForSpace(string value, int row)
     {
-        foreach (var dataRow in data)
-        {
-            foreach (var value in dataRow)
-            {
-                if (value.EndsWith(" ")
+        if (value.EndsWith(" ")
                     || value.StartsWith(" "))
-                {
-                    MessageRepository.Messages.Add(
-                        new Message("Data values can't start with or end with whitespace."));
+        {
+            MessageRepository.Messages.Add(
+                new Message($"Row {row}, value \"{value}\": Values can't start with or end with whitespace."));
 
-                    return false;
-                }
-            }
+            return false;
         }
 
         return true;

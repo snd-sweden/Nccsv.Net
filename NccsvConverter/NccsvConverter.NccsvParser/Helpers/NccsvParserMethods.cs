@@ -1,4 +1,5 @@
-﻿using NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.FileHandling;
+using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
 using System.Globalization;
 
@@ -577,7 +578,7 @@ public class NccsvParserMethods
 
     // Splits a given line at "," but not if it's within a string.
     // Returns the split line as a list of strings.
-    public static List<string> Separate(string line)
+    public static List<string> Separate(string line, int row)
     {
         List<string> separatedLine = new List<string>();
         string tempString = string.Empty;
@@ -595,7 +596,8 @@ public class NccsvParserMethods
                 // Ignore commas within a string
                 if (!inQuotes)
                 {
-                    separatedLine.Add(tempString); // maybe .Trim('"')/.Trim() but still need to warn about whitespace
+                    Verifier.VerifyValue(tempString, row);
+                    separatedLine.Add(tempString.Trim().Trim('"'));
                     tempString = string.Empty;
                     continue;
                 }
@@ -604,7 +606,8 @@ public class NccsvParserMethods
             tempString += line[i];
         }
 
-        separatedLine.Add(tempString);
+        Verifier.VerifyValue(tempString, row);
+        separatedLine.Add(tempString.Trim().Trim('"'));
 
         return separatedLine;
     }
