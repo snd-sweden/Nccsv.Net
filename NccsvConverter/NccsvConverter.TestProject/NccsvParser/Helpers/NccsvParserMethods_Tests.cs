@@ -1,4 +1,5 @@
 using NccsvConverter.NccsvParser.Models;
+using System.Globalization;
 
 namespace NccsvConverter.TestProject.NccsvParser.Helpers;
 
@@ -369,6 +370,11 @@ public class NccsvParserMethods_Tests
                 {
                     VariableName = "header3",
                     DataType = "double"
+                },
+                new Variable ()
+                {
+                    VariableName = "header4",
+                    DataType = "double"
                 }
             });
 
@@ -376,11 +382,11 @@ public class NccsvParserMethods_Tests
         {
             new string[]
             {
-                "header1", "header2", "header3"
+                "header1", "header2", "header3", "header4"
             },
             new string[]
             {
-                "value1", "1", "2"
+                "value1", "", "2", "NaN"
             },
         };
 
@@ -393,15 +399,20 @@ public class NccsvParserMethods_Tests
                     DataType = "string",
                     Value = "value1"
                 },
-                new DataValueAs<int>
+                new DataValueAs<int?>
                 {
                     DataType = "int",
-                    Value = 1
+                    Value = null
                 },
                 new DataValueAs<double>
                 {
                     DataType= "double",
                     Value = 2
+                },
+                new DataValueAs<double>
+                {
+                    DataType= "double",
+                    Value = double.NaN
                 }
             }
         };
@@ -414,8 +425,268 @@ public class NccsvParserMethods_Tests
     }
 
 
+    [Theory]
+    [InlineData("100", "byte")]
+    [InlineData("-100", "byte")]
+    [InlineData("230", "ubyte")]
+    [InlineData("-30000", "short")]
+    [InlineData("60000", "ushort")]
+    [InlineData("-100000", "int")]
+    [InlineData("4123456789", "uint")]
+    [InlineData("12345678987654321L", "long")]
+    [InlineData("9007199254740992uL", "ulong")]
+    [InlineData("1,23", "float")]
+    [InlineData("1.23", "float")]
+    [InlineData("1,23e2", "float")]
+    [InlineData("1,23e-2", "float")]
+    [InlineData("1,23E-2", "float")]
+    [InlineData("1,87", "double")]
+    [InlineData("1.87", "double")]
+    [InlineData("1,87e-12", "double")]
+    [InlineData("1.87e-12", "double")]
+    [InlineData("1,87E12", "double")]
+    [InlineData("1,87e12", "double")]
+    [InlineData("h", "char")]
+    [InlineData("hello!", "string")]
+    public void CreateDataValueAccordingToDataType_ReturnsDataValueAsExpected(string value, string dataType)
+    {
+        //Arrange
+        var variable = new Variable
+        {
+            VariableName = "header",
+            DataType = dataType
+        };
+
+        DataValue expected = null;
+
+        if (dataType == "byte")
+        {
+            expected = new DataValueAs<sbyte>
+            {
+                DataType = dataType,
+                Value = sbyte.Parse(value)
+            };
+        }
+        else if (dataType == "ubyte")
+        {
+            expected = new DataValueAs<byte>
+            {
+                DataType = dataType,
+                Value = byte.Parse(value)
+            };
+        }
+        else if (dataType == "short")
+        {
+            expected = new DataValueAs<short>
+            {
+                DataType = dataType,
+                Value = short.Parse(value)
+            };
+        }
+        else if (dataType == "ushort")
+        {
+            expected = new DataValueAs<ushort>
+            {
+                DataType = dataType,
+                Value = ushort.Parse(value)
+            };
+        }
+        else if (dataType == "int")
+        {
+            expected = new DataValueAs<int>
+            {
+                DataType = dataType,
+                Value = int.Parse(value)
+            };
+        }
+        else if (dataType == "uint")
+        {
+            expected = new DataValueAs<uint>
+            {
+                DataType = dataType,
+                Value = uint.Parse(value)
+            };
+        }
+        else if (dataType == "long")
+        {
+            expected = new DataValueAs<long>
+            {
+                DataType = dataType,
+                Value = long.Parse(value[..^1])
+            };
+        }
+        else if (dataType == "ulong")
+        {
+            expected = new DataValueAs<ulong>
+            {
+                DataType = dataType,
+                Value = ulong.Parse(value[..^2])
+            };
+        }
+        else if (dataType == "float")
+        {
+            expected = new DataValueAs<float>
+            {
+                DataType = dataType,
+                Value = float.Parse(value, CultureInfo.InvariantCulture)
+            };
+        }
+        else if (dataType == "double")
+        {
+            expected = new DataValueAs<double>
+            {
+                DataType = dataType,
+                Value = double.Parse(value, CultureInfo.InvariantCulture)
+            };
+        }
+        else if (dataType == "string")
+        {
+            expected = new DataValueAs<string>
+            {
+                DataType = dataType,
+                Value = value
+            };
+        }
+        else if (dataType == "char")
+        {
+            expected = new DataValueAs<char>
+            {
+                DataType = dataType,
+                Value = char.Parse(value)
+            };
+        }
+
+        //Act 
+        var result = NccsvParserMethods.CreateDataValueAccordingToDataType(value, variable);
+
+        //Assert
+        Assert.Equivalent(expected, result);
+    }
+
+
+    [Theory]
+    [InlineData("", "byte")]
+    [InlineData("", "ubyte")]
+    [InlineData("", "short")]
+    [InlineData("", "ushort")]
+    [InlineData("", "int")]
+    [InlineData("", "uint")]
+    [InlineData("", "long")]
+    [InlineData("", "ulong")]
+    [InlineData("", "float")]
+    [InlineData("", "double")]
+    [InlineData("", "char")]
+    [InlineData("", "string")]
+    public void CreateDataValueAccordingToDataType_ReturnsMissingDataValuesAsExpected(string value, string dataType)
+    {
+        //Arrange
+        var variable = new Variable
+        {
+            VariableName = "header",
+            DataType = dataType
+        };
+
+        DataValue expected = null;
+
+        if (dataType == "byte")
+        {
+            expected = new DataValueAs<sbyte?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "ubyte")
+        {
+            expected = new DataValueAs<byte?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "short")
+        {
+            expected = new DataValueAs<short?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "ushort")
+        {
+            expected = new DataValueAs<ushort?> 
+            { 
+                DataType = dataType, 
+                Value = null 
+            };
+        }
+        else if (dataType == "int")
+        {
+            expected = new DataValueAs<int?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "uint")
+        {
+            expected = new DataValueAs<uint?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "long")
+        {
+            expected = new DataValueAs<long?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "ulong")
+        {
+            expected = new DataValueAs<ulong?>
+            {
+                DataType = dataType,
+                Value = null
+            };
+        }
+        else if (dataType == "float")
+        {
+            expected = new DataValueAs<float>
+            {
+                DataType = dataType,
+                Value = float.NaN
+            };
+        }
+        else if (dataType == "double")
+        {
+            expected = new DataValueAs<double>
+            {
+                DataType = dataType,
+                Value = double.NaN
+            };
+        }
+        else if (dataType == "string")
+        {
+            expected = new DataValueAs<string>
+            {
+                DataType = dataType,
+                Value = ""
+            };
+        }
+
+        //Act 
+        var result = NccsvParserMethods.CreateDataValueAccordingToDataType(value, variable);
+
+        //Assert
+        Assert.Equivalent(expected, result);
+    }
+
+
     [Fact]
-    public void CreateDataValue_ReturnsDataValueWithCorrectDataTypeAndProperties()
+    public void CreateDataValueAccordingToDataType_ReturnsNullIfParseFailed()
     {
         //Arrange
         var value = "1474.5319";
@@ -423,21 +694,14 @@ public class NccsvParserMethods_Tests
         var variable = new Variable
         {
             VariableName = "header",
-            DataType = "double"
-        };
-
-        var expected = new DataValueAs<double>
-        {
-            DataType = "double",
-            Value = 1474.5319
-            // Variable = variable
+            DataType = "int"
         };
 
         //Act 
         var result = NccsvParserMethods.CreateDataValueAccordingToDataType(value, variable);
 
         //Assert
-        Assert.Equivalent(expected, result);
+        Assert.Equivalent(null, result);
     }
 
 
@@ -478,7 +742,7 @@ public class NccsvParserMethods_Tests
             "abc",
             "def",
             "ghi",
-            "\"jkl,mno\""
+            "jkl,mno"
         };
 
         //Act 
@@ -502,7 +766,7 @@ public class NccsvParserMethods_Tests
             "abc",
             "def",
             "ghi",
-            "\"jkl,\"\"m,\"\"no\""
+            "jkl,\"\"m,\"\"no"
         };
 
         //Act 
