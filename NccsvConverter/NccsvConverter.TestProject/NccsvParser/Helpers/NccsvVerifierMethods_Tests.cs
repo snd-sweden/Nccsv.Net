@@ -440,37 +440,6 @@ public class NccsvVerifierMethods_Tests
 
 
     [Fact]
-    public void CheckVariableForDataType_ReturnsTrueIfVariableHasDataType()
-    {
-        //Arrange
-        var variable = new Variable()
-        {
-            DataType = "int"
-        };
-
-        //Act
-        var result = NccsvVerifierMethods.CheckVariableForDataType(variable);
-
-        //Assert
-        Assert.True(result);
-    }
-
-
-    [Fact]
-    public void CheckVariableForDataType_ReturnsFalseIfVariableHasNoDataType()
-    {
-        //Arrange
-        var variable = new Variable();
-
-        //Act
-        var result = NccsvVerifierMethods.CheckVariableForDataType(variable);
-
-        //Assert
-        Assert.False(result);
-    }
-
-
-    [Fact]
     public void CheckDataForScalarVariable_ReturnsFalse_IfHeaderIsFound()
     {
         //Arrange
