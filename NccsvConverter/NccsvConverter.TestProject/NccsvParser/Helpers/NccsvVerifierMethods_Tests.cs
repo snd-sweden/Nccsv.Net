@@ -61,6 +61,54 @@ public class NccsvVerifierMethods_Tests
 
 
     [Fact]
+    public void CheckForGlobalAttributes_ReturnsFalseWhenGlobalAttributesIsMissing()
+    {
+        //Arrange
+        var potentialNccsv = new List<string[]>
+            {
+                new string[]
+                {
+                    "FakeGlobal", "NotAConvention", "StillNoConventions"
+                },
+                new string[]
+                {
+                    "NoGlobal", "NoConventionsHere", "Sorry"
+                }
+            };
+
+        //Act
+        var result = NccsvVerifierMethods.CheckForGlobalAttributes(potentialNccsv);
+
+        //Assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void CheckForGlobalAttributes_ReturnsTrueWhenGlobalAttributesExists()
+    {
+        //Arrange
+        var potentialNccsv = new List<string[]>
+            {
+                new string[]
+                {
+                    "*GLOBAL*", "NotAConvention", "StillNoConventions"
+                },
+                new string[]
+                {
+                    "NoGlobal", "NoConventionsHere", "Sorry"
+                }
+            };
+
+        //Act
+        var result = NccsvVerifierMethods.CheckForGlobalAttributes(potentialNccsv);
+
+        //Assert
+        Assert.True(result);
+    }
+
+
+    [Fact]
     public void CheckGlobalConventions_ReturnsFalseIfNoConventions()
     {
         //Arrange

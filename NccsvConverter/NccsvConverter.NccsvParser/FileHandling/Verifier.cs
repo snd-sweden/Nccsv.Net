@@ -53,18 +53,19 @@ public class Verifier
         bool result = true;
 
         //Critical
-        if (!NccsvVerifierMethods.CheckForMetaDataEndTag(separatedLines))
+        if (!NccsvVerifierMethods.CheckForMetaDataEndTag(separatedLines)
+            || !NccsvVerifierMethods.CheckAttributesForValue(separatedLines))
             result = false;
 
-        if (!NccsvVerifierMethods.CheckAttributesForValue(separatedLines))
+        //Dependent non-critical
+        if (result)
         {
-            //Dependent non-critical
             NccsvVerifierMethods.CheckGlobalConventions(separatedLines);
             NccsvVerifierMethods.CheckNccsvVerification(separatedLines);
-            result = false;
         }
 
         //Non-critical
+        NccsvVerifierMethods.CheckForGlobalAttributes(separatedLines);
         NccsvVerifierMethods.CheckForDataEndTag(separatedLines);
         NccsvVerifierMethods.CheckOrderOfEndTags(separatedLines);
 

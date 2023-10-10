@@ -40,7 +40,7 @@ public class NccsvVerifierMethods
     }
 
 
-    // Returns true if global attributes is found, false if not. // TODO: forgot tests!
+    // Returns true if global attributes is found, false if not.
     public static bool CheckForGlobalAttributes(List<string[]> separatedLines)
     {
         if (separatedLines[0][0].Equals("*GLOBAL*"))
@@ -48,7 +48,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find global attributes at first row.", Severity.NonCritical));
+                new Message("Row 1: Couldn't find global attributes.", Severity.NonCritical));
             return false;
         }
     }
@@ -62,7 +62,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find global \"Conventions\" attribute at first row.", Severity.NonCritical));
+                new Message("Row 1: Couldn't find global \"Conventions\" attribute.", Severity.NonCritical));
             return false;
         }
     }
@@ -76,7 +76,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find reference to \"NCCSV\" in global conventions.", Severity.NonCritical));
+                new Message("Row 1: Couldn't find reference to \"NCCSV\" in global conventions.", Severity.NonCritical));
             return false;
         }
     }
