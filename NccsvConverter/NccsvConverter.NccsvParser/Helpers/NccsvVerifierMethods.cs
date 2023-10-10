@@ -103,7 +103,7 @@ public class NccsvVerifierMethods
         else
         {
             MessageRepository.Messages.Add(
-                new Message("\"*END_METADATA\" and \"*END_DATA*\" isn't in the correct order.", Severity.NonCritical));
+                new Message("If both exists, \"*END_METADATA*\" and \"*END_DATA*\" isn't in the correct order.", Severity.NonCritical));
             return false;
         }
     }
@@ -121,7 +121,7 @@ public class NccsvVerifierMethods
         }
 
         MessageRepository.Messages.Add(
-            new Message("Couldn't find \"*END_METADATA\".", Severity.Critical));
+            new Message("Couldn't find \"*END_METADATA*\".", Severity.Critical));
 
         return false;
     }
@@ -145,21 +145,23 @@ public class NccsvVerifierMethods
     }
 
 
-    // Attributes must have value. Returns true if the variableMetaData list
+    // Attributes must have value. Returns true if all metadata
     // rows has more than 2 columns.
-    public static bool CheckAttributesForValue(List<string[]> variableMetaData)
+    public static bool CheckAttributesForValue(List<string[]> separatedLines)
     {
         bool flag = true;
 
         // Checks if rows are more than 2 columns because values resides on column [2] to [n]
-        foreach (var row in variableMetaData)
+        foreach (var row in separatedLines)
         {
+            if (row[0] == "*END_METADATA*")
+                break;
             if (row.Length > 2)
                 continue;
             else
             {
                 MessageRepository.Messages.Add(
-                new Message("Couldn't find values for attribute.", Severity.NonCritical));
+                new Message($"Row {separatedLines.IndexOf(row) + 1}:Couldn't find values for attribute.", Severity.Critical));
 
                 flag = false;
             }
