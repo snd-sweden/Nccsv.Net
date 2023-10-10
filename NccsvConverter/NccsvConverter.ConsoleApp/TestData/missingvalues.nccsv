@@ -1,0 +1,8 @@
+*GLOBAL*,Conventions,"COARDS, CF-1.6, ACDD-1.3, NCCSV-1.1"
+one,*DATA_TYPE*,String
+two,*DATA_TYPE*,char
+three,*DATA_TYPE*,int
+*END_METADATA*
+one,two,three
+text,,2
+*END_DATA*

@@ -414,137 +414,264 @@ public class NccsvParserMethods
         {
             case "byte":
                 // byte -> c# sbyte
-                result = sbyte.TryParse(value, out sbyte byteValue);
 
-                if (result)
-                    return new DataValueAs<sbyte>()
+                if (value != "")
+                { 
+                    result = sbyte.TryParse(value, out sbyte byteValue);
+
+                    if (result)
+                        return new DataValueAs<sbyte>()
+                        {
+                            DataType = "byte",
+                            Value = byteValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<sbyte?>()
                     {
                         DataType = "byte",
-                        Value = byteValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+
+                return null;
 
             case "ubyte":
                 // unsigned byte -> c# byte
-                result = byte.TryParse(value, out byte ubyteValue);
 
-                if (result)
+                if (value != "")
+                {
+                    result = byte.TryParse(value, out byte ubyteValue);
+
+                    if (result)
                     return new DataValueAs<byte>()
                     {
                         DataType = "ubyte",
                         Value = ubyteValue
                         // Variable = variable
                     };
+                }
                 else
-                    return null;
+                {
+                    return new DataValueAs<byte?>()
+                    {
+                        DataType = "ubyte",
+                        Value = null
+                        // Variable = variable
+                    };
+                }
+                
+                return null;
 
             case "short":
-                result = short.TryParse(value, out short shortValue);
 
-                if (result)
-                    return new DataValueAs<short>()
+                if (value != "")
+                {
+                     result = short.TryParse(value, out short shortValue);
+
+                    if (result)
+                        return new DataValueAs<short>()
+                        {
+                            DataType = "short",
+                            Value = shortValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<short?>()
                     {
                         DataType = "short",
-                        Value = shortValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+
+                return null;
 
             case "ushort":
-                result = ushort.TryParse(value, out ushort ushortValue);
 
-                if (result)
-                    return new DataValueAs<ushort>()
+                if (value != "")
+                {
+                    result = ushort.TryParse(value, out ushort ushortValue);
+
+                    if (result)
+                        return new DataValueAs<ushort>()
+                        {
+                            DataType = "ushort",
+                            Value = ushortValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<ushort?>()
                     {
                         DataType = "ushort",
-                        Value = ushortValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+                
+                return null;
 
             case "int":
-                result = int.TryParse(value, out int intValue);
 
-                if (result)
-                    return new DataValueAs<int>()
+                if (value != "")
+                {
+                    result = int.TryParse(value, out int intValue);
+
+                    if (result)
+                        return new DataValueAs<int>()
+                        {
+                            DataType = "int",
+                            Value = intValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<int?>()
                     {
                         DataType = "int",
-                        Value = intValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+                
+                return null;
 
             case "uint":
-                result = uint.TryParse(value, out uint uintValue);
 
-                if (result)
-                    return new DataValueAs<uint>()
+                if (value != "")
+                {
+                    result = uint.TryParse(value, out uint uintValue);
+
+                    if (result)
+                        return new DataValueAs<uint>()
+                        {
+                            DataType = "uint",
+                            Value = uintValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<uint?>()
                     {
                         DataType = "uint",
-                        Value = uintValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+
+                return null;
 
             case "long":
                 // TODO: check L
-                result = long.TryParse(value[..^1], out long longValue);
+                if (value != "")
+                {
+                    result = long.TryParse(value[..^1], out long longValue);
 
-                if (result)
-                    return new DataValueAs<long>()
+                    if (result)
+                        return new DataValueAs<long>()
+                        {
+                            DataType = "long",
+                            Value = longValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<long?>()
                     {
                         DataType = "long",
-                        Value = longValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+                
+                return null;
 
             case "ulong":
                 // TODO: check uL
-                result = ulong.TryParse(value[..^2], out ulong ulongValue);
+                if (value != "")
+                {
+                    result = ulong.TryParse(value[..^2], out ulong ulongValue);
 
-                if (result)
-                    return new DataValueAs<ulong>()
+                    if (result)
+                        return new DataValueAs<ulong>()
+                        {
+                            DataType = "ulong",
+                            Value = ulongValue
+                            // Variable = variable
+                        };
+                }
+                else
+                {
+                    return new DataValueAs<ulong?>()
                     {
                         DataType = "ulong",
-                        Value = ulongValue
+                        Value = null
                         // Variable = variable
                     };
-                else
-                    return null;
+                }
+                return null;
 
             case "float":
-                result = float.TryParse(value, CultureInfo.InvariantCulture, out float floatValue);
 
-                if (result)
+                if (value != "")
+                {
+                    result = float.TryParse(value, CultureInfo.InvariantCulture, out float floatValue);
+
+                    if (result)
                     return new DataValueAs<float>()
                     {
                         DataType = "float",
                         Value = floatValue
                         // Variable = variable
                     };
+                }
                 else
-                    return null;
+                {
+                    return new DataValueAs<float>()
+                    {
+                        DataType = "float",
+                        Value = float.NaN
+                        // Variable = variable
+                    };
+                }
+
+                return null;
 
             case "double":
-                result = double.TryParse(value, CultureInfo.InvariantCulture, out double doubleValue);
 
-                if (result)
+                if (value != "")
+                {
+                    result = double.TryParse(value, CultureInfo.InvariantCulture, out double doubleValue);
+
+                    if (result)
                     return new DataValueAs<double>()
                     {
                         DataType = "double",
                         Value = doubleValue
                         // Variable = variable
                     };
+                }   
                 else
-                    return null;
+                {
+                    return new DataValueAs<double>()
+                    {
+                        DataType = "double",
+                        Value = double.NaN
+                        // Variable = variable
+                    };
+                }
+                
+                return null;
 
             case "string":
                 return new DataValueAs<string>

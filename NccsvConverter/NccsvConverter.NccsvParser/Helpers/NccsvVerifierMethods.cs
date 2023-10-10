@@ -288,13 +288,13 @@ public class NccsvVerifierMethods
     {
         var nonScalarVariables = variables.Where(v => v.Scalar == false).ToList();
 
-        // Numbers of data values in a row should be same as number of variables that is not scalar
+        // Numbers of data values in a row should be same as number of variables that is not scalar // TODO: loop all data rows
         if (data[0].Length == nonScalarVariables.Count)
             return true;
         else
         {
             MessageRepository.Messages.Add(
-                new Message($"Number of headers ({data[0].Length}) does not match number of variables ({nonScalarVariables.Count}).", Severity.NonCritical));
+                new Message($"Number of data values ({data[0].Length}) does not match number of variables ({nonScalarVariables.Count}).", Severity.NonCritical));
 
             return false;
         }
