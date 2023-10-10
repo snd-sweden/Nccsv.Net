@@ -189,12 +189,9 @@ public class NccsvParserMethods
         {
             if (line[1] == "*DATA_TYPE*")
             {
-                foreach (var typeName in Enum.GetNames(typeof(DataType)))
+                if (NccsvVerifierMethods.CheckIfVariableDataTypeIsOfAcceptedType(line[2]))
                 {
-                    if (typeName.ToLower() == line[2].ToLower())
-                    {
-                        variableDataType = typeName.ToLower();
-                    }
+                    variableDataType = line[2].ToLower();
                 }
             }
 
