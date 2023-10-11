@@ -127,6 +127,20 @@ public class NccsvVerifierMethods
     }
 
 
+    //TODO: write tests
+    public static bool CheckForMetaDataEndTag(bool metaDataEndFound)
+    {
+        if (!metaDataEndFound)
+        {
+            MessageRepository.Messages.Add(
+                new Message("Couldn't find \"*END_METADATA*\".", Severity.Critical));
+            return false;
+        }
+        else
+            return true;
+    }
+
+
     // Checks for *END_DATA* that must exist at end of data section.
     // Returns true if found.
     // Note: This only checks that *END_DATA* exists *somewhere* in the file.
@@ -142,6 +156,20 @@ public class NccsvVerifierMethods
             new Message("Couldn't find \"*END_DATA*\".", Severity.NonCritical));
 
         return false;
+    }
+
+
+    //TODO: write tests
+    public static bool CheckForDataEndTag(bool dataEndFound)
+    {
+        if (!dataEndFound)
+        {
+            MessageRepository.Messages.Add(
+                new Message("Couldn't find \"*END_DATA*\".", Severity.NonCritical));
+            return false;
+        }
+        else
+            return true;
     }
 
 

@@ -10,9 +10,7 @@ public class NccsvParserMethods_Tests
     public void FindGlobalAttributes_ReturnsCorrectList()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\\\ryder.nccsv");
         bool result = true;
 
         //Act
@@ -91,8 +89,8 @@ public class NccsvParserMethods_Tests
         NccsvParserMethods.AddGlobalAttributes(dataSet, globalAttributes);
 
         //Assert
-        Assert.Equal("då", dataSet.GlobalAttributes["hej"]);
-        Assert.Equal("sen", dataSet.GlobalAttributes["ses"]);
+        Assert.Equal("då", dataSet.MetaData.GlobalAttributes["hej"]);
+        Assert.Equal("sen", dataSet.MetaData.GlobalAttributes["ses"]);
     }
 
 
@@ -100,9 +98,7 @@ public class NccsvParserMethods_Tests
     public void FindVariableMetaData_ReturnsListOfStringArrays()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-           Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-           + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act 
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
@@ -116,9 +112,7 @@ public class NccsvParserMethods_Tests
     public void FindVariableMetaData_DoesNotReturnGlobalAttributes()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         var expected = "*GLOBAL*";
 
@@ -202,9 +196,7 @@ public class NccsvParserMethods_Tests
     public void IsolateVariableMetaData_ReturnsCorrectLines()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
         var variableName = "depth";
 
@@ -224,9 +216,7 @@ public class NccsvParserMethods_Tests
     public void SetVariableDataType_SetsCorrectDataType()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(separatedNccsv);
         var variableName = "depth";
         var isolatedVariableAttributes = NccsvParserMethods.IsolateVariableAttributes(variableMetaData, variableName);
@@ -252,7 +242,6 @@ public class NccsvParserMethods_Tests
             new string[] { "*GLOBAL*", "abc", "def" },
             new string[] { "abc", "def", "ghi", "j\",k\"l" },
             new string[] { "mno", "pqr", "stu", "vxy" },
-            new string[] { "*END_METADATA*"}
         };
 
         var expected = new List<string[]>
@@ -273,9 +262,7 @@ public class NccsvParserMethods_Tests
     public void FindData_ReturnsDataAsListOfStringArrays()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act
         var data = NccsvParserMethods.FindData(separatedNccsv);
@@ -341,9 +328,7 @@ public class NccsvParserMethods_Tests
     public void FindData_FindsDataAsList()
     {
         //Arrange
-        var separatedNccsv = Handler.NccsvFileReader(
-            Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+        var separatedNccsv = Handler.NccsvFileReader("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
 
         //Act
         var data = NccsvParserMethods.FindData(separatedNccsv);
@@ -359,7 +344,7 @@ public class NccsvParserMethods_Tests
         //Arrange
         var dataSet = new DataSet();
 
-        dataSet.Variables.AddRange(
+        dataSet.MetaData.Variables.AddRange(
             new List<Variable>
             {
                 new Variable ()

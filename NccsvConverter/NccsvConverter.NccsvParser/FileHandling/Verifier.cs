@@ -72,6 +72,28 @@ public class Verifier
         return result;
     }
 
+    public static bool VerifyMetaData(List<string[]> metaData, bool endMetaDataFound)
+    {
+        bool result = true;
+
+        //Non-critical
+        NccsvVerifierMethods.CheckForGlobalAttributes(metaData);
+
+        //Critical
+        if(!NccsvVerifierMethods.CheckForMetaDataEndTag(endMetaDataFound))
+            result = false;
+
+        if(!NccsvVerifierMethods.CheckAttributesForValue(metaData))
+            result = false;
+        else
+        {
+            NccsvVerifierMethods.CheckGlobalConventions(metaData);
+            NccsvVerifierMethods.CheckNccsvVerification(metaData);
+        }
+
+        return result;
+    }
+
 
     public static bool VerifyVariableMetaData(List<string[]> variableMetaData)
     {
@@ -104,7 +126,20 @@ public class Verifier
     }
 
 
-    public static bool VerifyData(List<string[]> data)
+    public static bool VerifyData(bool endDataFound)
+    {
+        bool result = true;
+
+        //Critical
+
+        //Non-critical
+        NccsvVerifierMethods.CheckForDataEndTag(endDataFound);
+
+        return result;
+    }
+
+
+    public static bool VerifyData(string[] line)
     {
         bool result = true;
 
@@ -123,7 +158,7 @@ public class Verifier
         //Critical
 
         //Non-critical
-        NccsvVerifierMethods.CheckNumberOfDataValuesToVariables(dataSet.Data, dataSet.Variables);
+        //NccsvVerifierMethods.CheckNumberOfDataValuesToVariables(dataSet.Data, dataSet.Variables);
 
         return result;
     }
