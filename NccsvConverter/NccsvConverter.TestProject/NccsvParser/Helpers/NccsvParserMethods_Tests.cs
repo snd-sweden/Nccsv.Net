@@ -168,9 +168,15 @@ public class NccsvParserMethods_Tests
         var variable = NccsvParserMethods.CreateVariable(variableMetaData);
 
         //Assert
-        Assert.NotNull(variable.VariableName);
-        Assert.NotNull(variable.DataType);
-        Assert.NotEmpty(variable.Attributes);
+        Assert.Equal("depth",variable.VariableName);
+        Assert.Equal("double", variable.DataType);
+        Assert.Contains(variableMetaData[1][1], variable.Attributes.Keys);
+        Assert.Contains(variableMetaData[2][1], variable.Attributes.Keys);
+        Assert.Contains(variableMetaData[3][1], variable.Attributes.Keys);
+        Assert.Contains(variableMetaData[4][1], variable.Attributes.Keys);
+
+
+
     }
 
 

@@ -299,4 +299,16 @@ public class NccsvVerifierMethods
             return false;
         }
     }
+
+    public static bool CheckIfVariableDataTypeIsOfAcceptedType(string variableDataType)
+    {
+        foreach (var dataType in Enum.GetValues(typeof(DataType)))
+        {
+            if (dataType.ToString().ToLower() == variableDataType.ToLower())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
