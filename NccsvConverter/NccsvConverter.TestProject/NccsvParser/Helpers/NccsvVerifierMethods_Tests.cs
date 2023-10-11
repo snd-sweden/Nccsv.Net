@@ -61,6 +61,54 @@ public class NccsvVerifierMethods_Tests
 
 
     [Fact]
+    public void CheckForGlobalAttributes_ReturnsFalseWhenGlobalAttributesIsMissing()
+    {
+        //Arrange
+        var potentialNccsv = new List<string[]>
+            {
+                new string[]
+                {
+                    "FakeGlobal", "NotAConvention", "StillNoConventions"
+                },
+                new string[]
+                {
+                    "NoGlobal", "NoConventionsHere", "Sorry"
+                }
+            };
+
+        //Act
+        var result = NccsvVerifierMethods.CheckForGlobalAttributes(potentialNccsv);
+
+        //Assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void CheckForGlobalAttributes_ReturnsTrueWhenGlobalAttributesExists()
+    {
+        //Arrange
+        var potentialNccsv = new List<string[]>
+            {
+                new string[]
+                {
+                    "*GLOBAL*", "NotAConvention", "StillNoConventions"
+                },
+                new string[]
+                {
+                    "NoGlobal", "NoConventionsHere", "Sorry"
+                }
+            };
+
+        //Act
+        var result = NccsvVerifierMethods.CheckForGlobalAttributes(potentialNccsv);
+
+        //Assert
+        Assert.True(result);
+    }
+
+
+    [Fact]
     public void CheckGlobalConventions_ReturnsFalseIfNoConventions()
     {
         //Arrange
@@ -278,7 +326,7 @@ public class NccsvVerifierMethods_Tests
     public void CheckAttributesForValue_ReturnsFalseIfNoValue()
     {
         //Arrange
-        var variableMetaData = new List<string[]>
+        var metaData = new List<string[]>
             {
                 new string[] { "1", "2", "3" },
                 new string[] { "1", "2" },
@@ -286,7 +334,7 @@ public class NccsvVerifierMethods_Tests
             };
 
         //Act
-        var result = NccsvVerifierMethods.CheckAttributesForValue(variableMetaData);
+        var result = NccsvVerifierMethods.CheckAttributesForValue(metaData);
 
         //Assert
         Assert.False(result);
@@ -297,7 +345,7 @@ public class NccsvVerifierMethods_Tests
     public void CheckAttributesForValue_ReturnsTrueIfValueExists()
     {
         //Arrange
-        var variableMetaData = new List<string[]>
+        var metaData = new List<string[]>
             {
                 new string[] { "1", "2", "3" },
                 new string[] { "1", "2", "3" },
@@ -305,7 +353,7 @@ public class NccsvVerifierMethods_Tests
             };
 
         //Act
-        var result = NccsvVerifierMethods.CheckAttributesForValue(variableMetaData);
+        var result = NccsvVerifierMethods.CheckAttributesForValue(metaData);
 
         //Assert
         Assert.True(result);

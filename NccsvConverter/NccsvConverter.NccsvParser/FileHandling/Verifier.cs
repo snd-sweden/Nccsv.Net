@@ -53,12 +53,19 @@ public class Verifier
         bool result = true;
 
         //Critical
-        if (!NccsvVerifierMethods.CheckForMetaDataEndTag(separatedLines))
+        if (!NccsvVerifierMethods.CheckForMetaDataEndTag(separatedLines)
+            || !NccsvVerifierMethods.CheckAttributesForValue(separatedLines))
             result = false;
 
+        //Dependent non-critical
+        if (result)
+        {
+            NccsvVerifierMethods.CheckGlobalConventions(separatedLines);
+            NccsvVerifierMethods.CheckNccsvVerification(separatedLines);
+        }
+
         //Non-critical
-        NccsvVerifierMethods.CheckGlobalConventions(separatedLines);
-        NccsvVerifierMethods.CheckNccsvVerification(separatedLines);
+        NccsvVerifierMethods.CheckForGlobalAttributes(separatedLines);
         NccsvVerifierMethods.CheckForDataEndTag(separatedLines);
         NccsvVerifierMethods.CheckOrderOfEndTags(separatedLines);
 
@@ -73,7 +80,6 @@ public class Verifier
         //Critical
 
         //Non-critical
-        NccsvVerifierMethods.CheckAttributesForValue(variableMetaData);
         NccsvVerifierMethods.CheckVariableNames(variableMetaData);
         NccsvVerifierMethods.CheckAttributeNames(variableMetaData);
         NccsvVerifierMethods.CheckVariableMetaDataForDataType(variableMetaData);
