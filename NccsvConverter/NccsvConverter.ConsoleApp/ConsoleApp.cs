@@ -1,34 +1,32 @@
-﻿using NccsvConverter.NccsvParser.FileHandling;
-using NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
 
-Console.WriteLine("File path: ");
-string filePathFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-            + "\\NccsvConverter.ConsoleApp\\TestData\\";
+Console.WriteLine("Write name of file or press enter to quit");
+string filePathFolder = "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\";
 string fileName = Console.ReadLine();
 string filePath = Path.Combine(filePathFolder, fileName);
 
-var separatedLines = new List<string[]>();
+DataSet dataSet = new();
 
-if (Verifier.VerifyPath(filePath))
+if (File.Exists(filePath))
 {
-    separatedLines = Handler.NccsvFileReader(filePath);
-}
+    dataSet.FromFile(filePath, true);
 
-if (separatedLines != null && Verifier.VerifySeparatedLines(separatedLines))
-{
-    Handler.NccsvHandler(separatedLines);
-}
-
-if (MessageRepository.Messages.Count > 0)
-{
-    foreach (var message in MessageRepository.Messages)
+    if (MessageRepository.Messages.Count > 0)
     {
-        Console.WriteLine(message.Text);
+        foreach (var message in MessageRepository.Messages)
+        {
+            Console.WriteLine(message.Text);
+        }
     }
+    else
+        Console.WriteLine("No problems found.");
 }
 else
-    Console.WriteLine("No problems found.");
+    Console.WriteLine($"File \"{filePath}\" could not be found.");
+
+
+
 
 
 

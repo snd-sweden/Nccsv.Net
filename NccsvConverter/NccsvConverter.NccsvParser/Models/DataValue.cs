@@ -2,5 +2,5 @@
 
 public abstract class DataValue
 {
-    public string DataType { get; set; } // TODO: change to Variable
+    public Variable Variable { get; set; } 
 }
