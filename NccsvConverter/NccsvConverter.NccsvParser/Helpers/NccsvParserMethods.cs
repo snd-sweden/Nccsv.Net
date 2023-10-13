@@ -76,7 +76,7 @@ public class NccsvParserMethods
     {
         foreach (var keyValuePair in globalAttributes)
         {
-            dataSet.GlobalAttributes.Add(keyValuePair[0], keyValuePair[1]);
+            dataSet.MetaData.GlobalAttributes.Add(keyValuePair[0], keyValuePair[1]);
         }
     }
 
@@ -100,10 +100,10 @@ public class NccsvParserMethods
             }
 
             // End collection of metadata at metadata end tag (needs to exist)
-            if (line[0].Contains("*END_METADATA*"))
-            {
-                break;
-            }
+            //if (line[0].Contains("*END_METADATA*"))
+            //{
+            //    break;
+            //}
 
             variableMetaData.Add(line);
         }
@@ -374,7 +374,7 @@ public class NccsvParserMethods
 
             for (int j = 0; j < data[i].Length; j++)
             {
-                var variable = dataSet.Variables
+                var variable = dataSet.MetaData.Variables
                     .FirstOrDefault(v => v.VariableName
                         .Equals(data[0][j]));
 
@@ -399,6 +399,43 @@ public class NccsvParserMethods
 
             dataSet.Data.Add(dataRow.ToArray());
         }
+    }
+
+
+    public static void AddData(string[] dataRow, string[] headers, DataSet dataSet, bool saveData)
+    {
+        List<DataValue> dataValues = new();
+
+        for (int i = 0; i < dataRow.Length; i++)
+        {
+            var variable = dataSet.MetaData.Variables
+                .FirstOrDefault(v => v.VariableName
+                    .Equals(headers[i]));
+
+            if (variable != null)
+            {
+                var dataValue = CreateDataValueAccordingToDataType(dataRow[i], variable);
+
+                if (dataValue != null)
+                {
+                    if (saveData)
+                        dataValues.Add(dataValue);
+                }
+                else
+                {
+                    MessageRepository.Messages.Add(
+                        new Message($"Data value: {dataRow[i]} could not be parsed to variable datatype: {variable.DataType}.", Severity.NonCritical));
+                }
+            }
+            else
+            {
+                MessageRepository.Messages.Add(
+                    new Message($"Header: {dataRow[i]} did not match any variables.", Severity.NonCritical));
+            }
+        }
+
+        if (saveData)
+            dataSet.Data.Add(dataValues.ToArray());
     }
 
 

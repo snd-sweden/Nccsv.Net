@@ -1,10 +1,129 @@
-﻿namespace NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.FileHandling;
+using NccsvConverter.NccsvParser.Helpers;
+using NccsvConverter.NccsvParser.Repositories;
+
+namespace NccsvConverter.NccsvParser.Models;
 
 public class DataSet
 {
-    public string? Title { get; set; }
-    public string? Summary { get; set; }
-    public Dictionary<string, string> GlobalAttributes { get; set; } = new();
-    public List<Variable> Variables { get; set; } = new();
+    private MetaData _metaData = new MetaData(); 
+    public MetaData MetaData { get; set; }
     public List<DataValue[]> Data { get; set; } = new();
+
+
+    public DataSet()
+    {
+        MetaData = _metaData;
+    }
+
+
+    public void FromFile(string filePath, bool saveData = false)
+    {
+        Verifier.VerifyPath(filePath);
+        FileStream stream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
+        FromStream(stream, saveData);
+    }
+
+
+    public void FromStream(FileStream stream, bool saveData = false)
+    {
+        string line;
+        List<string[]> metaDataList = new();
+        List<string> headers = new();
+
+        bool endMetaDataFound = false;
+        bool endDataFound = false;
+        bool headersFound = false;
+
+        int rowNumber = 0;
+
+        using StreamReader sr = new StreamReader(stream);
+        {
+            while ((line = sr.ReadLine())  != null)
+            {
+                rowNumber++;
+
+                if (line == string.Empty)
+                    continue;
+
+                if (line == "*END_METADATA*")
+                {
+                    endMetaDataFound = true;
+                    headersFound = true;
+                    continue;
+                }  
+
+                var separatedLine = NccsvParserMethods.Separate(line, rowNumber);
+
+                if (!endMetaDataFound)
+                    metaDataList.Add(separatedLine.ToArray());
+                else if (endMetaDataFound)
+                {
+                    if (line == "*END_DATA*")
+                    {
+                        endDataFound = true;
+                        Verifier.VerifyData(endDataFound);
+                        break;
+                    }
+                    else if (headersFound)
+                    {
+                        Verifier.VerifyMetaData(metaDataList, endMetaDataFound);
+                        MetaDataHandler(metaDataList);
+                        headers = separatedLine;
+                        headersFound = false;
+                        continue;
+                    }
+                    else
+                        DataRowHandler(separatedLine.ToArray(), headers.ToArray(), saveData); //rownumber as parameter?
+                }
+            }
+
+            if (rowNumber == 0)
+            {
+                MessageRepository.Messages.Add(
+                    new Message($"File is empty.", Severity.Critical));
+            }
+        }
+    }
+
+
+    private void MetaDataHandler(List<string[]> metaDataList)
+    {
+        // Find and add global attributes to dataset
+        var globalAttributes = NccsvParserMethods.FindGlobalAttributes(metaDataList);
+
+        MetaData.Title = NccsvParserMethods.FindTitle(globalAttributes);
+        MetaData.Summary = NccsvParserMethods.FindSummary(globalAttributes);
+
+        NccsvParserMethods.AddGlobalAttributes(this, globalAttributes);
+
+        // Find variable metadata
+        var variableMetaData = NccsvParserMethods.FindVariableMetaData(metaDataList);
+
+        if (!Verifier.VerifyVariableMetaData(variableMetaData))
+            return;
+
+        // Create variables from variable metadata and add to dataset
+        foreach (var line in variableMetaData)
+        {
+            if (!NccsvParserMethods.CheckIfVariableExists(MetaData.Variables, line[0]))
+            {
+                var varToCreate = NccsvParserMethods.IsolateVariableAttributes(variableMetaData, line[0]);
+
+                var newVariable = NccsvParserMethods.CreateVariable(varToCreate);
+
+                NccsvParserMethods.SetVariableDataType(newVariable, varToCreate);
+
+                //TODO: Verify variable?
+
+                MetaData.Variables.Add(newVariable);
+            }
+        }
+    }
+
+
+    private void DataRowHandler(string[] dataRow, string[] headers, bool saveData)
+    {
+        NccsvParserMethods.AddData(dataRow, headers, this, saveData);
+    }
 }
