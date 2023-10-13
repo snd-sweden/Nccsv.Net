@@ -459,7 +459,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<sbyte>()
                         {
-                            DataType = "byte",
+                            Variable = variable,
                             Value = byteValue
                             // Variable = variable
                         };
@@ -468,7 +468,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<sbyte?>()
                     {
-                        DataType = "byte",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -486,7 +486,7 @@ public class NccsvParserMethods
                     if (result)
                     return new DataValueAs<byte>()
                     {
-                        DataType = "ubyte",
+                        Variable = variable,
                         Value = ubyteValue
                         // Variable = variable
                     };
@@ -495,7 +495,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<byte?>()
                     {
-                        DataType = "ubyte",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -512,7 +512,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<short>()
                         {
-                            DataType = "short",
+                            Variable = variable,
                             Value = shortValue
                             // Variable = variable
                         };
@@ -521,7 +521,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<short?>()
                     {
-                        DataType = "short",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -538,7 +538,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<ushort>()
                         {
-                            DataType = "ushort",
+                            Variable = variable,
                             Value = ushortValue
                             // Variable = variable
                         };
@@ -547,7 +547,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<ushort?>()
                     {
-                        DataType = "ushort",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -564,7 +564,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<int>()
                         {
-                            DataType = "int",
+                            Variable = variable,
                             Value = intValue
                             // Variable = variable
                         };
@@ -573,7 +573,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<int?>()
                     {
-                        DataType = "int",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -590,7 +590,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<uint>()
                         {
-                            DataType = "uint",
+                            Variable = variable,
                             Value = uintValue
                             // Variable = variable
                         };
@@ -599,7 +599,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<uint?>()
                     {
-                        DataType = "uint",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -616,7 +616,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<long>()
                         {
-                            DataType = "long",
+                            Variable = variable,
                             Value = longValue
                             // Variable = variable
                         };
@@ -625,7 +625,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<long?>()
                     {
-                        DataType = "long",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -642,7 +642,7 @@ public class NccsvParserMethods
                     if (result)
                         return new DataValueAs<ulong>()
                         {
-                            DataType = "ulong",
+                            Variable = variable,
                             Value = ulongValue
                             // Variable = variable
                         };
@@ -651,7 +651,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<ulong?>()
                     {
-                        DataType = "ulong",
+                        Variable = variable,
                         Value = null
                         // Variable = variable
                     };
@@ -667,7 +667,7 @@ public class NccsvParserMethods
                     if (result)
                     return new DataValueAs<float>()
                     {
-                        DataType = "float",
+                        Variable = variable,
                         Value = floatValue
                         // Variable = variable
                     };
@@ -676,7 +676,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<float>()
                     {
-                        DataType = "float",
+                        Variable = variable,
                         Value = float.NaN
                         // Variable = variable
                     };
@@ -693,7 +693,7 @@ public class NccsvParserMethods
                     if (result)
                     return new DataValueAs<double>()
                     {
-                        DataType = "double",
+                        Variable = variable,
                         Value = doubleValue
                         // Variable = variable
                     };
@@ -702,7 +702,7 @@ public class NccsvParserMethods
                 {
                     return new DataValueAs<double>()
                     {
-                        DataType = "double",
+                        Variable = variable,
                         Value = double.NaN
                         // Variable = variable
                     };
@@ -713,7 +713,7 @@ public class NccsvParserMethods
             case "string":
                 return new DataValueAs<string>
                 {
-                    DataType = "string",
+                    Variable = variable,
                     Value = value,
                     // Variable = variable
                 };
@@ -725,7 +725,7 @@ public class NccsvParserMethods
                 if (result)
                     return new DataValueAs<char>()
                     {
-                        DataType = "char",
+                        Variable = variable,
                         Value = charValue
                         // Variable = variable
                     };

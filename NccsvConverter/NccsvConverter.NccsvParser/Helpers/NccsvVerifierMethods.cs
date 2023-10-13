@@ -342,12 +342,12 @@ public class NccsvVerifierMethods
         return false;
     }
 
-    public static void CheckAllHeadersInDataVsVariablesInDataSet(string[] headers, DataSet ds)
+    public static void CheckAllHeadersInDataVsVariablesInDataSet(string[] headers, MetaData metaData)
     {
         
         bool match = false;
-        var nonScalarVariables = ds.Variables.Where(v => v.Scalar == false).ToList();
-        var scalarVariables = ds.Variables.Where(v => v.Scalar).ToList();
+        var nonScalarVariables = metaData.Variables.Where(v => v.Scalar == false).ToList();
+        var scalarVariables = metaData.Variables.Where(v => v.Scalar).ToList();
 
         if (headers.Length != nonScalarVariables.Count)
         {

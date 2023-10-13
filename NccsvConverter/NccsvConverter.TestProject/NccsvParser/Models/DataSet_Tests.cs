@@ -20,7 +20,14 @@ public class DataSet_Tests
             {
                 new DataValueAs<string>
                 {
-                    DataType = "string",
+                    Variable = new Variable
+                    {
+                        VariableName = "variable",
+                        DataType = "string",
+                        Scalar = false,
+                        ScalarValue = null,
+                        Attributes = new Dictionary<string, List<string>>()
+                    },
                     Value = "datavalue"
                 }
             }
