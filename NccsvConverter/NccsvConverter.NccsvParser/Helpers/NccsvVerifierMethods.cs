@@ -341,4 +341,47 @@ public class NccsvVerifierMethods
         }
         return false;
     }
+
+    public static void CheckAllHeadersInDataVsVariablesInDataSet(string[] headers, MetaData metaData)
+    {
+        
+        bool match = false;
+        var nonScalarVariables = metaData.Variables.Where(v => v.Scalar == false).ToList();
+        var scalarVariables = metaData.Variables.Where(v => v.Scalar).ToList();
+
+        if (headers.Length != nonScalarVariables.Count)
+        {
+            MessageRepository.Messages.Add(
+                new Message("Number of headers in data section and variables does not match. Please make sure all columns have a corresponding variable.", Severity.Critical));
+        }
+
+        foreach (var header in headers)
+        {
+            foreach (var v in nonScalarVariables)
+            {
+                if (header.Equals(v.VariableName))
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (!match)
+            {
+                foreach (var v in scalarVariables)
+                {
+                    if (header.Equals(v.VariableName))
+                    {
+                        MessageRepository.Messages.Add(
+                            new Message($"Scalar variable {v.VariableName} should not be included in data table.", Severity.Critical));
+                    }
+
+                }
+
+                MessageRepository.Messages.Add(
+                    new Message($"Header {header} does not have a corresponding variable in metadata.", Severity.Critical));
+            }
+
+        }
+    }
 }
