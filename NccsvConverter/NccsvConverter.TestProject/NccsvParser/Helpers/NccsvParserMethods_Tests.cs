@@ -424,8 +424,10 @@ public class NccsvParserMethods_Tests
             }
         };
 
+        int rowNumber = 1;
+
         //Act
-        NccsvParserMethods.AddData(data, dataSet);
+        NccsvParserMethods.AddData(data, dataSet, rowNumber);
 
         //Assert
         Assert.Equivalent(expected, dataSet.Data);

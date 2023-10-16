@@ -67,6 +67,7 @@ public class DataSet
                     }
                     else if (headersFound)
                     {
+                        //TODO: verify headers? check for scalar variables
                         Verifier.VerifyMetaData(metaDataList, endMetaDataFound);
                         MetaDataHandler(metaDataList);
                         headers = separatedLine;
@@ -74,7 +75,7 @@ public class DataSet
                         continue;
                     }
                     else
-                        DataRowHandler(separatedLine.ToArray(), headers.ToArray(), saveData); //rownumber as parameter?
+                        DataRowHandler(separatedLine.ToArray(), headers.ToArray(), rowNumber, saveData);
                 }
             }
 
@@ -122,10 +123,10 @@ public class DataSet
     }
 
 
-    private void DataRowHandler(string[] dataRow, string[] headers, bool saveData)
+    private void DataRowHandler(string[] dataRow, string[] headers, int rowNumber, bool saveData)
     {
-        if (!Verifier.VerifyDataRow(dataRow, headers))
+        if (!Verifier.VerifyDataRow(dataRow, headers, rowNumber))
             return;
-        NccsvParserMethods.AddData(dataRow, headers, this, saveData);
+        NccsvParserMethods.AddData(dataRow, headers, this, rowNumber, saveData);
     }
 }

@@ -137,12 +137,12 @@ public class Verifier
     }
 
 
-    public static bool VerifyDataRow(string[] dataRow, string[] headers)
+    public static bool VerifyDataRow(string[] dataRow, string[] headers, int rowNumber)
     {
         bool result = true;
 
         //Critical
-        if (!NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers))
+        if (!NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers, rowNumber))
             result = false;
 
         //Non-critical

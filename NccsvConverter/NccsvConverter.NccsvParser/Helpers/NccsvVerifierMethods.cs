@@ -189,7 +189,7 @@ public class NccsvVerifierMethods
             else
             {
                 MessageRepository.Messages.Add(
-                new Message($"Row {separatedLines.IndexOf(row) + 1}:Couldn't find values for attribute.", Severity.Critical));
+                new Message($"Row {separatedLines.IndexOf(row) + 1}: Couldn't find values for attribute.", Severity.Critical));
 
                 flag = false;
             }
@@ -209,7 +209,7 @@ public class NccsvVerifierMethods
             if (char.IsDigit(row[0][0]))
             {
                 MessageRepository.Messages.Add(
-                    new Message("Variable names can't start with a digit.", Severity.NonCritical));
+                    new Message($"Row {variableMetaData.IndexOf(row) + 1}, Variable \"{row[0]}\": Variable names can't start with a digit.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -229,7 +229,7 @@ public class NccsvVerifierMethods
             if (char.IsDigit(row[1][0]))
             {
                 MessageRepository.Messages.Add(
-                    new Message("Attribute names can't start with a digit.", Severity.NonCritical));
+                    new Message($"Row {variableMetaData.IndexOf(row) + 1}, Attribute \"{row[1]}\": Attribute names can't start with a digit.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -286,7 +286,7 @@ public class NccsvVerifierMethods
             if (scalarVariable.VariableName == header)
             {
                 MessageRepository.Messages.Add(
-                    new Message("Scalar variable can't be described in data section.", Severity.NonCritical));
+                    new Message($"\"{scalarVariable.VariableName}\" is a scalar variable and can't be described in data section.", Severity.NonCritical));
 
                 flag = false;
             }
@@ -313,18 +313,19 @@ public class NccsvVerifierMethods
 
 
     // Returns true if the row of data have the same number of values as there is headers.
-    public static bool CheckNumberOfDataValuesToHeaders(string[] dataRow, string[] headers)
+    public static bool CheckNumberOfDataValuesToHeaders(string[] dataRow, string[] headers, int row)
     {
         if (dataRow.Length == headers.Length)
             return true;
         else
         {
             MessageRepository.Messages.Add(
-                new Message($"Number of data values ({dataRow.Length}) does not match number of headers ({headers.Length}).", Severity.Critical));
+                new Message($"Row {row}: Number of data values ({dataRow.Length}) does not match number of headers ({headers.Length}).", Severity.Critical));
 
             return false;
         }
     }
+
 
     public static bool CheckIfVariableDataTypeIsOfAcceptedType(string variableDataType)
     {
@@ -337,6 +338,7 @@ public class NccsvVerifierMethods
         }
         return false;
     }
+
 
     public static void CheckAllHeadersInDataVsVariablesInDataSet(string[] headers, MetaData metaData)
     {
@@ -369,13 +371,13 @@ public class NccsvVerifierMethods
                     if (header.Equals(v.VariableName))
                     {
                         MessageRepository.Messages.Add(
-                            new Message($"Scalar variable {v.VariableName} should not be included in data table.", Severity.Critical));
+                            new Message($"Scalar variable \"{v.VariableName}\" should not be included in data table.", Severity.Critical));
                     }
 
                 }
 
                 MessageRepository.Messages.Add(
-                    new Message($"Header {header} does not have a corresponding variable in metadata.", Severity.Critical));
+                    new Message($"Header \"{header}\" does not have a corresponding variable in metadata.", Severity.Critical));
             }
 
         }
