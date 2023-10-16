@@ -585,8 +585,10 @@ public class NccsvVerifierMethods_Tests
                 "header3"
             };
 
+        int row = 1;
+
         //Act
-        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers);
+        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers, row);
 
         //Assert
         Assert.True(result);
@@ -610,8 +612,10 @@ public class NccsvVerifierMethods_Tests
                 "header2"
             };
 
+        int row = 1;
+
         //Act
-        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers);
+        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers, row);
 
         //Assert
         Assert.False(result);

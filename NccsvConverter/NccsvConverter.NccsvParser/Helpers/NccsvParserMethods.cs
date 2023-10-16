@@ -366,7 +366,7 @@ public class NccsvParserMethods
 
 
     // Adds data to a given DataSet
-    public static void AddData(List<string[]> data, DataSet dataSet)
+    public static void AddData(List<string[]> data, DataSet dataSet, int rowNumber)
     {
         for (int i = 1; i < data.Count; i++)
         {
@@ -387,13 +387,13 @@ public class NccsvParserMethods
                     else
                     {
                         MessageRepository.Messages.Add(
-                            new Message($"Data value: {data[i][j]} could not be parsed to variable datatype: {variable.DataType}.", Severity.NonCritical));
+                            new Message($"Row {rowNumber}: Data value \"{data[i][j]}\" could not be parsed to variable datatype: {variable.DataType}.", Severity.NonCritical));
                     }
                 }
                 else
                 {
                     MessageRepository.Messages.Add(
-                        new Message($"Header: {data[0][j]} did not match any variables.", Severity.NonCritical));
+                        new Message($"Header \"{data[0][j]}\" did not match any variables.", Severity.NonCritical));
                 }
             }
 
@@ -402,7 +402,7 @@ public class NccsvParserMethods
     }
 
 
-    public static void AddData(string[] dataRow, string[] headers, DataSet dataSet, bool saveData)
+    public static void AddData(string[] dataRow, string[] headers, DataSet dataSet, int rowNumber, bool saveData)
     {
         List<DataValue> dataValues = new();
 
@@ -424,13 +424,13 @@ public class NccsvParserMethods
                 else
                 {
                     MessageRepository.Messages.Add(
-                        new Message($"Data value: {dataRow[i]} could not be parsed to variable datatype: {variable.DataType}.", Severity.NonCritical));
+                        new Message($"Row {rowNumber}: Data value \"{dataRow[i]}\" could not be parsed to variable datatype: {variable.DataType}.", Severity.NonCritical));
                 }
             }
             else
             {
                 MessageRepository.Messages.Add(
-                    new Message($"Header: {dataRow[i]} did not match any variables.", Severity.NonCritical));
+                    new Message($"Header \"{dataRow[i]}\" did not match any variables.", Severity.NonCritical));
             }
         }
 
