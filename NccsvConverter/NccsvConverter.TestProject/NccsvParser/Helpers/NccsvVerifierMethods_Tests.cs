@@ -568,36 +568,25 @@ public class NccsvVerifierMethods_Tests
 
 
     [Fact]
-    public void CheckNumberOfDataValuesToVariables_ReturnsTrueIfNumbersMatch()
+    public void CheckNumberOfDataValuesToHeaders_ReturnsTrueIfNumbersMatch()
     {
         //Arrange
-        var data = new List<DataValue[]>
+        string[] dataRow =
             {
-                new DataValue[]
-                {
-                    new DataValueAs<string> { Value = "1"},
-                    new DataValueAs<string> { Value = "2"}
-                },
-                new DataValue[]
-                {
-                    new DataValueAs<string> { Value = "3"},
-                    new DataValueAs<string> { Value = "4"}
-                },
-                new DataValue[]
-                {
-                    new DataValueAs<string> { Value = "5"},
-                    new DataValueAs<string> { Value = "6"}
-                }
+                "dataValue",
+                "dataValue",
+                "dataValue"
             };
 
-        var variables = new List<Variable>
+        string[] headers = 
             {
-                new Variable(),
-                new Variable()
+                "header1",
+                "header2",
+                "header3"
             };
 
         //Act
-        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToVariables(data, variables);
+        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers);
 
         //Assert
         Assert.True(result);
@@ -608,32 +597,21 @@ public class NccsvVerifierMethods_Tests
     public void CheckNumberOfDataValuesToVariables_ReturnsFalseIfNumbersDoNotMatch()
     {
         //Arrange
-        var data = new List<DataValue[]>
+        string[] dataRow  = 
             {
-                new DataValue[]
-                {
-                    new DataValueAs<string> { Value = "1"},
-                    new DataValueAs<string> { Value = "2"}
-                },
-                new DataValue[]
-                {
-                    new DataValueAs<string> { Value = "3"},
-                    new DataValueAs<string> { Value = "4"}
-                },
-                new DataValue[]
-                {
-                    new DataValueAs<string> { Value = "5"},
-                    new DataValueAs<string> { Value = "6"}
-                }
+                "dataValue",
+                "dataValue",
+                "dataValue"
             };
 
-        var variables = new List<Variable>
+        string[] headers = 
             {
-                new Variable()
+                "header1",
+                "header2"
             };
 
         //Act
-        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToVariables(data, variables);
+        var result = NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers);
 
         //Assert
         Assert.False(result);

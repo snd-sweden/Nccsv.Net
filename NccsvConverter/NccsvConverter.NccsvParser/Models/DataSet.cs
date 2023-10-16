@@ -124,6 +124,8 @@ public class DataSet
 
     private void DataRowHandler(string[] dataRow, string[] headers, bool saveData)
     {
+        if (!Verifier.VerifyDataRow(dataRow, headers))
+            return;
         NccsvParserMethods.AddData(dataRow, headers, this, saveData);
     }
 }
