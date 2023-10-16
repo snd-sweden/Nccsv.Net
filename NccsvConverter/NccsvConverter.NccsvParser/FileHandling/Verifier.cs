@@ -1,6 +1,5 @@
 ﻿using NccsvConverter.NccsvParser.Helpers;
 using NccsvConverter.NccsvParser.Models;
-using NccsvConverter.NccsvParser.Repositories;
 
 namespace NccsvConverter.NccsvParser.FileHandling;
 
@@ -134,16 +133,17 @@ public class Verifier
 
         //Non-critical
         NccsvVerifierMethods.CheckForDataEndTag(endDataFound);
-
         return result;
     }
 
 
-    public static bool VerifyData(string[] line)
+    public static bool VerifyDataRow(string[] dataRow, string[] headers)
     {
         bool result = true;
 
         //Critical
+        if (!NccsvVerifierMethods.CheckNumberOfDataValuesToHeaders(dataRow, headers))
+            result = false;
 
         //Non-critical
 
@@ -158,7 +158,7 @@ public class Verifier
         //Critical
 
         //Non-critical
-        //NccsvVerifierMethods.CheckNumberOfDataValuesToVariables(dataSet.Data, dataSet.Variables);
+        //
 
         return result;
     }

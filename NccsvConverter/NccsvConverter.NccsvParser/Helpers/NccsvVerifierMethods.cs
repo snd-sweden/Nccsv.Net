@@ -312,19 +312,15 @@ public class NccsvVerifierMethods
     }
 
 
-    // Returns true if the row of data have the same number of values as
-    // the list of variable names.
-    public static bool CheckNumberOfDataValuesToVariables(List<DataValue[]> data, List<Variable> variables)
+    // Returns true if the row of data have the same number of values as there is headers.
+    public static bool CheckNumberOfDataValuesToHeaders(string[] dataRow, string[] headers)
     {
-        var nonScalarVariables = variables.Where(v => v.Scalar == false).ToList();
-
-        // Numbers of data values in a row should be same as number of variables that is not scalar // TODO: loop all data rows
-        if (data[0].Length == nonScalarVariables.Count)
+        if (dataRow.Length == headers.Length)
             return true;
         else
         {
             MessageRepository.Messages.Add(
-                new Message($"Number of data values ({data[0].Length}) does not match number of variables ({nonScalarVariables.Count}).", Severity.NonCritical));
+                new Message($"Number of data values ({dataRow.Length}) does not match number of headers ({headers.Length}).", Severity.Critical));
 
             return false;
         }
