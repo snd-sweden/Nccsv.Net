@@ -1,6 +1,7 @@
 ﻿using NccsvConverter.NccsvParser.FileHandling;
 using NccsvConverter.NccsvParser.Helpers;
 using NccsvConverter.NccsvParser.Repositories;
+using NccsvConverter.NccsvParser.Validators;
 
 namespace NccsvConverter.NccsvParser.Models;
 
@@ -19,7 +20,7 @@ public class DataSet
 
     public void FromFile(string filePath, bool saveData = false)
     {
-        Verifier.VerifyPath(filePath);
+        new ExtensionValidator(filePath);
         FileStream stream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
         FromStream(stream, saveData);
     }
@@ -62,13 +63,13 @@ public class DataSet
                     if (line == "*END_DATA*")
                     {
                         endDataFound = true;
-                        Verifier.VerifyData(endDataFound);
+                        new DataValidator(endDataFound);
                         break;
                     }
                     else if (headersFound)
                     {
                         //TODO: verify headers? check for scalar variables
-                        Verifier.VerifyMetaData(metaDataList, endMetaDataFound);
+                        new MetaDataValidator(metaDataList, endMetaDataFound);
                         MetaDataHandler(metaDataList);
                         headers = separatedLine;
                         headersFound = false;
@@ -101,7 +102,7 @@ public class DataSet
         // Find variable metadata
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(metaDataList);
 
-        if (!Verifier.VerifyVariableMetaData(variableMetaData))
+        if (!new VariableMetaDataValidator(variableMetaData).Result)
             return;
 
         // Create variables from variable metadata and add to dataset
@@ -125,7 +126,7 @@ public class DataSet
 
     private void DataRowHandler(string[] dataRow, string[] headers, int rowNumber, bool saveData)
     {
-        if (!Verifier.VerifyDataRow(dataRow, headers, rowNumber))
+        if (!new DataRowValidator(dataRow, headers, rowNumber).Result)
             return;
         NccsvParserMethods.AddData(dataRow, headers, this, rowNumber, saveData);
     }
