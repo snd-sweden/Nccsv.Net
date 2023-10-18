@@ -8,9 +8,8 @@ public class DataSet_Tests
     public void FromStream_FillsDataSetWithCorrectDataAndMetaData()
     {
         //Arrange
-        var filePathFolder = "C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\";
-        var fileName = "justenough.nccsv";
-        var filePath = Path.Combine(filePathFolder, fileName);
+        var filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName +
+            "\\NccsvConverter.ConsoleApp\\TestData\\justenough.nccsv";
         
         var dataSet = new DataSet();
 
@@ -55,7 +54,7 @@ public class DataSet_Tests
         };
 
         //Act
-        FileStream stream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
+        FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         dataSet.FromStream(stream, true);
 
         //Assert
