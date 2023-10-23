@@ -2,12 +2,13 @@
 using NccsvConverter.NccsvParser.Helpers;
 using NccsvConverter.NccsvParser.Repositories;
 using System.Data;
+using NccsvConverter.NccsvParser.Validators;
 
 namespace NccsvConverter.NccsvParser.Models;
 
 public class DataSet
 {
-    private MetaData _metaData = new MetaData(); 
+    private MetaData _metaData = new MetaData();
     public MetaData MetaData { get; set; }
     public List<DataValue[]> Data { get; set; } = new();
 
@@ -20,8 +21,8 @@ public class DataSet
 
     public static DataSet FromFile(string filePath, bool saveData = false)
     {
-        Verifier.VerifyPath(filePath);
-        FileStream stream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
+        new ExtensionValidator(filePath);
+        FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         return FromStream(stream, saveData);
     }
 
@@ -41,7 +42,7 @@ public class DataSet
 
         using StreamReader sr = new StreamReader(stream);
         {
-            while ((line = sr.ReadLine())  != null)
+            while ((line = sr.ReadLine()) != null)
             {
                 rowNumber++;
 
@@ -53,7 +54,7 @@ public class DataSet
                     endMetaDataFound = true;
                     headersFound = true;
                     continue;
-                }  
+                }
 
                 var separatedLine = NccsvParserMethods.Separate(line, rowNumber);
 
@@ -64,13 +65,13 @@ public class DataSet
                     if (line == "*END_DATA*")
                     {
                         endDataFound = true;
-                        Verifier.VerifyData(endDataFound);
+                        new DataValidator(endDataFound);
                         break;
                     }
                     else if (headersFound)
                     {
                         //TODO: verify headers? check for scalar variables
-                        Verifier.VerifyMetaData(metaDataList, endMetaDataFound);
+                        new MetaDataValidator(metaDataList, endMetaDataFound);
                         dataSet.MetaDataHandler(metaDataList);
                         headers = separatedLine;
                         headersFound = false;
@@ -105,7 +106,7 @@ public class DataSet
         // Find variable metadata
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(metaDataList);
 
-        if (!Verifier.VerifyVariableMetaData(variableMetaData))
+        if (!new VariableMetaDataValidator(variableMetaData).Result)
             return;
 
         // Create variables from variable metadata and add to dataset
@@ -129,7 +130,7 @@ public class DataSet
 
     private void DataRowHandler(string[] dataRow, string[] headers, int rowNumber, bool saveData)
     {
-        if (!Verifier.VerifyDataRow(dataRow, headers, rowNumber))
+        if (!new DataRowValidator(dataRow, headers, rowNumber).Result)
             return;
         NccsvParserMethods.AddData(dataRow, headers, this, rowNumber, saveData);
     }
