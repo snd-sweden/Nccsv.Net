@@ -6,10 +6,11 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class ExtensionValidator : Validator
 {
-    public ExtensionValidator(string filePath)
+    public static bool Validate(string filePath)
     {
-        _result = CheckNccsvExtension(filePath);
+        return CheckNccsvExtension(filePath);
     }
+
 
     // Returns true if file has .nccsv extension.
     private static bool CheckNccsvExtension(string filePath)

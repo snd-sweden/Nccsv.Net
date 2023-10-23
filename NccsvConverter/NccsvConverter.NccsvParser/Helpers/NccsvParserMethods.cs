@@ -190,7 +190,7 @@ public class NccsvParserMethods
         {
             if (line[1] == "*DATA_TYPE*")
             {
-                if (new DataTypeValidator(line[2]).Result)
+                if (DataTypeValidator.Validate(line[2]))
                 {
                     variableDataType = line[2].ToLower();
                 }
@@ -759,7 +759,7 @@ public class NccsvParserMethods
                 // Ignore commas within a string
                 if (!inQuotes)
                 {
-                    new ValueValidator(tempString, row);
+                    ValueValidator.Validate(tempString, row);
                     separatedLine.Add(tempString.Trim().Trim('"'));
                     tempString = string.Empty;
                     continue;
@@ -769,7 +769,7 @@ public class NccsvParserMethods
             tempString += line[i];
         }
 
-        new ValueValidator(tempString, row);
+        ValueValidator.Validate(tempString, row);
         separatedLine.Add(tempString.Trim().Trim('"'));
 
         return separatedLine;

@@ -7,8 +7,7 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class MetaDataValidator : Validator
 {
-    
-    public MetaDataValidator(List<string[]> metaData, bool endMetaDataFound)
+    public static bool Validate(List<string[]> metaData, bool endMetaDataFound)
     {
         var result = true;
         //Non-critical
@@ -26,8 +25,9 @@ public class MetaDataValidator : Validator
             CheckNccsvVerification(metaData);
         }
 
-        _result = result;
+        return result;
     }
+
 
     // Returns true if global attributes is found, false if not.
     public static bool CheckForGlobalAttributes(List<string[]> metaData)
@@ -42,6 +42,7 @@ public class MetaDataValidator : Validator
         }
     }
 
+
     //TODO: write tests
     public static bool CheckForMetaDataEndTag(bool metaDataEndFound)
     {
@@ -54,6 +55,7 @@ public class MetaDataValidator : Validator
         else
             return true;
     }
+
 
     // not currently in use, might delete
     // Checks for *END_METADATA* that must exist at end of metadata section.
@@ -72,6 +74,7 @@ public class MetaDataValidator : Validator
 
         return false;
     }
+
 
     // Attributes must have value. Returns true if all metadata
     // rows has more than 2 columns.
@@ -98,6 +101,7 @@ public class MetaDataValidator : Validator
         return flag;
     }
 
+
     // Returns true if the *GLOBAL* "Conventions" attribute is first row.
     public static bool CheckGlobalConventions(List<string[]> metaData)
     {
@@ -110,6 +114,7 @@ public class MetaDataValidator : Validator
             return false;
         }
     }
+
 
     // Returns true if Global Conventions row include a reference to NCCSV.
     public static bool CheckNccsvVerification(List<string[]> metaData)

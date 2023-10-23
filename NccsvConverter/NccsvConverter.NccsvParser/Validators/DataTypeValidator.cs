@@ -4,9 +4,9 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class DataTypeValidator : Validator
 {
-    public DataTypeValidator(string variableDataType)
+    public static bool Validate(string variableDataType)
     {
-        _result = CheckIfVariableDataTypeIsOfAcceptedType(variableDataType);
+        return CheckIfVariableDataTypeIsOfAcceptedType(variableDataType);
     }
 
 

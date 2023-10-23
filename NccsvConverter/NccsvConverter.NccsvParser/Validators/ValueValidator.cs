@@ -6,10 +6,11 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class ValueValidator : Validator
 {
-    public ValueValidator(string value, int row)
+    public static bool Validate(string value, int row)
     {
-        _result = CheckValueForSpace(value, row);
+        return CheckValueForSpace(value, row);
     }
+
 
     // Returns false if there is whitespace before or after a given value.
     public static bool CheckValueForSpace(string value, int row)

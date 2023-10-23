@@ -7,7 +7,7 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class VariableMetaDataValidator : Validator
 {
-    public VariableMetaDataValidator(List<string[]> variableMetaData)
+    public static bool Validate(List<string[]> variableMetaData)
     {
         //Critical
 
@@ -16,8 +16,9 @@ public class VariableMetaDataValidator : Validator
         CheckAttributeNames(variableMetaData);
         CheckVariableMetaDataForDataType(variableMetaData);
 
-        _result = true;
+        return true;
     }
+
 
     // Variable names must not start with a digit. Returns true if name is acceptable.
     public static bool CheckVariableNames(List<string[]> variableMetaData)

@@ -7,15 +7,16 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class DataValidator : Validator
 {
-    public DataValidator(bool endDataFound)
+    public static bool Validate(bool endDataFound)
     {
         //Critical
 
         //Non-critical
         CheckForDataEndTag(endDataFound);
 
-        _result = endDataFound;
+        return endDataFound;
     }
+
 
     //TODO: write tests
     public static bool CheckForDataEndTag(bool dataEndFound)
@@ -29,6 +30,7 @@ public class DataValidator : Validator
         else
             return true;
     }
+
 
     // Checks for *END_DATA* that must exist at end of data section.
     // Returns true if found.

@@ -7,9 +7,7 @@ namespace NccsvConverter.NccsvParser.Validators;
 
 public class DataRowValidator : Validator
 {
-    
-
-    public DataRowValidator(string[] dataRow, string[] headers, int rowNumber)
+    public static bool Validate(string[] dataRow, string[] headers, int rowNumber)
     {
         bool result = true;
 
@@ -19,8 +17,9 @@ public class DataRowValidator : Validator
 
         //Non-critical
 
-        _result = result;
+        return result;
     }
+
 
     // Returns true if the row of data have the same number of values as there is headers.
     public static bool CheckNumberOfDataValuesToHeaders(string[] dataRow, string[] headers, int row)
@@ -35,6 +34,5 @@ public class DataRowValidator : Validator
             return false;
         }
     }
-
 
 }

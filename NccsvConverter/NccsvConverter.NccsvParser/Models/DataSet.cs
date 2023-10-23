@@ -21,7 +21,7 @@ public class DataSet
 
     public static DataSet FromFile(string filePath, bool saveData = false)
     {
-        new ExtensionValidator(filePath);
+        ExtensionValidator.Validate(filePath);
         FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         return FromStream(stream, saveData);
     }
@@ -65,13 +65,13 @@ public class DataSet
                     if (line == "*END_DATA*")
                     {
                         endDataFound = true;
-                        new DataValidator(endDataFound);
+                        DataValidator.Validate(endDataFound);
                         break;
                     }
                     else if (headersFound)
                     {
                         //TODO: verify headers? check for scalar variables
-                        new MetaDataValidator(metaDataList, endMetaDataFound);
+                        MetaDataValidator.Validate(metaDataList, endMetaDataFound);
                         dataSet.MetaDataHandler(metaDataList);
                         headers = separatedLine;
                         headersFound = false;
@@ -106,7 +106,7 @@ public class DataSet
         // Find variable metadata
         var variableMetaData = NccsvParserMethods.FindVariableMetaData(metaDataList);
 
-        if (!new VariableMetaDataValidator(variableMetaData).Result)
+        if (!VariableMetaDataValidator.Validate(variableMetaData))
             return;
 
         // Create variables from variable metadata and add to dataset
@@ -130,7 +130,7 @@ public class DataSet
 
     private void DataRowHandler(string[] dataRow, string[] headers, int rowNumber, bool saveData)
     {
-        if (!new DataRowValidator(dataRow, headers, rowNumber).Result)
+        if (!DataRowValidator.Validate(dataRow, headers, rowNumber))
             return;
         NccsvParserMethods.AddData(dataRow, headers, this, rowNumber, saveData);
     }
