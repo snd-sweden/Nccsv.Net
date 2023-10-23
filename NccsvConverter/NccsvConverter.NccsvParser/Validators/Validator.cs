@@ -2,7 +2,7 @@
 
 public abstract class Validator
 {
-    private bool _result;
+    protected bool _result;
 
     public bool Result
     {
