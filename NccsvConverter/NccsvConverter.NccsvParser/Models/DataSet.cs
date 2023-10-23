@@ -1,13 +1,14 @@
 ﻿using NccsvConverter.NccsvParser.FileHandling;
 using NccsvConverter.NccsvParser.Helpers;
 using NccsvConverter.NccsvParser.Repositories;
+using System.Data;
 using NccsvConverter.NccsvParser.Validators;
 
 namespace NccsvConverter.NccsvParser.Models;
 
 public class DataSet
 {
-    private MetaData _metaData = new MetaData(); 
+    private MetaData _metaData = new MetaData();
     public MetaData MetaData { get; set; }
     public List<DataValue[]> Data { get; set; } = new();
 
@@ -18,16 +19,17 @@ public class DataSet
     }
 
 
-    public void FromFile(string filePath, bool saveData = false)
+    public static DataSet FromFile(string filePath, bool saveData = false)
     {
         new ExtensionValidator(filePath);
-        FileStream stream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
-        FromStream(stream, saveData);
+        FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        return FromStream(stream, saveData);
     }
 
 
-    public void FromStream(FileStream stream, bool saveData = false)
+    public static DataSet FromStream(FileStream stream, bool saveData = false)
     {
+        DataSet dataSet = new();
         string line;
         List<string[]> metaDataList = new();
         List<string> headers = new();
@@ -40,7 +42,7 @@ public class DataSet
 
         using StreamReader sr = new StreamReader(stream);
         {
-            while ((line = sr.ReadLine())  != null)
+            while ((line = sr.ReadLine()) != null)
             {
                 rowNumber++;
 
@@ -52,7 +54,7 @@ public class DataSet
                     endMetaDataFound = true;
                     headersFound = true;
                     continue;
-                }  
+                }
 
                 var separatedLine = NccsvParserMethods.Separate(line, rowNumber);
 
@@ -76,7 +78,7 @@ public class DataSet
                         continue;
                     }
                     else
-                        DataRowHandler(separatedLine.ToArray(), headers.ToArray(), rowNumber, saveData);
+                        dataSet.DataRowHandler(separatedLine.ToArray(), headers.ToArray(), rowNumber, saveData);
                 }
             }
 
@@ -85,6 +87,8 @@ public class DataSet
                 MessageRepository.Messages.Add(
                     new Message($"File is empty.", Severity.Critical));
             }
+
+            return dataSet;
         }
     }
 

@@ -5,13 +5,11 @@ namespace NccsvConverter.TestProject.NccsvParser.Models;
 public class DataSet_Tests
 {
     [Fact]
-    public void FromStream_FillsDataSetWithCorrectDataAndMetaData()
+    public void FromStream_ReturnsDataSetWithCorrectDataAndMetaData()
     {
         //Arrange
         var filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName +
             "\\NccsvConverter.ConsoleApp\\TestData\\justenough.nccsv";
-        
-        var dataSet = new DataSet();
 
         var expectedData = new List<DataValue[]>
         {
@@ -55,7 +53,7 @@ public class DataSet_Tests
 
         //Act
         FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-        dataSet.FromStream(stream, true);
+        DataSet dataSet = DataSet.FromStream(stream, true);
 
         //Assert
         Assert.Equivalent(expectedData, dataSet.Data);
