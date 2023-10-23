@@ -72,7 +72,7 @@ public class DataSet
                     {
                         //TODO: verify headers? check for scalar variables
                         new MetaDataValidator(metaDataList, endMetaDataFound);
-                        MetaDataHandler(metaDataList);
+                        dataSet.MetaDataHandler(metaDataList);
                         headers = separatedLine;
                         headersFound = false;
                         continue;
