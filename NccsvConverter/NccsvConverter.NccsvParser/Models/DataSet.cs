@@ -1,6 +1,7 @@
 ﻿using NccsvConverter.NccsvParser.FileHandling;
 using NccsvConverter.NccsvParser.Helpers;
 using NccsvConverter.NccsvParser.Repositories;
+using System.Data;
 
 namespace NccsvConverter.NccsvParser.Models;
 
@@ -17,16 +18,17 @@ public class DataSet
     }
 
 
-    public void FromFile(string filePath, bool saveData = false)
+    public static DataSet FromFile(string filePath, bool saveData = false)
     {
         Verifier.VerifyPath(filePath);
         FileStream stream = new FileStream(filePath,FileMode.Open,FileAccess.Read);
-        FromStream(stream, saveData);
+        return FromStream(stream, saveData);
     }
 
 
-    public void FromStream(FileStream stream, bool saveData = false)
+    public static DataSet FromStream(FileStream stream, bool saveData = false)
     {
+        DataSet dataSet = new();
         string line;
         List<string[]> metaDataList = new();
         List<string> headers = new();
@@ -69,13 +71,13 @@ public class DataSet
                     {
                         //TODO: verify headers? check for scalar variables
                         Verifier.VerifyMetaData(metaDataList, endMetaDataFound);
-                        MetaDataHandler(metaDataList);
+                        dataSet.MetaDataHandler(metaDataList);
                         headers = separatedLine;
                         headersFound = false;
                         continue;
                     }
                     else
-                        DataRowHandler(separatedLine.ToArray(), headers.ToArray(), rowNumber, saveData);
+                        dataSet.DataRowHandler(separatedLine.ToArray(), headers.ToArray(), rowNumber, saveData);
                 }
             }
 
@@ -84,6 +86,8 @@ public class DataSet
                 MessageRepository.Messages.Add(
                     new Message($"File is empty.", Severity.Critical));
             }
+
+            return dataSet;
         }
     }
 

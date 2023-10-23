@@ -7,11 +7,9 @@ string filePathFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Par
 string fileName = Console.ReadLine();
 string filePath = Path.Combine(filePathFolder, fileName);
 
-DataSet dataSet = new();
-
 if (File.Exists(filePath))
 {
-    dataSet.FromFile(filePath, true);
+    DataSet dataSet = DataSet.FromFile(filePath, true);
 
     if (MessageRepository.Messages.Count > 0)
     {
