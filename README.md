@@ -14,6 +14,8 @@ You can import a NCCSV file, either as a text file with the .nccsv or .nc suffix
 1. Import the NccsvParser-project as a using.
 2. Use either of the static methods FromFile or FromStream to create a DataSet object.
 
-This will also generate an error list in the MessageRepository, which can be acessed and printed as error message.
+If there are any problems with the file (such as illegal whitespaces, data without an assigned variable, etc) this will also generate an error list in the MessageRepository, which can be printed as error message.
+
+Then, if you wish to get an output in for example, a JSON formatted according to Schema.org, you take this DataSet object and put it into JsnonSerializer. 
 
 Included in the project is also a basic console application, with an example of how to use the classes, along with some example .nccsv-files.
