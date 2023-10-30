@@ -2,5 +2,5 @@
 
 public abstract class DataValue
 {
-    public Variable Variable { get; set; } 
+    public Variable Variable { get; internal protected set; } 
 }

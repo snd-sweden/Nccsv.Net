@@ -2,5 +2,5 @@
 
 public class DataValueAs<T> : DataValue
 {
-    public T? Value { get; set; }
+    public T? Value { get; internal protected set; }
 }

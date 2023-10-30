@@ -4,6 +4,5 @@ namespace NccsvConverter.NccsvParser.Repositories;
 
 public class MessageRepository
 {
-    public static List<Message> Messages { get; set; } = new List<Message>();
-
+    public static List<Message> Messages { get; internal protected set; } = new List<Message>();
 }

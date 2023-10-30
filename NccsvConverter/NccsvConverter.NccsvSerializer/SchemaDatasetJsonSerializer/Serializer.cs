@@ -8,14 +8,12 @@ namespace NccsvConverter.NccsvSerializer.SchemaDatasetJsonSerializer;
 
 public class Serializer
 {
-    //What is output? string, file?
     public static string ToJson(DataSet dataSet)
     {
         Dataset schemaDataSet = ToSchemaDataSet(dataSet);
         var json = JsonSerializer.Serialize(schemaDataSet, new JsonSerializerOptions()
             {WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault});
-        Console.WriteLine(json); // This is for testing! Feel free to delete anytime
         return json;
     }
 
@@ -182,7 +180,7 @@ public class Serializer
                 AdditionalProperty = new PropertyValue
                 {
                     Name = "dataType",
-                    Value = variable.DataType
+                    Value = variable.VariableDataType
                 }
             });
         }
@@ -238,7 +236,7 @@ public class Serializer
     }
 
 
-    private static string GetIdentifier(DataSet dataSet)
+    public static string GetIdentifier(DataSet dataSet)
     {
         return dataSet.MetaData
                 .GlobalAttributes.FirstOrDefault(g => g
