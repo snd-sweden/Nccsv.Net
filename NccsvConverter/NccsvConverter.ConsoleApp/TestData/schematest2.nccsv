@@ -1,0 +1,21 @@
+*GLOBAL*,Conventions,"COARDS, CF-1.6, ACDD-1.3, NCCSV-1.1"
+*GLOBAL*,keywords,"NOAA, sea, ship, sst, surface, temperature, trajectory"
+*GLOBAL*,creator_email,erd.data@noaa.gov
+*GLOBAL*,creator_name,Bob Simons
+*GLOBAL*,creator_type,person
+*GLOBAL*,creator_url,https://www.pfeg.noaa.gov
+*GLOBAL*,institution,"NOAA NMFS SWFSC ERD, NOAA PMEL"
+*GLOBAL*,geospatial_lat_min,"54.96"
+*GLOBAL*,geospatial_lon_min,"10.03"
+*GLOBAL*,geospatial_lat_max,"69.07"
+*GLOBAL*,geospatial_lon_max,"24.17"
+*GLOBAL*,date_created,"2022/04/11"
+*GLOBAL*,id,"https://www.pfeg.noaa.gov"
+*GLOBAL*,license,"https://creativecommons.org/licenses/by/4.0/"
+*GLOBAL*,summary,"This is a paragraph or two describing the dataset."
+*GLOBAL*,title,"NCCSV Demonstration"
+variable,*DATA_TYPE*,String
+*END_METADATA*
+variable
+datavalue
+*END_DATA*

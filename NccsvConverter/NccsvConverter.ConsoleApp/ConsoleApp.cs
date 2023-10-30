@@ -1,5 +1,6 @@
 ﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
+using NccsvConverter.NccsvSerializer.SchemaDatasetJsonSerializer;
 
 Console.WriteLine("Write name of file or press enter to quit");
 string filePathFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
@@ -19,10 +20,16 @@ if (File.Exists(filePath))
         }
     }
     else
+    {
         Console.WriteLine("No problems found.");
+
+        // TODO: make optional
+        Serializer.ToJson(dataSet);
+    }
 }
 else
     Console.WriteLine($"File \"{filePath}\" could not be found.");
+
 
 
 
