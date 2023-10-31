@@ -1,20 +1,32 @@
-﻿
-using NccsvConverter.NccsvParser.Helpers;
-using NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
 
 namespace NccsvConverter.NccsvParser.Validators;
 
 public class DataValidator : Validator
 {
-    public static bool Validate(bool endDataFound)
+    public static bool Validate(bool endDataFound, List<string> headers)
     {
         //Critical
 
         //Non-critical
+        CheckForHeaders(headers);
         CheckForDataEndTag(endDataFound);
 
         return endDataFound;
+    }
+
+
+    // Returns true if headers can be found (which means there is data in the data section).
+    public static bool CheckForHeaders(List<string> headers)
+    {
+        if (headers.Count == 0)
+        {
+            MessageRepository.Messages.Add(
+                    new Message($"Couldn't find headers.", Severity.NonCritical));
+            return false;
+        }
+        return true;
     }
 
 

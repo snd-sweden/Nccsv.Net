@@ -1,6 +1,6 @@
 ﻿namespace NccsvConverter.NccsvParser.Models;
 
-public enum DataType
+internal enum DataType
 {
     Byte,
     Ubyte,

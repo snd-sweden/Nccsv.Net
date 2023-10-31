@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace NccsvConverter.NccsvParser.Models;
+﻿namespace NccsvConverter.NccsvParser.Models;
 
 public enum Severity
 {
@@ -11,27 +9,34 @@ public enum Severity
 
 public class Message
 {
-    public string Text { get; set; } = string.Empty;
-    public Severity Severity { get; set; }
+    private string _text = string.Empty;
+    public string Text
+    {
+        get { return _text; }
+    }
+    private Severity _severity;
+    public Severity Severity
+    {
+        get { return _severity; }
+    }
 
 
     public Message(string text, Severity severity)
     {
         if (severity == Severity.Critical)
         {
-            Text = "[Failed to parse further] " + text;
-            Severity = Severity.Critical;
+            _text = "[Failed to parse further] " + text;
+            _severity = Severity.Critical;
         }
         else if (severity == Severity.NonCritical)
         {
-            Text = "[Warning] " + text;
-            Severity = Severity.NonCritical;
+            _text = "[Warning] " + text;
+            _severity = Severity.NonCritical;
         }
         else if (severity == Severity.Recommended)
         {
-            Text = "[Recommendation] " + text;
-            Severity = Severity.Recommended;
+            _text = "[Recommendation] " + text;
+            _severity = Severity.Recommended;
         }
     }
-
 }
