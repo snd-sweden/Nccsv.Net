@@ -23,10 +23,10 @@ classDiagram
 class Serializer{
     +ToJson(DataSet): string
     -ToSchemaDataSet(DataSet): Dataset
-    -GetLicense(DataSet): Values<>
+    -GetLicense(DataSet): Values&lt;ICreativeWork, Uri>
     -GetDateCreated(DataSet): DateTime?
     -GetKeyWords(DataSet): string
-    -GetCreator(DataSet): Values<>
+    -GetCreator(DataSet): Values&lt;IOrganization, IPerson>
     -GetCreatorUrl(DataSet): Uri?
     -GetCreatorAffiliation(DataSet): Organization?
     -GetVariables(DataSet): List~IPropertyValue~
