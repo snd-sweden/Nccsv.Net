@@ -31,7 +31,7 @@ class DataValueAs{
 class MetaData{
     +Title: string?
     +Summary: string?
-    +GlobalAttributes: Dictionary<>
+    +GlobalAttributes: Dictionary&lt;string, string>
     +Variables: List~Variable~
 }
 
@@ -40,7 +40,7 @@ class Variable{
     +DataType: string
     +Scalar: bool
     +ScalarValue: string?
-    +Attributes: Dictionary<>
+    +Attributes: Dictionary&lt;string, List~string~>
 }
 
 class Message{
