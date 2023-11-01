@@ -1,35 +1,34 @@
-﻿
-using NccsvConverter.NccsvParser.Helpers;
-using NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
 
 namespace NccsvConverter.NccsvParser.Validators;
 
-public class MetaDataValidator : Validator
+public class MetaDataValidator
 {
     public static bool Validate(List<string[]> metaData, bool endMetaDataFound)
     {
-        var result = true;
+        bool criticalResult = true;
+
         //Non-critical
         CheckForGlobalAttributes(metaData);
 
         //Critical
-        if (!CheckForMetaDataEndTag(endMetaDataFound))
-            result = false;
+        if (!CheckForMetaDataEndTag(endMetaDataFound)
+            || !CheckAttributesForValue(metaData))
+            criticalResult = false;
 
-        if (!CheckAttributesForValue(metaData))
-            result = false;
-        else
-        {
+        if (CheckAttributesForValue(metaData))
+        { 
+            //Non-critical
             CheckGlobalConventions(metaData);
             CheckNccsvVerification(metaData);
         }
 
-        return result;
+        return criticalResult;
     }
 
 
-    // Returns true if global attributes is found, false if not.
+    // Returns true if global attributes is found.
     public static bool CheckForGlobalAttributes(List<string[]> metaData)
     {
         if (metaData[0][0].Equals("*GLOBAL*"))
@@ -37,42 +36,25 @@ public class MetaDataValidator : Validator
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Row 1: Couldn't find global attributes.", Severity.NonCritical));
+                new Message("Row 1: Couldn't find global attributes.", 
+                Severity.NonCritical));
             return false;
         }
     }
 
 
-    //TODO: write tests
+    // Returns true if "*END_METADATA*" can be found. 
     public static bool CheckForMetaDataEndTag(bool metaDataEndFound)
     {
         if (!metaDataEndFound)
         {
             MessageRepository.Messages.Add(
-                new Message("Couldn't find \"*END_METADATA*\".", Severity.Critical));
+                new Message("Couldn't find \"*END_METADATA*\".", 
+                Severity.Critical));
             return false;
         }
         else
             return true;
-    }
-
-
-    // not currently in use, might delete
-    // Checks for *END_METADATA* that must exist at end of metadata section.
-    // Returns true if found.
-    // Note: This only checks that *END_METADATA* exists *somewhere* in the file.
-    public static bool CheckForMetaDataEndTag(List<string[]> separatedLines)
-    {
-        foreach (var row in separatedLines)
-        {
-            if (row[0].Equals("*END_METADATA*"))
-                return true;
-        }
-
-        MessageRepository.Messages.Add(
-            new Message("Couldn't find \"*END_METADATA*\".", Severity.Critical));
-
-        return false;
     }
 
 
@@ -92,12 +74,12 @@ public class MetaDataValidator : Validator
             else
             {
                 MessageRepository.Messages.Add(
-                    new Message($"Row {metaData.IndexOf(row) + 1}: Couldn't find values for attribute.", Severity.Critical));
+                    new Message($"Row {metaData.IndexOf(row) + 1}: Couldn't find values for attribute.", 
+                    Severity.Critical));
 
                 flag = false;
             }
         }
-
         return flag;
     }
 
@@ -110,7 +92,8 @@ public class MetaDataValidator : Validator
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Row 1: Couldn't find global \"Conventions\" attribute.", Severity.NonCritical));
+                new Message("Row 1: Couldn't find global \"Conventions\" attribute.", 
+                Severity.NonCritical));
             return false;
         }
     }
@@ -124,7 +107,8 @@ public class MetaDataValidator : Validator
         else
         {
             MessageRepository.Messages.Add(
-                new Message("Row 1: Couldn't find reference to \"NCCSV\" in global conventions.", Severity.NonCritical));
+                new Message("Row 1: Couldn't find reference to \"NCCSV\" in global conventions.", 
+                Severity.NonCritical));
             return false;
         }
     }

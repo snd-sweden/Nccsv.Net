@@ -19,6 +19,9 @@ public class DataSet
     }
 
 
+    // Parses and validates NCCSV from file. Returns a DataSet object.
+    // By default both data and metadata is validated but only metadata is saved.
+    // You can choose to save the data section by setting saveData = true.
     public static DataSet FromFile(string filePath, bool saveData = false)
     {
         ExtensionValidator.Validate(filePath);
@@ -27,7 +30,10 @@ public class DataSet
     }
 
 
-    public static DataSet FromStream(FileStream stream, bool saveData = false)
+    // Parses and validates NCCSV from stream. Returns a DataSet object.
+    // By default both data and metadata is validated but only metadata is saved.
+    // You can choose to save the data section by setting saveData = true.
+    public static DataSet FromStream(Stream stream, bool saveData = false)
     {
         DataSet dataSet = new();
         string line;
@@ -65,7 +71,7 @@ public class DataSet
                     if (line == "*END_DATA*")
                     {
                         endDataFound = true;
-                        DataValidator.Validate(endDataFound, headers);
+                        DataValidator.Validate(endDataFound, headers); // TODO: endDataFound will always be true, this particular check should be moved
                         break;
                     }
                     else if (headersFound)
@@ -93,6 +99,7 @@ public class DataSet
     }
 
 
+    // Validates and parses a data row (via SetData)
     private void DataRowHandler(string[] dataRow, string[] headers, int rowNumber, bool saveData)
     {
         if (!DataRowValidator.Validate(dataRow, headers, rowNumber))
@@ -101,6 +108,7 @@ public class DataSet
     }
 
 
+    // Parses a data row. Validates each data value in given row. If saveData = true, saves data values to DataSet.
     private void SetData(string[] dataRow, string[] headers, int rowNumber, bool saveData)
     {
         List<DataValue> dataValues = new();

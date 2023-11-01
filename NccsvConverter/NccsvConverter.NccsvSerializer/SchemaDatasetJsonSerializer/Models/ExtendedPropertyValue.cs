@@ -6,6 +6,6 @@ namespace NccsvConverter.NccsvSerializer.SchemaDatasetJsonSerializer.Models;
 internal class ExtendedPropertyValue : PropertyValue
 {
     [JsonPropertyName("additionalProperty")]
-    public PropertyValue AdditionalProperty { get; set; }
+    public PropertyValue AdditionalProperty { get; internal set; }
 }
 
