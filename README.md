@@ -3,7 +3,7 @@
 * Validates nccsv accroding to [the specification below](#validation-parameters)
 * Parse header and data to objects and arrays
 * Supports read by filepath or stream
-* Outputs metadata as a [schema.org](https://schema.org)  JSON-LD string
+* Outputs metadata as a [schema.org](https://schema.org) JSON-LD string
 
 ## Introduction
 
@@ -35,10 +35,7 @@ Below, you can see the code for the application, where you also can see the simp
 
 ```cs
 Console.WriteLine("If you want to validate, write name of file:");
-string filePathFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
-                        + "\\NccsvConverter.ConsoleApp\\TestData\\";
-string fileName = Console.ReadLine();
-string filePath = Path.Combine(filePathFolder, fileName);
+string filePath = Console.ReadLine();
 
 if (File.Exists(filePath))
 {
@@ -88,7 +85,7 @@ Currently, the code is validating the following parameters, as described in the 
 
 ### Data parameters:
 * That there is a header row for the data
-* that the section ends with \*END_DATA\*
+* There is an \*END_DATA\*-tag
 * Each row of data corresponds to the specified headers
 * That data values does not start or end with whitespace
 
