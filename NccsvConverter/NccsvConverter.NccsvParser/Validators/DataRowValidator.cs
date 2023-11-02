@@ -1,23 +1,19 @@
-﻿
-using NccsvConverter.NccsvParser.Helpers;
-using NccsvConverter.NccsvParser.Models;
+﻿using NccsvConverter.NccsvParser.Models;
 using NccsvConverter.NccsvParser.Repositories;
 
 namespace NccsvConverter.NccsvParser.Validators;
 
-public class DataRowValidator : Validator
+public class DataRowValidator
 {
     public static bool Validate(string[] dataRow, string[] headers, int rowNumber)
     {
-        bool result = true;
+        bool criticalResult = true;
 
-        //Critical
+        // Critical
         if (!CheckNumberOfDataValuesToHeaders(dataRow, headers, rowNumber))
-            result = false;
+            criticalResult = false;
 
-        //Non-critical
-
-        return result;
+        return criticalResult;
     }
 
 
@@ -29,10 +25,11 @@ public class DataRowValidator : Validator
         else
         {
             MessageRepository.Messages.Add(
-                new Message($"Row {row}: Number of data values ({dataRow.Length}) does not match number of headers ({headers.Length}).", Severity.Critical));
+                new Message($"Row {row}: Number of data values ({dataRow.Length}) " +
+                $"does not match number of headers ({headers.Length}).", 
+                Severity.Critical));
 
             return false;
         }
     }
-
 }

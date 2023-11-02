@@ -51,15 +51,14 @@ public class Variable
             }
         }
 
-        SetDataType(variableMetaData);
+        SetVariableDataType(variableMetaData);
         SetAttributes(variableMetaData);
     }
 
 
     // Takes a variable metadata list, extracts the name of the data type
     // and sets a given variable data type to that name.
-    // Used by: CreateVariable
-    private void SetDataType(List<string[]> variableMetaData)
+    private void SetVariableDataType(List<string[]> variableMetaData)
     {
         string variableDataType = "";
 
@@ -83,6 +82,7 @@ public class Variable
     }
 
 
+    // Returns data type for an attribute value, for use when setting data type for a scalar value.
     private DataType GetTypeOfAttributeValue(string value)
     {
         switch (value[^1])
@@ -186,7 +186,7 @@ public class Variable
     }
 
 
-    // Adds attributes to a given Variable as a dictionary where
+    // Adds attributes as a dictionary where
     // [1] is the attribute name and [2] to [n] is the attribute values
     private void SetAttributes(List<string[]> variableMetaData)
     {
