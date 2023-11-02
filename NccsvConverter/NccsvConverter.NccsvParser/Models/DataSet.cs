@@ -71,7 +71,7 @@ public class DataSet
                     if (line == "*END_DATA*")
                     {
                         endDataFound = true;
-                        DataValidator.Validate(endDataFound, headers); // TODO: endDataFound will always be true, this particular check should be moved
+                        DataValidator.Validate(endDataFound, headers); // TODO: endDataFound will always be true here, this particular check should be moved
                         break;
                     }
                     else if (headersFound)
@@ -131,13 +131,16 @@ public class DataSet
                 else
                 {
                     MessageRepository.Messages.Add(
-                        new Message($"Row {rowNumber}: Data value \"{dataRow[i]}\" could not be parsed to variable datatype: {variable.VariableDataType}.", Severity.NonCritical));
+                        new Message($"Row {rowNumber}: Data value \"{dataRow[i]}\" " +
+                        $"could not be parsed to variable datatype: {variable.VariableDataType}.", 
+                        Severity.NonCritical));
                 }
             }
             else
             {
                 MessageRepository.Messages.Add(
-                    new Message($"Header \"{dataRow[i]}\" did not match any variables.", Severity.NonCritical));
+                    new Message($"Header \"{dataRow[i]}\" did not match any variables.", 
+                    Severity.NonCritical));
             }
         }
 
@@ -157,7 +160,6 @@ public class DataSet
         {
             case "byte":
                 // byte -> c# sbyte
-
                 if (value != "")
                 { 
                     result = sbyte.TryParse(value, out sbyte byteValue);
@@ -177,12 +179,10 @@ public class DataSet
                         Value = null
                     };
                 }
-
                 return null;
 
             case "ubyte":
                 // unsigned byte -> c# byte
-
                 if (value != "")
                 {
                     result = byte.TryParse(value, out byte ubyteValue);
@@ -202,11 +202,9 @@ public class DataSet
                         Value = null
                     };
                 }
-                
                 return null;
 
             case "short":
-
                 if (value != "")
                 {
                      result = short.TryParse(value, out short shortValue);
@@ -226,11 +224,9 @@ public class DataSet
                         Value = null
                     };
                 }
-
                 return null;
 
             case "ushort":
-
                 if (value != "")
                 {
                     result = ushort.TryParse(value, out ushort ushortValue);
@@ -250,11 +246,9 @@ public class DataSet
                         Value = null
                     };
                 }
-                
                 return null;
 
             case "int":
-
                 if (value != "")
                 {
                     result = int.TryParse(value, out int intValue);
@@ -274,11 +268,9 @@ public class DataSet
                         Value = null
                     };
                 }
-                
                 return null;
 
             case "uint":
-
                 if (value != "")
                 {
                     result = uint.TryParse(value, out uint uintValue);
@@ -298,7 +290,6 @@ public class DataSet
                         Value = null
                     };
                 }
-
                 return null;
 
             case "long":
@@ -322,7 +313,6 @@ public class DataSet
                         Value = null
                     };
                 }
-                
                 return null;
 
             case "ulong":
@@ -349,7 +339,6 @@ public class DataSet
                 return null;
 
             case "float":
-
                 if (value != "")
                 {
                     result = float.TryParse(value, CultureInfo.InvariantCulture, out float floatValue);
@@ -369,11 +358,9 @@ public class DataSet
                         Value = float.NaN
                     };
                 }
-
                 return null;
 
             case "double":
-
                 if (value != "")
                 {
                     result = double.TryParse(value, CultureInfo.InvariantCulture, out double doubleValue);
@@ -393,7 +380,6 @@ public class DataSet
                         Value = double.NaN
                     };
                 }
-                
                 return null;
 
             case "string":
@@ -404,17 +390,42 @@ public class DataSet
                 };
 
             case "char":
-                // TODO: handle special char cases
-                result = char.TryParse(value, out char charValue);
+                value = value.Trim('\'');
+                char charValue = value[0];
 
-                if (result)
-                    return new DataValueAs<char>()
+                if (value.StartsWith("\\u") && value.Length == 6)
+                {
+                    result = int.TryParse(value.Substring(2), NumberStyles.AllowHexSpecifier, null, out int intValue);
+                    if (result)
                     {
-                        Variable = variable,
-                        Value = charValue
-                    };
-                else
-                    return null;
+                        charValue = Convert.ToChar(intValue); //TODO: handle exception
+                    }
+                }
+                else if (value.StartsWith("\\") && value.Length > 1)
+                {
+                    switch (value[1])
+                    {
+                        case 'n':
+                            charValue = '\n';
+                            break;
+                        case 'f':
+                            charValue = '\f';
+                            break;
+                        case 't':
+                            charValue = '\t';
+                            break;
+                        case 'r':
+                            charValue = '\r';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return new DataValueAs<char>()
+                {
+                    Variable = variable,
+                    Value = charValue
+                };
 
             default:
                 return null;
