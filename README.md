@@ -1,6 +1,6 @@
 # nccsv-parser
 
-* Validates nccsv accroding to [the specification below](#validation-parameters)
+* Validates nccsv according to [the specification below](#validation-parameters)
 * Parse header and data to objects and arrays
 * Supports read by filepath or stream
 * Outputs metadata as a [schema.org](https://schema.org) JSON-LD string
@@ -14,16 +14,16 @@ It's purpose is to be integrated into other applications to parse NCCSV-files, a
 ## How To Use
 
 ### NCCSV-parser
-You can import a NCCSV file, either as a text file with the .nccsv suffix, or take it as a stream.
+You can import a NCCSV file, either as a text file with the .nccsv suffix, or as a stream.
 
 1. Import the NccsvParser-project as a using.
 2. Use either of the static methods FromFile or FromStream to create a DataSet object.
 
-If there are any problems with the file (such as illegal whitespaces, data without an assigned variable, etc) this will also generate an error list in the MessageRepository, which can be printed as error message.
+If there are any problems with the file (such as illegal whitespaces, data without an assigned variable, etc) this will also generate an error list in the MessageRepository, which can easily  be printed.
 
 
 ### Schema.org JSON-serializer
-When the DataSet is generated, and contains no errors, you can convert it into a JSON-LD formatted string according to Schema.org standard for metadata.
+When the DataSet is generated and contains no errors, you can convert it into a JSON-LD formatted string according to Schema.org standard for metadata.
 
 In the NccsvConverter.NccsvSerializer-project, you will find the "SchemaDatasetJsonSerializer"-folder, which contains a Serializer class. 
 You ca just call the static method ToJson from that class, and give your DataSet as a parameter, and it will return the DataSet as a string with the formatting described above.
