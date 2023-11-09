@@ -1,0 +1,8 @@
+*GLOBAL*,Conventions,"COARDS, CF-1.6, ACDD-1.3, NCCSV-1.1"
+*GLOBAL*,summary,"This is a paragraph or two describing the dataset."
+*GLOBAL*,title,"NCCSV Demonstration"
+variable,*DATA_TYPE*,String
+*END_METADATA*
+variable
+datavalue
+*END_DATA*

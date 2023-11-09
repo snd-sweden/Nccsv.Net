@@ -10,7 +10,14 @@
     <Folder Include="CodeBookGenerator\" />
     <Folder Include="DdiXmlSerializer\" />
     <Folder Include="NetCdfSerializer\" />
-    <Folder Include="SchemaDatasetJsonSerializer\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Schema.NET.Pending" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NccsvConverter.NccsvParser\NccsvConverter.NccsvParser.csproj" />
   </ItemGroup>
 
 </Project>

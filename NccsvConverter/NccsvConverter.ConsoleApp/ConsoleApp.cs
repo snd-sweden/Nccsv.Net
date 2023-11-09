@@ -1,18 +1,34 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using NccsvConverter.NccsvParser.Models;
+using NccsvConverter.NccsvParser.Repositories;
+using NccsvConverter.NccsvSerializer.SchemaDatasetJsonSerializer;
 
-using NccsvConverter.NccsvParser.FileHandling;
-using NccsvConverter.NccsvParser.Helpers;
+Console.WriteLine("If you want to validate, write name of file:");
+string filePathFolder = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+                        + "\\NccsvConverter.ConsoleApp\\TestData\\";
+string fileName = Console.ReadLine();
+string filePath = Path.Combine(filePathFolder, fileName);
 
-Console.WriteLine("Hello, World!");
-var verifier = new NccsvVerifierMethods();
-var parser = new Parser();
-var csv = parser.FromText("C:\\SND\\Project\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv");
+if (File.Exists(filePath))
+{
+    DataSet dataSet = DataSet.FromFile(filePath, true);
 
-    foreach (var s in csv[0])
+    if (MessageRepository.Messages.Count > 0)
     {
-        Console.WriteLine(s);
+        foreach (var message in MessageRepository.Messages)
+        {
+            Console.WriteLine(message.Text);
+        }
     }
-    
+    else
+    {
+        Console.WriteLine("No problems found.");
 
-
-
+        Console.WriteLine("If you want to serialize, press y:");
+        var input = Console.ReadKey();
+        Console.WriteLine();
+        if (input.KeyChar == 'y')
+            Console.WriteLine(Serializer.ToJson(dataSet));
+    }
+}
+else
+    Console.WriteLine($"File \"{filePath}\" could not be found.");

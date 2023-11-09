@@ -1,88 +1,43 @@
-﻿
-using System.Text.Json.Serialization.Metadata;
+﻿using NccsvConverter.NccsvParser.Validators;
 
-namespace NccsvConverter.NccsvParser.Helpers
+namespace NccsvConverter.NccsvParser.Helpers;
+
+public class NccsvParserMethods
 {
-    public class NccsvParserMethods
+    // Splits a given line at "," but not if it's within a string.
+    // Returns the split line as a list of strings.
+    internal static List<string> Separate(string line, int row)
     {
-        // read file = new dataset
+        List<string> separatedLine = new List<string>();
+        string tempString = string.Empty;
+        bool inQuotes = false;
 
-        public List<string[]> FindGlobalProperties(List<string[]> csv)
+        for (int i = 0; i < line.Length; i++)
         {
-            var globalProps = new List<string[]>();
-            // check for *global*, disregard others
-            foreach (var stringArray in csv)
+            if (line[i] == '\"')
             {
-                if (stringArray[0] == "*GLOBAL*")
+                inQuotes = !inQuotes;
+            }
+
+            else if (line[i] == ',')
+            {
+                // Ignore commas within a string
+                if (!inQuotes)
                 {
-                    if (stringArray.Length < 3)
-                    {
-                        string propValue = "";
-                        for (int i = 1; i < stringArray.Length; i++)
-                        {
-                            propValue += stringArray[i + 1];
-                        }
-
-                        globalProps.Add(new[] { stringArray[1], propValue });
-                    }
-
-                    else
-                    {
-                        globalProps.Add(new[] { stringArray[1], stringArray[2] });
-                    }
+                    ValueValidator.Validate(tempString, row);
+                    separatedLine.Add(tempString.Trim().Trim('"'));
+                    tempString = string.Empty;
+                    continue;
                 }
             }
 
-            return globalProps;
-
+            tempString += line[i];
         }
 
-        public void AddGlobalProperties(string file)
-        {
-            // add to globalprops for dataset, in dictionary<[1],[2]>
+        ValueValidator.Validate(tempString, row);
+        separatedLine.Add(tempString.Trim().Trim('"'));
 
-        }
-
-        public List<string[]> FindProperties(string file)
-        {
-            // exclude *global*
-            // until *end_metadata* tag
-
-            // set datatype
-            return new List<string[]>();
-        }
-
-        public bool CheckIfVariableExists(string file)
-        {
-            // take variable name
-            // check if variable exists
-            return false;
-        }
-
-        // if not->create new variable
-
-        public void CreateVariable(string file)
-        {
-            // create new variable object
-            // add to dataset
-        }
-
-        public void SetVariableDataType(string file)
-        {
-            // find *DATA_TYPE* tag
-            // set DataType prop to *data_type* value
-        }
-
-        public void AddProperties(string file)
-        {
-            // if variableName without *DATA_TYPE* tag
-            // add to Properties as <[1], List<[2]-[n]>>
-        }
-
-        public void FindData(string file)
-        {
-            // until *end_data* tag
-            // csvhelper?
-        }
+        return separatedLine;
     }
 }
+

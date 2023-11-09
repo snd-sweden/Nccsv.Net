@@ -1,23 +1,18 @@
-﻿namespace NccsvConverter.TestProject.NccsvParser.FileHandling
+﻿namespace NccsvConverter.TestProject.NccsvParser.FileHandling;
+
+public class NccsvParser_Tests
 {
-    public class NccsvParser_Tests
+    [Fact]
+    public void FromText_ReturnsStringArrayList()
     {
-        [Fact]
+        //Arrange
+        var testFile = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName
+                       + "\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
 
-        public void FromText_ReturnsStringArrayList()
-        {
-            //Arrange
-            var sut = new Parser();
+        //Act
+        var result = Handler.NccsvFileReader(testFile);
 
-            var testFile = "C:\\SND_repos\\Nccsv Converter\\NccsvConverter\\NccsvConverter.ConsoleApp\\TestData\\ryder.nccsv";
-
-            //Act
-            var result = sut.FromText(testFile);
-
-            //Assert
-            Assert.IsType<List<string[]>>(result);
-        }
-
-
+        //Assert
+        Assert.IsType<List<string[]>>(result);
     }
 }
